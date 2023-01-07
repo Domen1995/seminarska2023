@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             'views' => 0,
             'path' => '/fake2.mp4',
             'user_id' => $user->id,
-            'genre' => 'fun'
+            'genre' => 'music'
          ]);
 
 

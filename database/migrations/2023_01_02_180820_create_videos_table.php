@@ -17,11 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('author');
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->integer('views');
             $table->string('path');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('genre')->nullable();
+            $table->set('genre', ['music', 'entertainment', 'education'])->nullable();
             $table->timestamps();
         });
     }

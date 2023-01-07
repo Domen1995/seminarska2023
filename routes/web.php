@@ -16,16 +16,16 @@ use App\Http\Controllers\VideoController;
 */
 
 // display homepage on which user selects a video
-Route::get('/', [VideoController::class, 'loadHomepage']);
+Route::get('/', [VideoController::class, 'homepage']);
 
 // display a requested profile to a user
-Route::get('/profile/{user}', [UserController::class, 'usersProfile']);
+Route::get('/users/profile/{user}', [UserController::class, 'usersProfile']);
 
 // show form for uploading a video
-Route::get('videos/uploadForm', [UserController::class, 'uploadForm']);
+Route::get('/users/uploadForm', [UserController::class, 'uploadForm']);
 
 // store new user's video to database
-Route::get('videos/store', [UserController::class, 'store']);
+Route::post('/users/store', [UserController::class, 'store']);
 
 // // send a page that contains the video tag with source of the selected video
-Route::get('/videos/{video}/play', [VideoController::class, 'play']);
+Route::get('/videos/watch/{video}', [VideoController::class, 'watch']);
