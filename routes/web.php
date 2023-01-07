@@ -29,3 +29,5 @@ Route::post('/users/store', [UserController::class, 'store']);
 
 // // send a page that contains the video tag with source of the selected video
 Route::get('/videos/watch/{video}', [VideoController::class, 'watch']);
+
+Route::get('/videos/chunk/{video}', [VideoController::class, 'serveChunk']);

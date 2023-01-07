@@ -17,7 +17,20 @@ class VideoController extends Controller
     }
 
     public function watch(Video $video){
-        // send a page that contains the video tag with source of the selected video
-        dd($video->author);
+        // sends a page that contains the video tag with source of the selected video
+        return view('videos.watch', [
+            'video' => $video
+        ]);
+    }
+
+    public function serveChunk(Video $video, Request $request)
+    {
+        // read from request header at which byte should this chunk start
+        $startingPositionUnfiltered = $request->header('range');
+
+        // create chunk and response headers
+        $chunk = Video::createChunk($video, $startingPositionUnfiltered);
+        // send the chunk of video
+        echo $chunk;
     }
 }

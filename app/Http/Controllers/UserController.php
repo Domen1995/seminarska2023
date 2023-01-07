@@ -34,6 +34,7 @@ class UserController extends Controller
             'genre' => 'nullable'
         ]);
 
+        // user who uploaded the video
         $user = User::find(1);
 
         /*$formData = [
@@ -46,16 +47,11 @@ class UserController extends Controller
             'user_id' => 3
         ];*/
 
-        // user who uploaded the video
-        //$user = User::find(1);
-
-        //$formData['user_id'] = $user->id;
-
         // put video into a variable $video
         $video = $request->file('videoFile');
 
         // store video and put its path into 'videoPath'
-        $formData['path'] = $video->store('videos');
+        $formData['path'] = $video->store('videos', 'public');
         $formData['user_id'] = $user->id;
 
 
@@ -67,6 +63,7 @@ class UserController extends Controller
 
         // insert video metadata into DB
         Video::create($formData);
+
         /*Video::create([
             'title' => 'FirstVideo2',
             'author' => User::find(1)->name,

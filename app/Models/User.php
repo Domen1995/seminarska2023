@@ -43,6 +43,6 @@ class User extends Authenticatable
     ];
 
     protected function video(){
-        $this->hasMany(Video::class, 'user_id');
+        return $this->hasMany(Video::class, 'user_id');
     }
 }
