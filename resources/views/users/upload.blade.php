@@ -4,7 +4,7 @@
     <title>Video upload</title>
 </head>
 <body>
-    <form action="/users/store" method="POST" enctype="multipart/form-data">
+    <form action="{{BASEURL}}/users/store" method="POST" enctype="multipart/form-data">
     @csrf
         <label for="title"></label>
         <input type="text" id="title" name="title" placeholder="Video title">

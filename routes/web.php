@@ -15,6 +15,9 @@ use App\Http\Controllers\VideoController;
 |
 */
 
+// base URL of the website
+define("BASEURL", "/seminarska2023/public");
+
 // display homepage on which user selects a video
 Route::get('/', [VideoController::class, 'homepage']);
 
