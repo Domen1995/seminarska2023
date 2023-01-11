@@ -5,9 +5,69 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+
+    public function registrationForm()
+        // show a form for creating an account
+    {
+        return view('users.registrationForm');
+    }
+
+
+    public function register(Request $request)
+    {
+        $formData = $request->validate([
+            'email' => ['required', 'email', Rule::unique('users', 'email')],
+            'name' => ['required', Rule::unique('users,', 'name')],   // nickname
+            'password' => ['required', 'min:7']
+        ]);
+        return;
+        $formData['password'] = bcrypt($formData['password']);  // hash password
+
+        $user = User::create($formData);
+
+        auth()->login($user);
+        return redirect('{{BASEURL}}/');
+    }
+
+    public function loginForm()
+        // display form to user to log in
+    {
+        return view('users.loginForm');
+    }
+
+    public function login(Request $request)
+        // log user in
+    {
+        $formData = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => 'required'
+        ]);
+        if(auth()->attempt($formData)){
+            $request->session()->regenerate();
+            return "true";
+        }
+        $formData['id'] = 1;
+
+        // query DB to check if email & password combination valid
+        /*$user = User::where('email', $formData['email'])
+            ->where('password', $formData['password'])
+            ->first();
+        if(isset($user)){
+            $request->session()->regenerate();
+            return redirect('/');
+        }
+        /*if(auth()->attempt($formData)){
+            return "success!";
+        }*/
+        //return "unsuccess";
+    }
+
+
+
     public function usersProfile(User $user)
         // display a requested profile to a user
     {

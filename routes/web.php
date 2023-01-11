@@ -21,6 +21,17 @@ define("BASEURL", "/seminarska2023/public");
 // display homepage on which user selects a video
 Route::get('/', [VideoController::class, 'homepage']);
 
+Route::get('/users/registrationForm', [UserController::class, 'registrationForm']);
+
+// add new user to DB
+Route::post('/users/register', [UserController::class, 'register']);
+
+// display form to user to log in
+Route::get('/users/loginForm', [UserController::class, 'loginForm']);
+
+// log user in
+Route::post('/users/login', [UserController::class, 'login']);
+
 // display a requested profile to a user
 Route::get('/users/profile/{user}', [UserController::class, 'usersProfile']);
 
