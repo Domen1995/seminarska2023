@@ -2,6 +2,7 @@
 
 <x-layout>
     <title>Video upload</title>
+    <script src="{{BASEURL}}/js/fetchAssets.js"></script>
 </head>
 <body>
     <form action="{{BASEURL}}/users/store" method="POST" enctype="multipart/form-data">
@@ -24,6 +25,8 @@
         <input type="file" id="videoFile" name="videoFile">
 
         {{-- form submission --}}
-        <input type="submit" value="Upload!">
+        <input type="submit" value="Upload!" onclick="addLoadingGif()">
     </form>
+    {{-- gif triggered by submit, symbolizing loading --}}
+    <iframe src="https://giphy.com/embed/17mNCcKU1mJlrbXodo" id="loadingGif" width="480" height="480" frameBorder="0" class="giphy-embed" style="pointer-events: none; display:none" allowFullScreen></iframe>
 </x-layout>

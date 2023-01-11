@@ -48,3 +48,6 @@ Route::get('/videos/watch/{video}', [VideoController::class, 'watch']);
 
 // send part of video from requested starting point
 Route::get('/videos/chunk/{video}', [VideoController::class, 'serveChunk']);
+
+// returns a gif for which browser sent fetch
+Route::get('/assets/gif/{slug}', [AssetController::class, 'fetchGif']);
