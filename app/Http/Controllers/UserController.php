@@ -21,16 +21,15 @@ class UserController extends Controller
     {
         $formData = $request->validate([
             'email' => ['required', 'email', Rule::unique('users', 'email')],
-            'name' => ['required', Rule::unique('users,', 'name')],   // nickname
+            'name' => ['required', Rule::unique('users', 'name')],   // nickname
             'password' => ['required', 'min:7']
         ]);
-        return;
         $formData['password'] = bcrypt($formData['password']);  // hash password
 
         $user = User::create($formData);
 
         auth()->login($user);
-        return redirect('{{BASEURL}}/');
+        return redirect('/');
     }
 
     public function loginForm()
@@ -42,31 +41,54 @@ class UserController extends Controller
     public function login(Request $request)
         // log user in
     {
+        /*
+        $user = User::find(2);
+        auth()->login($user);
+        return redirect('/');*/
         $formData = $request->validate([
             'email' => ['required', 'email'],
             'password' => 'required'
         ]);
+        /*
         if(auth()->attempt($formData)){
             $request->session()->regenerate();
             return "true";
         }
         $formData['id'] = 1;
-
+        */
         // query DB to check if email & password combination valid
-        /*$user = User::where('email', $formData['email'])
+        /*$formData['password'] = bcrypt($formData['password']);   // hash password
+        $user = User::where('email', $formData['email'])
             ->where('password', $formData['password'])
             ->first();
         if(isset($user)){
-            $request->session()->regenerate();
+            //$request->session()->regenerate();
+            auth()->login($user);
             return redirect('/');
         }
         /*if(auth()->attempt($formData)){
             return "success!";
         }*/
-        //return "unsuccess";
+        if(auth()->attempt($formData)){
+            $request->session()->regenerate();
+            return redirect('/');
+        }
+        return back()->withErrors([
+            'password' => 'Wrong userdata!'
+        ]);
     }
 
+    public function logout(Request $request)
+    {
+        // logout user
+        auth()->logout();
 
+        // additional security
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
 
     public function usersProfile(User $user)
         // display a requested profile to a user

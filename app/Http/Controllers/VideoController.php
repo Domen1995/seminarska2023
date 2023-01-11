@@ -11,8 +11,15 @@ class VideoController extends Controller
 
     public function homepage(){
         // display homepage on which user selects a video
+
+        // if user logged in, send his data to view
+        $user = null;
+        if(auth()->check()){
+            $user = User::find((auth()->id()));
+        }
         return view('videos.home', [
-            'videos' => Video::all()
+            'videos' => Video::all(),
+            'user' => $user
         ]);
     }
 
@@ -24,6 +31,7 @@ class VideoController extends Controller
     }
 
     public function serveChunk(Video $video, Request $request)
+        // sends part of video from requested starting point
     {
         // read from request header at which byte should this chunk start
         $startingPositionUnfiltered = $request->header('range');

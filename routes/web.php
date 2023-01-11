@@ -32,6 +32,8 @@ Route::get('/users/loginForm', [UserController::class, 'loginForm']);
 // log user in
 Route::post('/users/login', [UserController::class, 'login']);
 
+Route::post('/users/logout', [UserController::class, 'logout']);
+
 // display a requested profile to a user
 Route::get('/users/profile/{user}', [UserController::class, 'usersProfile']);
 
@@ -44,4 +46,5 @@ Route::post('/users/store', [UserController::class, 'store']);
 // // send a page that contains the video tag with source of the selected video
 Route::get('/videos/watch/{video}', [VideoController::class, 'watch']);
 
+// send part of video from requested starting point
 Route::get('/videos/chunk/{video}', [VideoController::class, 'serveChunk']);
