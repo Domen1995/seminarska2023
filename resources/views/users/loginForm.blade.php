@@ -3,6 +3,8 @@
 <script src="{{BASEURL}}/js/app.js" defer></script>
 </head>
 <body>
+    {{-- display menu for register, login, logout ... --}}
+<x-menu />
 <form class="form" action="{{BASEURL}}/users/login" method="POST">   <!-- login form -->
     @csrf
     <div id="form_email">

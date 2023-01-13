@@ -20,6 +20,7 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->integer('views');
             $table->string('path');
+            $table->string('videoImage');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->set('genre', ['music', 'entertainment', 'education'])->nullable();
             $table->timestamps();

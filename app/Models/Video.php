@@ -9,7 +9,7 @@ class Video extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'author', 'description', 'views', 'path', 'user_id', 'genre'];
+    protected $fillable = ['title', 'author', 'description', 'views', 'path', 'videoImagePath', 'user_id', 'genre'];
 
     // each separate chunk will have 500 KB, unless we're at the end of the video
     public static $usualChunkLen = 500000;

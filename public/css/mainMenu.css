@@ -41,6 +41,7 @@
     transform: translateY(-10px);
 }
 
+/* when link is clicked, dropdown menu - link's sibling - shows up */
 .dropdown > .link:focus + .dropdown-menu{
     opacity: 1;
     transform: translateY(0);

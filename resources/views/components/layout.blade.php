@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{BASEURL}}/css/homePage.css">
     <link rel="stylesheet" href="{{BASEURL}}/css/mainMenu.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     {{$slot}}
 </body>
 </html>

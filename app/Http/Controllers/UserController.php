@@ -112,6 +112,7 @@ class UserController extends Controller
         $formData = $request->validate([
             'title' => 'required',
             'videoFile' => ['required', 'max:400000'],   // video mustn't exceed 300 MB
+            'videoImage' => ['required'],
             'description' => 'nullable',
             'genre' => 'nullable'
         ]);
@@ -134,10 +135,13 @@ class UserController extends Controller
 
         // store video and put its path into 'path'
         $formData['path'] = $video->store('videos', 'public');
-        $formData['user_id'] = $user->id;
 
+        // store image that represents the video
+        $videoImage = $request->file('videoImage');
+        $formData['videoImagePath'] = $videoImage->store('videoImages', 'public');
 
         // create other video metadata
+        $formData['user_id'] = $user->id;
         $formData['author'] = $user->name;
         $formData['genre'] = 'music';
         $formData['views'] = 0;

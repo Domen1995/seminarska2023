@@ -2,6 +2,7 @@
     <title>Create account</title>
     <script src="{{BASEURL}}/js/app.js" defer></script>
 </head>
+<x-menu />
 <body>
     <form id="registration_form" class="form" action="{{BASEURL}}/users/register" method="POST">   <!-- form for creating account -->
         @csrf

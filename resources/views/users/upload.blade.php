@@ -22,8 +22,12 @@
         <input type="checkbox" id="education" name="education">
         <label for="education">Education</label>
         {{-- user includes a video: --}}
+        <label for="videoFile">Your video:
         <input type="file" id="videoFile" name="videoFile">
 
+        {{-- user can select an image that represents his video --}}
+        <label for="videoImage">An image that will represent your video; optional: </label>
+        <input type="image" name="videoImage" id="videoImage">
         {{-- form submission --}}
         <input type="submit" value="Upload!" onclick="addLoadingGif()">
     </form>
