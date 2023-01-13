@@ -1,5 +1,6 @@
 <x-layout>
     <title>Create account</title>
+    <script src="{{BASEURL}}/js/app.js" defer></script>
 </head>
 <body>
     <form id="registration_form" class="form" action="{{BASEURL}}/users/register" method="POST">   <!-- form for creating account -->
@@ -16,6 +17,8 @@
             <input type="text" id="name" name="name" placeholder="Who would you like to be known as?" value="{{old('name')}}">
             @error('name')
                 <p class="error">{{$message}}</p>
+            {{--@else
+                <label for="name" class="formText">Minimum 5 characters</label>--}}
             @enderror
         </div>
         <div class="form_password">
@@ -23,6 +26,8 @@
             {{--<input type="password" id="password_repeat" name="passwordRepeat" placeholder="Repeat this password"> --}}
             @error('password')
                 <p class="error">{{$message}}</p>
+            {{--@else
+                <label for="password" class="formText">Minimum 7 characters</label>--}}
             @enderror
         </div>
         <div>

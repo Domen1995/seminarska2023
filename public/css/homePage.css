@@ -6,6 +6,7 @@ body{
     background-color: #8458B3;
 }
 
+/*
 .mainMenu{
     background-color: rgb(240, 240, 240);
     display: flex;
@@ -16,7 +17,7 @@ body{
     gap: 1rem;
 }
 
-.menuSlot{  /* links in menu */
+.menuSlot{  /* links in menu
     text-decoration: none;
     color:#777;
     font-size: 2rem;
@@ -27,6 +28,7 @@ body{
     color: #606060;
 }
 
+*/
 /* login and registration form*/
 .form{
     padding: .7rem .7rem .7rem .7rem;
@@ -48,7 +50,9 @@ body{
 }
 
 .form .formText{
+    margin-left:4rem;
     font-size: 1rem;
+    color:black;
 }
 
 .form > div > input {

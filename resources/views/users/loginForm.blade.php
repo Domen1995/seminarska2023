@@ -1,5 +1,6 @@
 <x-layout>
 <title>Login</title>
+<script src="{{BASEURL}}/js/app.js" defer></script>
 </head>
 <body>
 <form class="form" action="{{BASEURL}}/users/login" method="POST">   <!-- login form -->
@@ -16,6 +17,8 @@
             <p class="error">{{$message}}</p>
         @enderror
     </div>
-    <input class="submit" type="submit" value="Login">
+    <div>
+        <input class="submit" type="submit" value="Login">
+    </div>
 </form>
 </x-layout>
