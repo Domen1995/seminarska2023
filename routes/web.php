@@ -30,12 +30,15 @@ Route::post('/users/register', [UserController::class, 'register']);
 Route::get('/users/loginForm', [UserController::class, 'loginForm']);
 
 // log user in
-Route::post('/users/login', [UserController::class, 'login']);
+Route::post('/users/login', [UserController::class, 'login'])->middleware('guest');
 
-Route::post('/users/logout', [UserController::class, 'logout']);
+Route::post('/users/logout', [UserController::class, 'logout'])->middleware('auth');
 
-// display a requested profile to a user
-Route::get('/users/profile/{user}', [UserController::class, 'usersProfile']);
+// display a requested foreign profile to a user
+Route::get('/users/profile/{user}', [UserController::class, 'foreignProfile']);
+
+// display user's own profile to a user
+Route::get('/users/selfProfile', [UserController::class, 'selfProfile'])->middleware('auth');
 
 // show form for uploading a video
 Route::get('/users/uploadForm', [UserController::class, 'uploadForm']);

@@ -90,12 +90,17 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    public function usersProfile(User $user)
+    public function foreignProfile(User $user)
         // display a requested profile to a user
     {
         return view('users.profile', [
             'user' => $user
         ]);
+    }
+
+    public function selfProfile()
+    {
+        return view('users.selfProfile');
     }
 
     public function uploadForm()
@@ -109,6 +114,13 @@ class UserController extends Controller
 
         // first check if user sent valid data
 
+        $genres = $request->genres;
+        $genresString = "";
+        foreach($genres as $genre){
+            $genresString .= $genre . ",";
+        }
+        $genresString = trim($genresString, ",");
+        $genresString.="";
         $formData = $request->validate([
             'title' => 'required',
             'videoFile' => ['required', 'max:400000'],   // video mustn't exceed 300 MB
@@ -118,7 +130,8 @@ class UserController extends Controller
         ]);
 
         // user who uploaded the video
-        $user = User::find(1);
+        //$user = User::find(1);
+        $user = auth()->user();
 
         /*$formData = [
             'genre' => 'entertainment',
@@ -143,13 +156,14 @@ class UserController extends Controller
         // create other video metadata
         $formData['user_id'] = $user->id;
         $formData['author'] = $user->name;
-        $formData['genre'] = 'music';
+        //$formData['genre'] = 'music';
+        $formData['genre'] = $genresString;
         $formData['views'] = 0;
 
 
         // insert video metadata into DB
         Video::create($formData);
-
+        return redirect('/');
         /*Video::create([
             'title' => 'FirstVideo2',
             'author' => User::find(1)->name,

@@ -1,6 +1,7 @@
 <x-layout>
+<x-menu />
     <title>User {{$user->name}}</title>
 </head>
 <body>
-    <a href="{{BASEURL}}/users/uploadForm">Upload your video</a>
+    <div class="">{{$user->name}}</div>
 </x-layout>
