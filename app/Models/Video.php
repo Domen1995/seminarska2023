@@ -64,4 +64,11 @@ class Video extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public static function findMatching($limitations)
+    {
+        $videos = Video::where('title', 'like', '%'.$limitations.'%')
+                        ->orWhere('genre', 'like', '%'.$limitations.'%');
+        return $videos;
+    }
 }

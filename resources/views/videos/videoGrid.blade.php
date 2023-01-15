@@ -11,3 +11,4 @@
     </div>
     @endforeach
 </div>
+{{$videos->links()}}

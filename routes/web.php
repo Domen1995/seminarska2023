@@ -21,13 +21,13 @@ define("BASEURL", "/seminarska2023/public");
 // display homepage on which user selects a video
 Route::get('/', [VideoController::class, 'homepage']);
 
-Route::get('/users/registrationForm', [UserController::class, 'registrationForm']);
+Route::get('/users/registrationForm', [UserController::class, 'registrationForm'])->middleware('guest');
 
 // add new user to DB
-Route::post('/users/register', [UserController::class, 'register']);
+Route::post('/users/register', [UserController::class, 'register'])->middleware('guest');
 
 // display form to user to log in
-Route::get('/users/loginForm', [UserController::class, 'loginForm']);
+Route::get('/users/loginForm', [UserController::class, 'loginForm'])->middleware('guest');
 
 // log user in
 Route::post('/users/login', [UserController::class, 'login'])->middleware('guest');
@@ -41,10 +41,10 @@ Route::get('/users/profile/{user}', [UserController::class, 'foreignProfile']);
 Route::get('/users/selfProfile', [UserController::class, 'selfProfile'])->middleware('auth');
 
 // show form for uploading a video
-Route::get('/users/uploadForm', [UserController::class, 'uploadForm']);
+Route::get('/users/uploadForm', [UserController::class, 'uploadForm'])->middleware('auth');
 
 // store new user's video to database
-Route::post('/users/store', [UserController::class, 'store']);
+Route::post('/users/store', [UserController::class, 'store'])->middleware('auth');
 
 // // send a page that contains the video tag with source of the selected video
 Route::get('/videos/watch/{video}', [VideoController::class, 'watch']);

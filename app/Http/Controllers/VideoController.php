@@ -9,8 +9,13 @@ use App\Models\User;
 class VideoController extends Controller
 {
 
-    public function homepage(){
+    public function homepage(Request $request){
         // display homepage on which user selects a video
+        if(isset($request->limitations)){
+            $videos = Video::findMatching($request->limitations);
+        }else{
+            $videos = Video::latest();
+        }
 
         // if user logged in, send his data to view
         $user = null;
@@ -18,13 +23,19 @@ class VideoController extends Controller
             $user = User::find((auth()->id()));
         }
         return view('videos.home', [
-            'videos' => Video::all(),
+            //'videos' => Video::latest()->paginate(1), //Video::all(),
+            'videos' => $videos->paginate(1),
             'user' => $user
         ]);
     }
 
     public function watch(Video $video){
         // sends a page that contains the video tag with source of the selected video
+
+        // increment number of views of the video
+        $video->update([
+            'views' => $video->views +1
+        ]);
         return view('videos.watch', [
             'video' => $video
         ]);
