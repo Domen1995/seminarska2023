@@ -9,7 +9,7 @@
     <p>Welcome, {{$user->name}}!</p>
 @endauth
 
-@include('videos.searchBar')
+@include('videos.searchForm')
 @include('videos.videoGrid')
 {{--
 @foreach ($videos as $video)

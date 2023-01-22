@@ -8,5 +8,6 @@
     <link rel="stylesheet" href="{{BASEURL}}/css/mainMenu.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     {{$slot}}
+<x-flashMessage/>
 </body>
 </html>

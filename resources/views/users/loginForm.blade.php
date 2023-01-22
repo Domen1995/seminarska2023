@@ -7,20 +7,20 @@
 <x-menu />
 <form class="form" action="{{BASEURL}}/users/login" method="POST">   <!-- login form -->
     @csrf
-    <div id="form_email">
+    {{--<div id="form_email">--}}
         <input type="text" id="email" name="email" placeholder="Username or email">
         @error('email')
             <p class="error">{{$message}}</p>
         @enderror
-    </div>
-    <div class="form_password">
+    {{--</div>--
+    <div class="form_password">--}}
         <input type="password" id="password" name="password" placeholder="Your password">
         @error('password')
             <p class="error">{{$message}}</p>
         @enderror
-    </div>
-    <div>
-        <input class="submit" type="submit" value="Sign in">
-    </div>
+    {{--</div>
+    <div>--}}
+        <input class="submitUserdata" type="submit" value="Sign in">
+    {{--</div>--}}
 </form>
 </x-layout>

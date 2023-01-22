@@ -38,13 +38,15 @@ body{
     flex-direction: column;
     background-color: rgb(240, 240, 240);
     border-radius:.7rem;
-    width: 25rem;
+    /*width: 25rem;*/
+    width: 35rem;
+    height: 25rem;
     justify-content: center;
     align-content: space-between;
     gap: .5rem;
 }
 
-.form > input{  /* prej je bil > div       /* form_email, form_password */
+.form input{  /* prej je bil > div       /* form_email, form_password */
     /*display: block;
     padding: .7rem;
     height: 3rem;
@@ -105,13 +107,52 @@ body{
 
 /* additions for registration form */
 
+/*
 #registration_form{
     width: 35rem;
     height: 25rem;
-}
+}*/
 
 .error{
     margin-left:4rem;
-    font-size: 1rem;
+    font-size: 1.5rem;
     color:red;
+}
+
+.searchForm{
+    display: block;
+    text-align: center;
+}
+
+/* centers the whole flexbox container, not it's items */
+.flexboxCenterer{
+    display: flex;
+    justify-content: center;
+}
+
+/*
+.searchForm > div{
+    display: flex;
+    justify-content: center;
+    /*
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+
+}*/
+
+.searchForm .searchBar{
+    /*margin-left: auto;
+    margin-right: auto;*/
+    display: flex;
+    border-radius: .5rem;
+    height: 2rem;
+    gap: .2rem;
+    margin-top: .2rem;
+    margin-bottom: .05rem;
+    /*font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;*/
+}
+
+.searchForm .searchBar input{
+    width: 20rem;
 }

@@ -21,7 +21,7 @@ class UserController extends Controller
     {
         $formData = $request->validate([
             'email' => ['required', 'email', Rule::unique('users', 'email')],
-            'name' => ['required', Rule::unique('users', 'name')],   // nickname
+            'name' => ['required', Rule::unique('users', 'name'), 'min:5'],   // nickname
             'password' => ['required', 'min:7']
         ]);
         $formData['password'] = bcrypt($formData['password']);  // hash password
@@ -71,8 +71,9 @@ class UserController extends Controller
         }*/
         if(auth()->attempt($formData)){
             $request->session()->regenerate();
-            return redirect('/');
+            return redirect('/')->with('message', 'Welcome, '.auth()->user()->name);
         }
+
         return back()->withErrors([
             'password' => 'Wrong userdata!'
         ]);
