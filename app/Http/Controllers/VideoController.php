@@ -17,6 +17,10 @@ class VideoController extends Controller
             $videos = Video::latest();
         }
 
+        if(isset($request->genre)){
+            $videos = Video::filterByGenre($request->genre);
+        }
+
         // if user logged in, send his data to view
         $user = null;
         if(auth()->check()){

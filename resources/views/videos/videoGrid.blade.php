@@ -11,4 +11,7 @@
     </div>
     @endforeach
 </div>
-{{$videos->links()}}
+
+<div class="pageList" style="display: flex">
+    {{$videos->links('pagination::bootstrap-4')}}
+</div>

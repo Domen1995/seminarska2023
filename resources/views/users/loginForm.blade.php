@@ -20,7 +20,7 @@
         @enderror
     </div>
     <div>
-        <input class="submit" type="submit" value="Login">
+        <input class="submit" type="submit" value="Sign in">
     </div>
 </form>
 </x-layout>

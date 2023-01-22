@@ -33,20 +33,47 @@ body{
 .form{
     padding: .7rem .7rem .7rem .7rem;
     margin: 2rem 2rem 2rem 2rem;
-    display: block;
+    /*display: block;*/
+    display: flex;
+    flex-direction: column;
     background-color: rgb(240, 240, 240);
     border-radius:.7rem;
     width: 25rem;
+    justify-content: center;
+    align-content: space-between;
+    gap: .5rem;
 }
 
-.form > div{     /* form_email, form_password */
-    display: block;
+.form > input{  /* prej je bil > div       /* form_email, form_password */
+    /*display: block;
     padding: .7rem;
     height: 3rem;
+    width: 80%;*/
+    /*margin-left: 2rem;
+    margin-right: 2rem;*/
+    width: 82%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 3rem;
+    border-radius: .3rem;
+    /*margin-bottom: .2rem;*/
+    /*color: #999;*/
+    color: #666;
+    line-height: 3rem;
     margin-left: auto;
     margin-right: auto;
+}
+
+.form > .submitUserdata{
+    background-color: #AAA;
+    width: 45%;
+    height: 5rem;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: .6rem;
+}
+
+.form > .submitUserdata:hover{
+    background-color: #BBB;
 }
 
 .form .formText{
@@ -55,14 +82,14 @@ body{
     color:black;
 }
 
-.form > div > input {
+/*.form > div > input {
     width: 80%;
     height: 100%;
     display: block;
     margin-left: auto;
     margin-right: auto;
     padding-left: .4rem;
-    color: #999;
+    color: #777;
     font-size: 50%;
     border-radius: .3rem;
     margin-bottom: .2rem;
@@ -73,7 +100,7 @@ body{
     margin-left: auto;
     margin-right: auto;
     margin-top: 4rem;
-    /*background-color: rgb(220, 220, 220);*/
+    /*background-color: rgb(220, 220, 220);
 }
 
 /* additions for registration form */

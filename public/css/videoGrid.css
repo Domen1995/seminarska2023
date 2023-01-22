@@ -14,3 +14,8 @@
     height: 10rem;
     border-radius: .8rem;
 }
+
+.pageList ul{
+    display: flex;
+    list-style: none;
+}

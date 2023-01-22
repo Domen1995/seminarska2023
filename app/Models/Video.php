@@ -66,9 +66,17 @@ class Video extends Model
     }
 
     public static function findMatching($limitations)
+        // find all videos that match user's search request
     {
-        $videos = Video::where('title', 'like', '%'.$limitations.'%')
-                        ->orWhere('genre', 'like', '%'.$limitations.'%');
+        $videos = Video::where('title', 'like', '%'.$limitations.'%');
+                        //->orWhere('genre', 'like', '%'.$limitations.'%');
         return $videos;
+    }
+
+
+
+    public static function filterByGenre($genre)
+    {
+        return Video::where('genre', 'like', '%'.$genre.'%');
     }
 }
