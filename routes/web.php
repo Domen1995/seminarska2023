@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
 
 /*
@@ -26,6 +27,8 @@ Route::get('/users/registrationForm', [UserController::class, 'registrationForm'
 // add new user to DB
 Route::post('/users/register', [UserController::class, 'register'])->middleware('guest');
 
+Route::get('users/verifyMail/{name}', [UserController::class, 'verifyMail']);//->middleware('auth');
+
 // display form to user to log in
 Route::get('/users/loginForm', [UserController::class, 'loginForm'])->middleware('guest');
 
@@ -38,7 +41,7 @@ Route::post('/users/logout', [UserController::class, 'logout'])->middleware('aut
 Route::get('/users/profile/{user}', [UserController::class, 'foreignProfile']);
 
 // display user's own profile to a user
-Route::get('/users/selfProfile', [UserController::class, 'selfProfile'])->middleware('auth');
+Route::get('/users/selfProfile', [UserController::class, 'selfProfile'])->middleware('auth', 'verified');
 
 // show form for uploading a video
 Route::get('/users/uploadForm', [UserController::class, 'uploadForm'])->middleware('auth');
@@ -54,3 +57,12 @@ Route::get('/videos/chunk/{video}', [VideoController::class, 'serveChunk']);
 
 // returns a gif for which browser sent fetch
 Route::get('/assets/gif/{slug}', [AssetController::class, 'fetchGif']);
+
+
+/*Auth::routes([
+    'verify' => true
+]);*/
+
+//Auth::routes();
+
+//SRoute::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -5,9 +5,11 @@
 <body>
 {{-- display menu for register, login, logout ... --}}
 <x-menu />
+
 @auth
-    <p>Welcome, {{$user->name}}!</p>
+    <p>Logged in, {{$user->name}}!</p>
 @endauth
+
 
 @include('videos.searchForm')
 @include('videos.videoGrid')

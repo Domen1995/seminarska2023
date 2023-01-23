@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SignUp;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -21,15 +23,25 @@ class UserController extends Controller
     {
         $formData = $request->validate([
             'email' => ['required', 'email', Rule::unique('users', 'email')],
-            'name' => ['required', Rule::unique('users', 'name'), 'min:5'],   // nickname
+            'name' => ['required', Rule::unique('users', 'name'), 'min:5', 'max:20'],   // nickname
             'password' => ['required', 'min:7']
         ]);
         $formData['password'] = bcrypt($formData['password']);  // hash password
 
+        //$success = User::sendMail($request->email);
+        $name = $request->name;
+        Mail::to($request->email)->send(new SignUp($name));
+        die;
         $user = User::create($formData);
 
+
         auth()->login($user);
-        return redirect('/');
+        return redirect('/')->with('message', 'Welcome', auth()->user()->name);
+    }
+
+    public function verifyMail($name)
+    {
+        echo "Mail verified successfully, $name!";
     }
 
     public function loginForm()
@@ -45,10 +57,12 @@ class UserController extends Controller
         $user = User::find(2);
         auth()->login($user);
         return redirect('/');*/
+
         $formData = $request->validate([
-            'email' => ['required', 'email'],
+            //'email' => ['required'/*, 'email'*/],
             'password' => 'required'
         ]);
+
         /*
         if(auth()->attempt($formData)){
             $request->session()->regenerate();
@@ -69,9 +83,14 @@ class UserController extends Controller
         /*if(auth()->attempt($formData)){
             return "success!";
         }*/
-        if(auth()->attempt($formData)){
-            $request->session()->regenerate();
-            return redirect('/')->with('message', 'Welcome, '.auth()->user()->name);
+
+        // if user logged in with his email, authenticate with email, otherwise nickname
+        if(filter_var($request->email, FILTER_VALIDATE_EMAIL)) $formData['email'] = $request->email;
+        else $formData['name'] = $request->email;
+
+        if(auth()->attempt($formData)){   // login user
+            $request->session()->regenerate();  // security
+            return redirect('/')->with('message', 'Welcome back, '.auth()->user()->name);
         }
 
         return back()->withErrors([
@@ -84,7 +103,7 @@ class UserController extends Controller
         // logout user
         auth()->logout();
 
-        // additional security
+        // security
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

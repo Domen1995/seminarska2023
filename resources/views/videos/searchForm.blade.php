@@ -2,7 +2,7 @@
     {{-- searchBar = bar for typing search limitations and clicling search icon --}}
     <div class="flexboxCenterer">
         <div class="searchBar">
-            <input type="text" name="limitations">
+            <input type="text" name="limitations" placeholder="Search videos ...">
             <button type="submit">
                 <i class="material-icons" style="">search</i>
             </button>

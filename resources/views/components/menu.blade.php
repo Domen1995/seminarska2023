@@ -7,7 +7,7 @@
     @else
         {{--<div>Welcome, {{auth()->id()}}!</div>--}}
         {{--<div class="dropdown">--}}
-            <a href="{{BASEURL}}/users/selfProfile{{--auth()->id()--}}" class="link">My profile</a>
+            <a href="{{BASEURL}}/users/selfProfile{{--auth()->id()--}}" class="link">{{auth()->user()->name}}'s profile</a>
             {{--<div class="dropdown-menu">
                 <a href="{{BASEURL}}/users/uploadForm" class="link">Upload your video</a>
             </div>--}}
