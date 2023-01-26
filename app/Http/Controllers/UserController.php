@@ -30,7 +30,13 @@ class UserController extends Controller
 
         //$success = User::sendMail($request->email);
         $name = $request->name;
-        Mail::to($request->email)->send(new SignUp($name));
+        $GLOBALS['email'] = $request->email;
+        //Mail::to($request->email)->send(new SignUp($name));
+        Mail::send('mails.signup', ['name' => $name], function ($message){
+            $message->from('streamingservice@gmail.com');
+            $message->to($GLOBALS['email'])->subject('Registration');
+
+        });
         die;
         $user = User::create($formData);
 

@@ -61,5 +61,6 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "guzzlehttp/guzzle": "~5.3|~6.0"
 }
