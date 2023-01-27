@@ -42,7 +42,7 @@ body{
     width: 35rem;
     height: 25rem;
     justify-content: center;
-    align-content: space-between;
+    /*align-content: space-between;*/
     gap: .5rem;
 }
 

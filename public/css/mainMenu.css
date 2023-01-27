@@ -47,3 +47,15 @@
     transform: translateY(0);
     pointer-events: auto;
 }
+
+
+
+/* user's profile */
+
+/*
+.profile {
+    display: flex;
+    width: 10rem;
+    height: 10rem;
+    background-color: #999;
+}

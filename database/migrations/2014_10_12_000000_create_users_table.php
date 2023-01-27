@@ -20,7 +20,8 @@ return new class extends Migration
             //$table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('verificationCode');
-            $table->integer('emailVerified');
+            $table->integer('verified')->default(0);
+            $table->longText('description')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

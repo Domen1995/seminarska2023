@@ -6,10 +6,11 @@
 {{-- display menu for register, login, logout ... --}}
 <x-menu />
 
+{{--
 @auth
     <p>Logged in, {{$user->name}}!</p>
 @endauth
-
+--}}
 
 @include('videos.searchForm')
 @include('videos.videoGrid')

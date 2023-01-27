@@ -28,26 +28,37 @@ class UserController extends Controller
         ]);
         $formData['password'] = bcrypt($formData['password']);  // hash password
 
+        $formData['verificationCode'] = sha1(time());
+
         //$success = User::sendMail($request->email);
         $name = $request->name;
         $GLOBALS['email'] = $request->email;
         //Mail::to($request->email)->send(new SignUp($name));
-        Mail::send('mails.signup', ['name' => $name], function ($message){
+        Mail::send('mails.signup', ['name' => $name, 'verificationCode' => $formData['verificationCode']], function ($message){
             $message->from('streamingservice@gmail.com');
             $message->to($GLOBALS['email'])->subject('Registration');
 
         });
-        die;
         $user = User::create($formData);
 
 
-        auth()->login($user);
-        return redirect('/')->with('message', 'Welcome', auth()->user()->name);
+        return redirect('/')->with('message', 'Please check your email to sign in.');
+        /*auth()->login($user);
+        return redirect('/')->with('message', 'Welcome', auth()->user()->name);*/
     }
 
-    public function verifyMail($name)
+    public function verifyMail(Request $request)
     {
-        echo "Mail verified successfully, $name!";
+        // check if the user is in database and if the verification code is correct
+        $user = User::where('name', $request->n)->first();
+        if($user==null || $user->verificationCode != $request->c) return redirect('/users/registrationForm')->with('message', 'Something went wrong, please register again');
+
+        // if mail has already been verified, inform user
+        if($user->verified==1) return "The email has already been verified!";
+        $user->verified = 1;
+        $user->save();
+        auth()->login($user);
+        return redirect('/')->with('message', 'Welcome to the community, '. auth()->user()->name.'!');
     }
 
     public function loginForm()
@@ -94,6 +105,15 @@ class UserController extends Controller
         if(filter_var($request->email, FILTER_VALIDATE_EMAIL)) $formData['email'] = $request->email;
         else $formData['name'] = $request->email;
 
+        // if user exists, but hasn't verified throught email, don't log him in
+        $user = User::where('name', $request['email'])
+                ->orWhere('email', $request['email'])->first();
+        if($user!=null && ($user->verified==0)){
+            return back()->withErrors([
+                'password' => 'You need to click the link you received on email.'
+            ]);
+        }
+
         if(auth()->attempt($formData)){   // login user
             $request->session()->regenerate();  // security
             return redirect('/')->with('message', 'Welcome back, '.auth()->user()->name);
@@ -126,7 +146,22 @@ class UserController extends Controller
 
     public function selfProfile()
     {
-        return view('users.selfProfile');
+        return view('users.selfProfile', [
+            'user' => User::find(auth()->user()->id)
+            /*'channelDescription' => User::find(auth()->user()->id)->description*/
+        ]);
+    }
+
+    public function updateProfile(Request $request)
+        // update user's profile (channel description, ...)
+    {
+        $user = User::find(auth()->user()->id);
+        if(strlen($request->channelDescription)>2){
+            $user->description = $request->channelDescription;
+
+        }
+        $user->save();
+        return redirect('')->with('message', 'Your data has been successfully updated!');
     }
 
     public function uploadForm()
