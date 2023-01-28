@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -74,6 +75,11 @@ class UserController extends Controller
         $user = User::find(2);
         auth()->login($user);
         return redirect('/');*/
+
+        // limit login attempts from same IP address
+        $hasMoreAttempts = RateLimiter::attempt($request->ip(), $perMinute = 5, function(){});
+        if(!$hasMoreAttempts) return back()->withErrors(['password' => 'Too many attempts, you can retry in 1 minute']);
+        //if(RateLimiter::tooManyAttempts($request->ip(), $perMinute = 1)) return "You can try logging again in 1 minute";
 
         $formData = $request->validate([
             //'email' => ['required'/*, 'email'*/],
@@ -156,12 +162,9 @@ class UserController extends Controller
         // update user's profile (channel description, ...)
     {
         $user = User::find(auth()->user()->id);
-        if(strlen($request->channelDescription)>2){
-            $user->description = $request->channelDescription;
-
-        }
+        $user->description = $request->channelDescription;
         $user->save();
-        return redirect('')->with('message', 'Your data has been successfully updated!');
+        return redirect('/')->with('message', 'Your data has been successfully updated!');
     }
 
     public function uploadForm()

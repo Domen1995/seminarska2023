@@ -6,7 +6,7 @@
     <script src="{{BASEURL}}/js/fetchAssets.js"></script>
 </head>
 <body>
-    <form action="{{BASEURL}}/users/store" method="POST" enctype="multipart/form-data">
+    <form class="form" action="{{BASEURL}}/users/store" method="POST" enctype="multipart/form-data" style="height: 40rem; width:80rem">
     @csrf
         {{--<label for="title"></label>--}}
         <input type="text" id="title" name="title" placeholder="Video title">
@@ -17,15 +17,17 @@
             @error('description')
                 <p class="error">{{$message}}</p>
             @enderror
-        <label for="genre">Your video would fall into a category of: </label>
-        {{-- genres of video: --}}
-        <input type="checkbox" id="music" name="genres[]" value="music">
-        <label for="music">Music</label>
-        {{--<input type="checkbox" id="entertainment" name="entertainment">--}}
-        <input type="checkbox" id="entertainment" name="genres[]" value="entertainment">
-        <label for="entertainment">Entertainment</label>
-        <input type="checkbox" id="education" name="genres[]" value="education">
-        <label for="education">Education</label>
+        <div class="genres">
+            <label for="genre">Your video would fall into a category of: </label>
+            {{-- genres of video: --}}
+            <input type="checkbox" id="music" name="genres[]" value="music">
+            <label for="music">Music</label>
+            {{--<input type="checkbox" id="entertainment" name="entertainment">--}}
+            <input type="checkbox" id="entertainment" name="genres[]" value="entertainment">
+            <label for="entertainment">Entertainment</label>
+            <input type="checkbox" id="education" name="genres[]" value="education">
+            <label for="education">Education</label>
+        </div>
         {{-- user includes a video: --}}
         <label for="videoFile">Your video:
         <input type="file" id="videoFile" name="videoFile" value="Browse ...">

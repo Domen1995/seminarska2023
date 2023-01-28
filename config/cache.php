@@ -17,6 +17,9 @@ return [
 
     'default' => env('CACHE_DRIVER', 'file'),
 
+    //'default' => 'memcached',
+
+    //'limiter' => 'redis',
     /*
     |--------------------------------------------------------------------------
     | Cache Stores

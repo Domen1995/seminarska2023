@@ -34,6 +34,7 @@ Route::get('/users/loginForm', [UserController::class, 'loginForm'])->middleware
 
 // log user in
 Route::post('/users/login', [UserController::class, 'login'])->middleware('guest');
+    //->middleware('throttle:fourPerMinute');
 
 Route::post('/users/logout', [UserController::class, 'logout'])->middleware('auth');
 
