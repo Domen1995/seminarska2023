@@ -1,6 +1,6 @@
 <x-layout>
     <title>Streaming service</title>
-    <link rel="stylesheet" href="css/videoGrid.css">
+    {{--<link rel="stylesheet" href="css/videoGrid.css">--}}
 </head>
 <body>
 {{-- display menu for register, login, logout ... --}}

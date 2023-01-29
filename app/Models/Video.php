@@ -66,10 +66,10 @@ class Video extends Model
     }
 
     public static function findMatching($limitations)
-        // find all videos that match user's search request
+        // find all videos that match user's search request (title, author)
     {
-        $videos = Video::where('title', 'like', '%'.$limitations.'%');
-                        //->orWhere('genre', 'like', '%'.$limitations.'%');
+        $videos = Video::where('title', 'like', '%'.$limitations.'%')
+                        ->orWhere('user_id', User::where('name', 'like', '%'.$limitations.'%')->first()->id ?? -1);
         return $videos;
     }
 

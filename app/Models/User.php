@@ -44,10 +44,11 @@ class User extends Authenticatable// implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    protected function video(){
+    public function video(){
         return $this->hasMany(Video::class, 'user_id');
     }
 
+    /*
     public static function sendMail($address)
     {
         $confirmationLink = BASEURL."/users/verifyMail/".$address;
@@ -58,5 +59,5 @@ class User extends Authenticatable// implements MustVerifyEmail
 
         mail("tapewormerbinkosti@gmail.com", "Confirm registration", "Thanks for registering! Click the following link to proceed: ".$confirmationLink,
                 'From: debela.lubenica@gmail.com\n');
-    }
+    }*/
 }

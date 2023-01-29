@@ -16,4 +16,6 @@
             <input type="submit" value="Save?" class="submitUserdata">
         </form>
     </div>
+    <div>Your creations: </div>
+    @include('videos.videoGrid')
 </x-layout>

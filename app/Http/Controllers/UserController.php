@@ -22,6 +22,10 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
+
+        $hasMoreAttempts = RateLimiter::attempt($request->ip(), $perMinute=2, function(){});
+        if(!$hasMoreAttempts) return back()->withErrors(['password' => "Too many attempts, try again in 1 minute"]);
+
         $formData = $request->validate([
             'email' => ['required', 'email', Rule::unique('users', 'email')],
             'name' => ['required', Rule::unique('users', 'name'), 'min:5', 'max:20'],   // nickname
@@ -152,8 +156,15 @@ class UserController extends Controller
 
     public function selfProfile()
     {
+        $user = User::find(auth()->user()->id);
+        //dd($user->id);
+        /*$videos = Video::where('user_id', $user->id)->paginate(4);//get();
+        foreach($videos as $video) echo $video->title;
+        dd($videos);*/
+        //$u = User::find(auth()->user()->id);
         return view('users.selfProfile', [
-            'user' => User::find(auth()->user()->id)
+            'user' => User::find(auth()->user()->id),
+            'videos' => Video::where('user_id', $user->id)->paginate(4)//Video::where('user_id', $user->id)->get()//User::find(auth()->user()->id)->video()->get()
             /*'channelDescription' => User::find(auth()->user()->id)->description*/
         ]);
     }
@@ -180,11 +191,13 @@ class UserController extends Controller
 
         $genres = $request->genres;
         $genresString = "";
-        foreach($genres as $genre){
-            $genresString .= $genre . ",";
+        if($genres!=null){
+            foreach($genres as $genre){
+                $genresString .= $genre . ",";
+            }
+            $genresString = trim($genresString, ",");
+            $genresString.="";
         }
-        $genresString = trim($genresString, ",");
-        $genresString.="";
         $formData = $request->validate([
             'title' => 'required',
             'videoFile' => ['required', 'max:400000'],   // video mustn't exceed 300 MB
@@ -209,7 +222,6 @@ class UserController extends Controller
 
         // put video into a variable $video
         $video = $request->file('videoFile');
-
         // store video and put its path into 'path'
         $formData['path'] = $video->store('videos', 'public');
 
