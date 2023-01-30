@@ -20,3 +20,11 @@
     list-style: none;
 
 }
+
+.confirmDelete{
+    position: absolute;
+    width: 6rem;
+    height: 4rem;
+    background-color: #AAA;
+    color:red;
+}

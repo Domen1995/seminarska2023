@@ -23,14 +23,15 @@ class UserController extends Controller
     public function register(Request $request)
     {
 
-        $hasMoreAttempts = RateLimiter::attempt($request->ip(), $perMinute=2, function(){});
-        if(!$hasMoreAttempts) return back()->withErrors(['password' => "Too many attempts, try again in 1 minute"]);
-
         $formData = $request->validate([
             'email' => ['required', 'email', Rule::unique('users', 'email')],
             'name' => ['required', Rule::unique('users', 'name'), 'min:5', 'max:20'],   // nickname
             'password' => ['required', 'min:7']
         ]);
+
+        $hasMoreAttempts = RateLimiter::attempt($request->ip(), $perMinute=2, function(){});
+        if(!$hasMoreAttempts) return back()->withErrors(['password' => "Too many attempts, try again in 1 minute"]);
+
         $formData['password'] = bcrypt($formData['password']);  // hash password
 
         $formData['verificationCode'] = sha1(time());
@@ -56,7 +57,7 @@ class UserController extends Controller
     {
         // check if the user is in database and if the verification code is correct
         $user = User::where('name', $request->n)->first();
-        if($user==null || $user->verificationCode != $request->c) return redirect('/users/registrationForm')->with('message', 'Something went wrong, please register again');
+        if($user==null || $user->verificationCode != $request->c) return redirect('/users/registrationForm')->with('message', 'Wrong verification data!');
 
         // if mail has already been verified, inform user
         if($user->verified==1) return "The email has already been verified!";
@@ -111,7 +112,7 @@ class UserController extends Controller
             return "success!";
         }*/
 
-        // if user logged in with his email, authenticate with email, otherwise nickname
+        // if user logged in with his email, put email for incoming authentication, otherwise nickname
         if(filter_var($request->email, FILTER_VALIDATE_EMAIL)) $formData['email'] = $request->email;
         else $formData['name'] = $request->email;
 
@@ -156,14 +157,14 @@ class UserController extends Controller
 
     public function selfProfile()
     {
-        $user = User::find(auth()->user()->id);
+        $user = auth()->user();
         //dd($user->id);
         /*$videos = Video::where('user_id', $user->id)->paginate(4);//get();
         foreach($videos as $video) echo $video->title;
         dd($videos);*/
         //$u = User::find(auth()->user()->id);
         return view('users.selfProfile', [
-            'user' => User::find(auth()->user()->id),
+            'user' => $user,//User::find(auth()->user()->id),
             'videos' => Video::where('user_id', $user->id)->paginate(4)//Video::where('user_id', $user->id)->get()//User::find(auth()->user()->id)->video()->get()
             /*'channelDescription' => User::find(auth()->user()->id)->description*/
         ]);
@@ -249,5 +250,12 @@ class UserController extends Controller
             'user_id' => 1,
             'genre' => 'fun'
         ]);*/
+    }
+
+    public function deleteVideo(Request $request)
+    {
+        $video = Video::find($request->vidId);
+        $author = User::where('id', $video->user_id)->first();
+        if(auth()->user()!= $author) abort(403, "Don't try to delete other's videos");
     }
 }

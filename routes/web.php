@@ -27,7 +27,7 @@ Route::get('/users/registrationForm', [UserController::class, 'registrationForm'
 // add new user to DB
 Route::post('/users/register', [UserController::class, 'register'])->middleware('guest');
 
-Route::get('/users/verifyMail', [UserController::class, 'verifyMail']);//->middleware('auth');
+Route::get('/users/verifyMail', [UserController::class, 'verifyMail'])->middleware('guest');
 
 // display form to user to log in
 Route::get('/users/loginForm', [UserController::class, 'loginForm'])->middleware('guest');
@@ -47,6 +47,8 @@ Route::get('/users/selfProfile', [UserController::class, 'selfProfile'])->middle
 // update user's profile (channel description, ...)
 Route::put('/users/profile/update', [UserController::class, 'updateProfile'])->middleware('auth');
 
+Route::get('/users/deleteVideo', [UserController::class, 'deleteVideo'])->middleware('auth');
+
 // show form for uploading a video
 Route::get('/users/uploadForm', [UserController::class, 'uploadForm'])->middleware('auth');
 
@@ -59,9 +61,10 @@ Route::get('/videos/watch/{video}', [VideoController::class, 'watch']);
 // send part of video from requested starting point
 Route::get('/videos/chunk/{video}', [VideoController::class, 'serveChunk']);
 
+/*
 // returns a gif for which browser sent fetch
 Route::get('/assets/gif/{slug}', [AssetController::class, 'fetchGif']);
-
+*/
 
 /*Auth::routes([
     'verify' => true
