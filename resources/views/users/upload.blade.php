@@ -3,7 +3,7 @@
 <x-layout>
 <x-menu />
     <title>Video upload</title>
-    <script src="{{BASEURL}}/js/fetchAssets.js"></script>
+    <script src="{{BASEURL}}/js/fetchAssets.js" defer></script>
 </head>
 <body>
     <form class="form" action="{{BASEURL}}/users/store" method="POST" enctype="multipart/form-data" style="height: 40rem; width:50rem; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
@@ -41,7 +41,7 @@
         {{-- NE KOMENTARJA user includes a video: --}}
         <label for="videoFile" style="margin:0 auto">Your video:</label>
         {{-- a box to input video: --}}
-        <div style="border:1px solid black; width:17rem; height:10rem; margin-left:auto; margin-right:auto">
+        <div id="videoContainer" style="border:1px dashed grey; width:17rem; height:10rem; margin-left:auto; margin-right:auto">
             <input type="file" id="videoFile" name="videoFile" style="opacity: 0; width:17rem; height:10rem" {{--value="Browse ..."--}}>
         </div>
             @error('videoFile')
@@ -51,7 +51,7 @@
         <label for="videoImage">An image that will represent your video; optional: </label>
         <input type="file" name="videoImage" id="videoImage" value="Browse images ...">
         {{-- form submission --}}
-        <input type="submit" value="Upload!" onclick="addLoadingGif()" style="width:13rem; height:5rem">
+        <input type="submit" value="Upload!" onclick="addLoadingGif()" style="width:13rem; height:5rem" draggable="true">
     </form>
     {{-- gif triggered by submit, symbolizing loading --}}
     <iframe src="https://giphy.com/embed/17mNCcKU1mJlrbXodo" id="loadingGif" width="480" height="480" frameBorder="0" class="giphy-embed" style="pointer-events: none; display:none; position:fixed; top:15%; left:35%; border-radius:15rem" allowFullScreen></iframe>

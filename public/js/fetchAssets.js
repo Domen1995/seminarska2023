@@ -7,3 +7,20 @@ function addLoadingGif(){
     /*gifElement.width = 480;
     gifElement.height = 480;*/
 }
+
+const videoContainer = document.getElementById('videoContainer')
+
+videoContainer.addEventListener("dragover", (e)=>{
+    e.preventDefault()
+    videoContainer.style.backgroundColor = "lightgreen"
+})
+
+videoContainer.addEventListener("dragleave", (e)=>{
+    videoContainer.style.backgroundColor = "rgb(240, 240, 240)"
+})
+
+videoContainer.addEventListener("drop", (e)=>{
+    e.preventDefault()
+    let video = e.dataTransfer.files
+    document.getElementById("videoFile").value = video
+})
