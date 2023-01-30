@@ -8,6 +8,7 @@ use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -253,9 +254,28 @@ class UserController extends Controller
     }
 
     public function deleteVideo(Request $request)
+        // delete video by user's initiative
     {
         $video = Video::find($request->vidId);
         $author = User::where('id', $video->user_id)->first();
+        // check if the video really belongs to this user
         if(auth()->user()!= $author) abort(403, "Don't try to delete other's videos");
+
+        //echo(filesize('storage/'.$video->path));
+        // delete video from storage
+        if(file_exists('storage/'.$video->path)) unlink('storage/'.$video->path);
+        //Storage::delete('SSiAGN7VEtNeYFwcFi5JHY81mdTRnTFMFMCjjSLw.jpg');
+        //Storage::disk('D')
+        //dd(filesize('storage/'.$video->path));
+
+        // delete image that represents the video from storage
+        if(file_exists('storage/'.$video->videoImagePath)) unlink('storage/'.$video->videoImagePath);
+        //echo($video->videoImagePath);
+        //Storage::delete('storage/'.$video->videoImagePath);
+        //dd($video->videoImagePath);
+
+        // delete record about video from DB
+        $video->delete();
+        return redirect('/')->with("message", "You've successfully deleted your video");
     }
 }

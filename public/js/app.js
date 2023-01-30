@@ -1,19 +1,36 @@
 //import './bootstrap';
-const passwordElt = document.getElementById("password");
+const baseurl = "https://localhost/seminarska2023/public"
 
-//document.getElementById("password").addEventListener("keyup", function(){
-passwordElt.addEventListener("keyup", function(){
-    const text = passwordElt.value
-    if(text.length<7) passwordElt.style.backgroundColor = "rgb(255, 0, 0, .5)"
-    else passwordElt.style.backgroundColor = "rgb(0, 255, 0, .4)"
-})
+let passwordElt
+let nicnkameElt
+let emailElt
 
-const nicnkameElt = document.getElementById("email")
-nicnkameElt.addEventListener("keyup", ()=>{
-    const text = nicnkameElt.value
-    if(text.length<5) nicnkameElt.style.backgroundColor = "rgb(255, 0, 0, .5)"
-    else nicnkameElt.style.backgroundColor = "rgb(0, 255, 0, .4)"
-})
+if((passwordElt = document.getElementById("password"))!=null){
+
+    //document.getElementById("password").addEventListener("keyup", function(){
+    passwordElt.addEventListener("keyup", function(){
+        const text = passwordElt.value
+        if(text.length<7) passwordElt.style.backgroundColor = "rgb(255, 0, 0, .5)"
+        else passwordElt.style.backgroundColor = "rgb(0, 255, 0, .4)"
+    })
+}
+
+if((nicnkameElt = document.getElementById("name"))!=null){
+    nicnkameElt.addEventListener("keyup", ()=>{
+        const text = nicnkameElt.value
+        if(text.length<5) nicnkameElt.style.backgroundColor = "rgb(255, 0, 0, .5)"
+        else nicnkameElt.style.backgroundColor = "rgb(0, 255, 0, .4)"
+    })
+}
+
+if((emailElt = document.getElementById("email"))!=null){
+    email.addEventListener("keyup", ()=>{
+        const text = emailElt.value
+        if(text.length<5) emailElt.style.backgroundColor = "rgb(255, 0, 0, .5)"
+        else emailElt.style.backgroundColor = "rgb(0, 255, 0, .4)"
+    })
+}
+
 
 function checkChangedInput(){
     let tekst = document.getElementById("password").value
@@ -54,7 +71,7 @@ function confirmDelete(vidId){
     const yes = document.createElement("a")
     yes.innerHTML = "Yes"
     //yes.type = "submit"
-    yes.href = "users/deleteVideo?vidId="+vidId
+    yes.href = baseurl+"/users/deleteVideo?vidId="+vidId
     const no = document.createElement("button")
     no.innerHTML = "No"
     no.addEventListener("click", ()=>{
