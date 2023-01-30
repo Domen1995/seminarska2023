@@ -69,8 +69,7 @@ function confirmDelete(vidId){
     confirmationButtonsWrapper.style.marginRight = "auto"
     // create buttons for confirmation
     const yes = document.createElement("a")
-    yes.innerHTML = "Yes"
-    //yes.type = "submit"
+    yes.innerHTML = "<button type='button'>Yes</button>" // make link look like a button    //yes.type = "submit"
     yes.href = baseurl+"/users/deleteVideo?vidId="+vidId
     const no = document.createElement("button")
     no.innerHTML = "No"

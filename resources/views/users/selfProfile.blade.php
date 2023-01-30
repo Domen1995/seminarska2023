@@ -8,14 +8,16 @@
             @csrf
             @method('PUT')
             {{--<input type="text" value="{{auth()->user()->name}}" disabled>--}}
-            <div style="font-size:2rem; font-family:inherit">{{$user['name']}}</div>
+            <div style="font-size:2rem; font-family:inherit">{{$user->name}}</div>
             <a class="link" href="{{BASEURL}}/users/uploadForm" style="font-size: 3rem; font-family:inherit">Upload new video</a>
             <label for="channelDescription" style="font-size: 2rem;">Describe your channel: </label>
             {{--<input type="text" id="channelDescription" name="channelDescription" height="6rem">--}}
-            <textarea id="channelDescription" name="channelDescription" rows="4" cols="60">{{$user['description']}}</textarea>
+            <textarea id="channelDescription" name="channelDescription" rows="4" cols="60">{{$user->description}}</textarea>
             <input type="submit" value="Save?" class="submitUserdata">
         </form>
     </div>
-    <div>Your creations: </div>
-    @include('videos.videoGrid')
+    @if(count($videos)>0)
+        <div style="margin-left: auto; margin-right:auto; width:15rem; text-align:center; background-color:#4b3268;font-size:2rem; border-radius:.3rem">Your creations: </div>
+        @include('videos.videoGrid')
+    @endif
 </x-layout>
