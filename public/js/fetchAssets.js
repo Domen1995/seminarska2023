@@ -1,3 +1,5 @@
+const baseurl = "https://localhost/seminarska2023/public"
+
 function addLoadingGif(){
     //let gif = await fetch("../assets/gif/loading");
     //if()
@@ -19,8 +21,26 @@ videoContainer.addEventListener("dragleave", (e)=>{
     videoContainer.style.backgroundColor = "rgb(240, 240, 240)"
 })
 
+let video
 videoContainer.addEventListener("drop", (e)=>{
     e.preventDefault()
-    let video = e.dataTransfer.files
-    document.getElementById("videoFile").value = video
+    const video = e.dataTransfer.files
+    /*const formVideo = new FormData
+    formVideo.append("videoFile", video)
+    document.getElementById('videoFile').value = video
+    console.log(document.getElementById('videoFile').value)*/
+    //document.getElementById("videoFile").value = formVideo
+    //console.log(document.getElementById("videoFile").value.size)
+})
+
+const uploadForm = document.getElementById("uploadForm")
+uploadForm.addEventListener("submit", (e)=>{
+    e.preventDefault()
+    const videoData = new FormData(uploadForm)
+    videoData.append("videoFile", video)
+    fetch(baseurl+"/users/store", {
+        method: "POST",
+        body: videoData
+    })
+    .then(location = baseurl)
 })
