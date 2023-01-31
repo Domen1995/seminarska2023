@@ -4,9 +4,11 @@
 <x-menu />
     <title>Video upload</title>
     <script src="{{BASEURL}}/js/fetchAssets.js" defer></script>
+    {{-- user's token that will be added to fetch: --}}
+    <meta id="usersToken" name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
-    <form id="uploadForm" class="form" {{--action="{{BASEURL}}/users/store" method="POST"--}} enctype="multipart/form-data" style="height: 40rem; width:50rem; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+    <form id="uploadForm" class="form" action="{{BASEURL}}/users/store" method="POST" enctype="multipart/form-data" style="height: 40rem; width:50rem; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
     @csrf
         {{--<label for="title"></label>--}}
         <input type="text" id="title" name="title" placeholder="Video title">

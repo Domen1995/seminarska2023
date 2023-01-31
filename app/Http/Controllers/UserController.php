@@ -190,7 +190,15 @@ class UserController extends Controller
         // method stores new user's video to database
 
         // first check if user sent valid data
-
+        //$bodyContent = $request->getContent();
+        //$body = $request->all();
+        //dd($body->file('videoFile'));
+        //dd($request->file('videoFile'));  // ta deluje
+        /*dd($_FILES['videoFile']);
+        dd($_FILES[$body['videoFile']]);
+        dd(($body['videoFile']));
+        dd($body['title']);
+        return $request->videoData->title;*/
         $genres = $request->genres;
         $genresString = "";
         if($genres!=null){
@@ -202,7 +210,7 @@ class UserController extends Controller
         }
         $formData = $request->validate([
             'title' => 'required',
-            'videoFile' => ['required', 'max:400000'],   // video mustn't exceed 300 MB
+            'videoFile' => ['required', 'max:400000'],   // video mustn't exceed 400 MB
             'videoImage' => ['required'],
             'description' => 'nullable',
             'genre' => 'nullable'

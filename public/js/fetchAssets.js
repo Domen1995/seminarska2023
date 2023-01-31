@@ -24,7 +24,8 @@ videoContainer.addEventListener("dragleave", (e)=>{
 let video
 videoContainer.addEventListener("drop", (e)=>{
     e.preventDefault()
-    const video = e.dataTransfer.files
+    //video = e.dataTransfer.files
+    document.getElementById('videoFile').files = e.dataTransfer.files
     /*const formVideo = new FormData
     formVideo.append("videoFile", video)
     document.getElementById('videoFile').value = video
@@ -32,15 +33,24 @@ videoContainer.addEventListener("drop", (e)=>{
     //document.getElementById("videoFile").value = formVideo
     //console.log(document.getElementById("videoFile").value.size)
 })
-
+/*
 const uploadForm = document.getElementById("uploadForm")
+const usersToken = document.getElementById('usersToken').content
+
+// send video form to server
 uploadForm.addEventListener("submit", (e)=>{
     e.preventDefault()
     const videoData = new FormData(uploadForm)
     videoData.append("videoFile", video)
+    console.log(video)
     fetch(baseurl+"/users/store", {
         method: "POST",
+        credentials: "same-origin",
         body: videoData
     })
-    .then(location = baseurl)
+    .then(resp =>{
+        console.log(resp.text)
+    })
+    //.then(location = baseurl)
 })
+*/
