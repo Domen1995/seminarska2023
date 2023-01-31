@@ -5,10 +5,10 @@
     <title>Video upload</title>
     <script src="{{BASEURL}}/js/fetchAssets.js" defer></script>
     {{-- user's token that will be added to fetch: --}}
-    <meta id="usersToken" name="csrf-token" content="{{ csrf_token() }}">
+    {{--<meta id="usersToken" name="csrf-token" content="{{ csrf_token() }}">--}}
 </head>
 <body>
-    <form id="uploadForm" class="form" action="{{BASEURL}}/users/store" method="POST" enctype="multipart/form-data" style="height: 40rem; width:50rem; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+    <form id="uploadForm" class="form" action="{{BASEURL}}/users/store" method="POST" enctype="multipart/form-data" style="height: 50rem; width:50rem; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
     @csrf
         {{--<label for="title"></label>--}}
         <input type="text" id="title" name="title" placeholder="Video title">
@@ -41,7 +41,7 @@
             </div>
         </div>
         {{-- NE KOMENTARJA user includes a video: --}}
-        <label for="videoFile" style="margin:0 auto">Your video:</label>
+        <label for="videoFile" style="margin:0 auto">Drag or click on the field to upload video:</label>
         {{-- a box to input video: --}}
         <div id="videoContainer" style="border:1px dashed grey; width:17rem; height:10rem; margin-left:auto; margin-right:auto">
             <input type="file" id="videoFile" name="videoFile" style="opacity: 0; width:17rem; height:10rem" {{--value="Browse ..."--}}>
@@ -50,8 +50,14 @@
                 <p class="error">{{$message}}</p>
             @enderror
         {{-- user can select an image that represents his video --}}
-        <label for="videoImage">An image that will represent your video; optional: </label>
-        <input type="file" name="videoImage" id="videoImage" value="Browse images ...">
+        <label for="videoImage" style="margin: 0 auto">An image that will represent your video: </label>
+        <div id="imageContainer" style="border:1px dashed grey; width:17rem; height:10rem; margin-left:auto; margin-right:auto">
+            <input type="file" id="videoImage" name="videoImage" style="opacity: 0; width:17rem; height:10rem" {{--value="Browse ..."--}}>
+        </div>
+            @error('videoImage')
+                <p class="error">{{$message}}</p>
+            @enderror
+        {{--<input type="file" name="videoImage" id="videoImage" value="Browse images ...">--}}
         {{-- form submission --}}
         <input type="submit" value="Upload!" onclick="addLoadingGif()" style="width:13rem; height:5rem" draggable="true">
     </form>

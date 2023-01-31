@@ -50,8 +50,35 @@ function checkChangedInput(){
     return true
 }
 
+//let deletionWindowId = false  // window for confirm deletion isn't shown
+//let confirmationShown = false
+
+
+let justCreated = false
+
+addEventListener('click', (e)=>{
+    //console.log(deletionWindows)
+    //if(deletionWindowId==false) return
+    if(justCreated) {
+        justCreated = false
+        return
+    }
+    if(document.getElementById("del")==null) return
+    //if(confirmationShown == false) return
+    if(e.target.id!="del"){
+        document.getElementById("del").remove()
+    }
+})
+
+
 function confirmDelete(vidId){
+    //if(deletionWindowId!=false) return
+    if(document.getElementById("del")!=null) return
     const confirmation = document.createElement("div")
+    confirmation.setAttribute('id', 'del')
+    //confirmation.id = "del"
+    //if(document.getElementById("del")==null) return
+    //deletionWindowId = confirmation.id
     confirmation.style.width = "17rem"
     confirmation.style.height = "4rem"
     confirmation.style.backgroundColor = "rgb(240, 240, 240)"
@@ -71,13 +98,18 @@ function confirmDelete(vidId){
     const yes = document.createElement("a")
     yes.innerHTML = "<button type='button'>Yes</button>" // make link look like a button    //yes.type = "submit"
     yes.href = baseurl+"/users/deleteVideo?vidId="+vidId
+    yes.style.marginRight = ".2rem"
     const no = document.createElement("button")
     no.innerHTML = "No"
+    no.style.marginLeft = ".2rem"
     no.addEventListener("click", ()=>{
         confirmation.remove()
     })
     confirmationButtonsWrapper.appendChild(yes)
     confirmationButtonsWrapper.appendChild(no)
     confirmation.appendChild(confirmationButtonsWrapper)
+    justCreated = true
     document.getElementById("videoContainer").appendChild(confirmation)
+
+    //confirmationShown = true
 }

@@ -210,8 +210,9 @@ class UserController extends Controller
         }
         $formData = $request->validate([
             'title' => 'required',
-            'videoFile' => ['required', 'max:400000'],   // video mustn't exceed 400 MB
-            'videoImage' => ['required'],
+            // video mustn't exceed 400 MB
+            'videoFile' => ['required', 'max:400000', 'mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi'],
+            'videoImage' => ['required', 'image'],
             'description' => 'nullable',
             'genre' => 'nullable'
         ]);
