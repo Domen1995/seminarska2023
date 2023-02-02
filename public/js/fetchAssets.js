@@ -1,3 +1,5 @@
+//const { read } = require("@popperjs/core");
+
 const baseurl = "https://localhost/seminarska2023/public"
 
 function addLoadingGif(){
@@ -34,6 +36,8 @@ videoContainer.addEventListener("drop", (e)=>{
     //console.log(document.getElementById("videoFile").value.size)
 })
 
+const imageContainer = document.getElementById('imageContainer')
+
 imageContainer.addEventListener("dragover", (e)=>{
     e.preventDefault()
     imageContainer.style.backgroundColor = "lightgreen"
@@ -43,11 +47,29 @@ imageContainer.addEventListener("dragleave", (e)=>{
     imageContainer.style.backgroundColor = "rgb(240, 240, 240)"
 })
 
-let image
-videoContainer.addEventListener("drop", (e)=>{
+//let image
+imageContainer.addEventListener("drop", (e)=>{
     e.preventDefault()
     //video = e.dataTransfer.files
-    document.getElementById('videoImage').files = e.dataTransfer.files
+    const transferredImage = e.dataTransfer.files
+    document.getElementById('videoImage').files = transferredImage//e.dataTransfer.files
+    // set this image as background if image container
+    //console.log(transferredImage[0])
+    const reader = new FileReader()
+    //reader.readAsArrayBuffer(transferredImage[0])
+    reader.readAsDataURL(transferredImage[0])
+    reader.onload = function(){
+        const readImage = reader.result
+        console.log(readImage)
+        document.getElementById('imageContainer').style.background = "url("+readImage+")"//"data:image/jpg;base64("+readImage+")"
+    }
+    return
+    const readImage = read.readAsDataUrl(transferredImage[0])
+    console.log(32)
+    //document.body.style.backgroundImage = transferredImage[0]
+    document.getElementById('imageContainer').style.backgroundImage = readImage//transferredImage[0]//"url(https://flxt.tmsimg.com/assets/74353_v9_bb.jpg)"//transferredImage[0]
+    console.log(transferredImage[0])
+    console.log(document.getElementById('imageContainer').style.backgroundImage)
     /*const formVideo = new FormData
     formVideo.append("videoFile", video)
     document.getElementById('videoFile').value = video

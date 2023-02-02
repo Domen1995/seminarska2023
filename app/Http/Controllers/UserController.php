@@ -152,7 +152,8 @@ class UserController extends Controller
         // display a requested profile to a user
     {
         return view('users.profile', [
-            'user' => $user
+            'user' => $user,
+            'videos' => Video::where('user_id', $user->id)->paginate(4)
         ]);
     }
 
@@ -212,7 +213,7 @@ class UserController extends Controller
             'title' => 'required',
             // video mustn't exceed 400 MB
             'videoFile' => ['required', 'max:400000', 'mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi'],
-            'videoImage' => ['required', 'image'],
+            'videoImage' => ['required', 'mimes:jpeg,png,jpg,svg'],
             'description' => 'nullable',
             'genre' => 'nullable'
         ]);
@@ -263,7 +264,7 @@ class UserController extends Controller
     }
 
     public function deleteVideo(Request $request)
-        // delete video by user's initiative
+        // delete video on user's initiative
     {
         $video = Video::find($request->vidId);
         $author = User::where('id', $video->user_id)->first();
