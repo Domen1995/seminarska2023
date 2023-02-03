@@ -55,13 +55,14 @@ imageContainer.addEventListener("drop", (e)=>{
     document.getElementById('videoImage').files = transferredImage//e.dataTransfer.files
     // set this image as background if image container
     //console.log(transferredImage[0])
+    setImgAsBackground()
+    /*
     const reader = new FileReader()
     //reader.readAsArrayBuffer(transferredImage[0])
     reader.readAsDataURL(transferredImage[0])
     reader.onload = function(){
         const readImage = reader.result
-        console.log(readImage)
-        document.getElementById('imageContainer').style.background = "url("+readImage+")"//"data:image/jpg;base64("+readImage+")"
+        document.getElementById('imageContainer').style.backgroundImage = "url("+readImage+")"// .background deluje  "data:image/jpg;base64("+readImage+")"
     }
     return
     const readImage = read.readAsDataUrl(transferredImage[0])
@@ -77,6 +78,18 @@ imageContainer.addEventListener("drop", (e)=>{
     //document.getElementById("videoFile").value = formVideo
     //console.log(document.getElementById("videoFile").value.size)
 })
+
+function setImgAsBackground(){
+    // set uploaded image as background of image container
+    const imgFile = document.getElementById('videoImage').files[0]
+    const reader = new FileReader()
+    reader.readAsDataURL(imgFile)
+    reader.onload = function(){
+        const readImage = reader.result
+        document.getElementById('imageContainer').style.backgroundImage = "url("+readImage+")"
+    }
+    //document.getElementById('imageContainer').style.backgroundImage = "url("+img+")"
+}
 /*
 const uploadForm = document.getElementById("uploadForm")
 const usersToken = document.getElementById('usersToken').content

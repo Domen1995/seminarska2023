@@ -51,8 +51,8 @@
             @enderror
         {{-- user can select an image that represents his video --}}
         <label for="videoImage" style="margin: 0 auto">An image that will represent your video: </label>
-        <div id="imageContainer" style="border:1px dashed grey; width:17rem; height:10rem; margin-left:auto; margin-right:auto">
-            <input type="file" id="videoImage" name="videoImage" style="opacity: 0; width:17rem; height:10rem" {{--value="Browse ..."--}}>
+        <div id="imageContainer" style="border:1px dashed grey; width:17rem; height:10rem; margin-left:auto; margin-right:auto; background-size: 17rem 10rem">
+            <input type="file" id="videoImage" name="videoImage" onchange="setImgAsBackground()" style="opacity: 0; width:17rem; height:10rem" {{--value="Browse ..."--}}>
         </div>
             @error('videoImage')
                 <p class="error">{{$message}}</p>

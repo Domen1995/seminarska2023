@@ -125,7 +125,7 @@ function confirmDelete(vidId){
     confirmation.appendChild(confirmationButtonsWrapper)
     justCreated = true
     //confirmation.removeEventListener('click', ()=>{})
-    document.getElementById("videoContainer").appendChild(confirmation)
+    document.getElementById("videoContainer"+vidId+"").appendChild(confirmation)
 
     //confirmationShown = true
 }
