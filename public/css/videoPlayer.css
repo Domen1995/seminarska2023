@@ -1,0 +1,38 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin:0;
+}
+
+.videoMainContainer{
+    /*margin: 0 auto;*/
+    position: relative;
+    /*width: 50rem;
+    height: 40rem;*/
+    display: flex;
+    justify-content: center;
+    margin-inline: auto;
+    width: 50%;
+}
+
+/*.controls{*/
+.videoControlsContainer{
+    /*height: 5rem;*/
+    position: absolute;
+    z-index: 5;
+    display: flex;
+    bottom:0;
+    left:0;
+    right: 0;
+    /*left:10rem;
+    top: calc(100% + 12rem);
+    /*top: calc(100% + 24rem);
+    /*bottom: 5rem;*/
+}
+
+.selectedVideo{
+    border-radius: .4rem;
+    width: 100%;
+}

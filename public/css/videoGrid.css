@@ -21,6 +21,24 @@
 
 }
 /*
+video:-webkit-full-screen{
+    display: none;
+}
+
+:-webkit-full-screen{
+    z-index: 2147483647;
+}
+*/
+
+/*
+video::-webkit-media-controls{
+    display: none !important;
+}
+
+video::-webkit-media-controls-fullscreen-button{
+    display: none !important;
+}
+/*
 .confirmDelete{
     position: absolute;
     width: 6rem;
