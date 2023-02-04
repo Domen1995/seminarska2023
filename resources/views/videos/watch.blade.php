@@ -6,7 +6,7 @@
 <body>
     <x-menu />
     <div class="selectedVideoTitle">{{$video->title}}</div>
-    <div id="videoMainContainer" class="videoMainContainer" style="position:relative">
+    <div id="videoMainContainer" class="videoMainContainer">
         {{--<video class="videoArea" id="video" width="100%"{{--"500"--} controls="false" autoplay style="position:absolute; z-index:-1">
             <source style="position: absolute" style="z-index:0" src="{{BASEURL}}/videos/chunk/{{$video->id}}">
         </video>--}}
@@ -18,7 +18,7 @@
                 <button onclick="toggleFullscreen()" class="link"><i class="material-icons" style="font-size:3rem; {{--z-index:3--}}">fullscreen</i></button>
             </div>
         </div>
-        <video onclick="togglePlay()" ondblclick="toggleFullscreen()" src="{{BASEURL}}/videos/chunk/{{$video->id}}"class="selectedVideo" id="video" width="100%" autoplay style="position:absolute; {{--z-index:-1--}}"></video>
+        <video onclick="togglePlay()" ondblclick="toggleFullscreen()" src="{{BASEURL}}/videos/chunk/{{$video->id}}"class="selectedVideo" id="video" width="100%" autoplay {{--style="position:absolute; {{--z-index:-1"--}}></video>
     </div>
     <a style="display: block" href="{{BASEURL}}/"><i class="material-icons">arrow_back</i></a>
 </x-layout>
