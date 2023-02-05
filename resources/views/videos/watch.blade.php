@@ -18,7 +18,7 @@
             </div>
             <div class="durationContainer">
                 <div id="currentTime">0:00</div>
-                <div id="timeline" class="timeline"></div>
+                <div id="timeline" class="timeline"><i id="timelineButton" class="material-icons">circle</i></div>
                 <div id="totalTime">10:00</div>
             </div>
             <div class="controls">

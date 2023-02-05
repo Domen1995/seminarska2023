@@ -24,19 +24,25 @@ function toggleFullscreen(){
 const currentTimeElement = document.getElementById('currentTime')
 //let totalTime = document.getElementById('vidLen').innerHTML
 
+const timeline = document.getElementById('timeline')
+
 function incrementCurrentTime(){
     if(video.paused || currentTime>=video.duration) return// clearInterval(incrementCurrentTime)
     currentTimeElement.innerHTML = Math.floor(video.currentTime)
+    const timelineRect = timeline.getBoundingClientRect()
+    document.getElementById('timelineButton').style.left = (video.currentTime/video.duration)*(timelineRect.right-timelineRect.left)+"px"
     setTimeout(incrementCurrentTime, 1000)
 }
 
 // skip to time clicked on timeline:
-const timeline = document.getElementById('timeline')
+
 timeline.addEventListener('click', (e)=>{
-    // get x position relatively to timeline
-    const x = e.clientX - timeline.getBoundingClientRect().left
+    // position of element "timeline"
+    const timelineRect = timeline.getBoundingClientRect()
+    // time in seconds to which we'll skip: ratio on timeline
+    const skipTo = (e.clientX - timelineRect.left)/(timelineRect.right - timelineRect.left)*video.duration
     // skip to selected time in video
-    video.currentTime = x
+    video.currentTime = skipTo
 })
 
 document.addEventListener('fullscreenchange', ()=>{
