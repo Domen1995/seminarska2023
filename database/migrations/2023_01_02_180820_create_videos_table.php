@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('author');
+            $table->integer('duration'); //seconds
             $table->longText('description')->nullable();
             $table->integer('views');
             $table->string('path');

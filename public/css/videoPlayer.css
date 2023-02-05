@@ -23,13 +23,31 @@ body{
     position: absolute;
     z-index: 5;
     display: flex;
+    gap:.5rem;
     bottom:0;
     left:0;
     right: 0;
+    align-items: center;
+    /*background-color: #f3f3f3;*/
+    border-radius: 0 0 .4rem .4rem;
     /*left:10rem;
     top: calc(100% + 12rem);
     /*top: calc(100% + 24rem);
     /*bottom: 5rem;*/
+}
+
+.durationContainer{
+    display: flex;
+    align-items: center;
+    gap:.4rem;
+    width: 70%;
+}
+
+.timeline{
+    flex-grow: 8;
+    background-color: grey;
+    height: .3rem;
+    border-radius: .5rem;
 }
 
 .selectedVideo{

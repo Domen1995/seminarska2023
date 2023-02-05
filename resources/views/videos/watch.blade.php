@@ -12,16 +12,24 @@
         </video>--}}
         {{--<video src="{{BASEURL}}/videos/chunk/{{$video->id}}"class="videoArea" id="video" width="100%" controls autoplay style="position:absolute; z-index:-1"></video>--}}
         <div id="studentID" class="studentID" style="position:absolute; top:16rem; left:50%; z-index:2">Domen Kamnik</div>
-        <div class="videoControlsContainer" style="position:absolute; bottom:0;">
+        <div id="videoControlsContainer" class="videoControlsContainer">
             <div class="controls">
                 <button onclick="togglePlay()" class="link"><i class="material-icons" id="playIcon" style="font-size: 3rem">play_circle</i></button>
-                <button onclick="toggleFullscreen()" class="link"><i class="material-icons" style="font-size:3rem; {{--z-index:3--}}">fullscreen</i></button>
+            </div>
+            <div class="durationContainer">
+                <div id="currentTime">0:00</div>
+                <div id="timeline" class="timeline"></div>
+                <div id="totalTime">10:00</div>
+            </div>
+            <div class="controls">
+                <button onclick="toggleFullscreen()" class="link"><i class="material-icons" id="fullscreenIcon" style="font-size:3rem; {{--z-index:3--}}">fullscreen</i></button>
             </div>
         </div>
         <video onclick="togglePlay()" ondblclick="toggleFullscreen()" src="{{BASEURL}}/videos/chunk/{{$video->id}}"class="selectedVideo" id="video" width="100%" autoplay {{--style="position:absolute; {{--z-index:-1"--}}></video>
     </div>
     <a style="display: block" href="{{BASEURL}}/"><i class="material-icons">arrow_back</i></a>
 </x-layout>
+<script>document.getElementById('videoMainContainer').addEventListener('contextmenu', (e)=>{e.preventDefault()})</script>
 {{--
 <script>
     document.addEventListener('load', ()=>{
