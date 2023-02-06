@@ -101,3 +101,22 @@ document.addEventListener('fullscreenchange', ()=>{
     }
     moveTimelineButton()
 })
+
+document.getElementById('volumeIcon').addEventListener('click', showChangingVolume)
+//document.getElementById('videoControlsContainer').addEventListener('mouseout', hideChangingVolume)
+document.addEventListener('click', hideChangingVolume)
+
+function showChangingVolume(){
+    document.getElementById('volumeBar').style.display = "block"
+    justShownVolume = true
+    // render the bar for changing volume
+}
+
+let justShownVolume = false
+function hideChangingVolume(e){
+    if(justShownVolume){
+        justShownVolume = false
+        return
+    }
+    document.getElementById('volumeBar').style.display = "none"
+}

@@ -24,6 +24,12 @@
                 <div id="timeline" class="timeline"><i id="timelineButton" class="material-icons">circle</i></div>
                 <div id="totalTime">10:00</div>
             </div>
+            <div id="volumeSettings" class="volumeSettings">
+                <div class="volumeIcon link" id="volumeIcon">
+                    <i class="material-icons" style="font-size: 2rem">volume_up</i>
+                </div>
+                <div id="volumeBar" class="volumeBar"></div>
+            </div>
             <div onclick="toggleFullscreen()" class="controls" id="fullscreen">
                 <button {{--onclick="toggleFullscreen()"--}} class="link"><i class="material-icons" id="fullscreenIcon">fullscreen</i></button>
             </div>

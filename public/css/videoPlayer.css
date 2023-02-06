@@ -94,4 +94,20 @@ body{
     /*width: 12rem;*/
     text-align: center;
     font-size: 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.volumeSetting{
+    position: relative;
+}
+
+.volumeBar{
+    display: none;
+    width: .4rem;
+    height: 3rem;
+    border-radius: .4rem;
+    background-color: grey;
+    position: absolute;
+    margin-left: .6rem;
+    transform: translateY(-5.4rem);
 }
