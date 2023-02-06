@@ -5,7 +5,10 @@
 </head>
 <body>
     <x-menu />
-    <div class="selectedVideoTitle">{{$video->title}}</div>
+    <div class="videoHeader">
+        <div class="selectedVideoTitle">{{$video->title}}</div>
+        <a class="arrowBack" href="{{BASEURL}}/"><i style="font-size: 2.5rem" class="material-icons">arrow_back</i></a>
+    </div>
     <div id="videoMainContainer" class="videoMainContainer">
         {{--<video class="videoArea" id="video" width="100%"{{--"500"--} controls="false" autoplay style="position:absolute; z-index:-1">
             <source style="position: absolute" style="z-index:0" src="{{BASEURL}}/videos/chunk/{{$video->id}}">
@@ -21,13 +24,12 @@
                 <div id="timeline" class="timeline"><i id="timelineButton" class="material-icons">circle</i></div>
                 <div id="totalTime">10:00</div>
             </div>
-            <div class="controls">
-                <button onclick="toggleFullscreen()" class="link"><i class="material-icons" id="fullscreenIcon" style="font-size:3rem; {{--z-index:3--}}">fullscreen</i></button>
+            <div onclick="toggleFullscreen()" class="controls" id="fullscreen">
+                <button {{--onclick="toggleFullscreen()"--}} class="link"><i class="material-icons" id="fullscreenIcon">fullscreen</i></button>
             </div>
         </div>
         <video onclick="togglePlay()" ondblclick="toggleFullscreen()" src="{{BASEURL}}/videos/chunk/{{$video->id}}"class="selectedVideo" id="video" width="100%" autoplay {{--style="position:absolute; {{--z-index:-1"--}}></video>
     </div>
-    <a style="display: block" href="{{BASEURL}}/"><i class="material-icons">arrow_back</i></a>
 </x-layout>
 <script>document.getElementById('videoMainContainer').addEventListener('contextmenu', (e)=>{e.preventDefault()})</script>
 {{--
