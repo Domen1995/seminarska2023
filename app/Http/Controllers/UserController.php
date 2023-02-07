@@ -23,7 +23,6 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-
         $formData = $request->validate([
             'email' => ['required', 'email', Rule::unique('users', 'email')],
             'name' => ['required', Rule::unique('users', 'name'), 'min:5', 'max:20'],   // nickname
@@ -128,6 +127,7 @@ class UserController extends Controller
 
         if(auth()->attempt($formData)){   // login user
             $request->session()->regenerate();  // security
+
             return redirect('/')->with('message', 'Welcome back, '.auth()->user()->name);
         }
 
