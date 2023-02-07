@@ -83,7 +83,6 @@ function secondsToMinutesSeconds(sec){
 }
 
 // skip to time clicked on timeline:
-
 function enableTimeSkipping(){
     timeline = document.getElementById('timeline')
     timeline.addEventListener('click', (e)=>{
@@ -147,12 +146,19 @@ function hideChangingVolume(e){
 const volumeBar = document.getElementById('volumeBar')
 volumeBar.addEventListener('click', changeVolume)
 
+
+// change volume of video which is between 0 and 1
 function changeVolume(e){
-    // change volume of video which is between 0 and 1
     const volumeBarLocation = volumeBar.getBoundingClientRect()
     let newVolume = (volumeBarLocation.bottom - e.clientY)/(volumeBarLocation.bottom-volumeBarLocation.top)
     // round new volume to 2 decimals
     newVolume = Math.round(newVolume*100)/100
     video.volume = newVolume
-    console.log(video.volume)
+    adjustVolumeLevelSign(volumeBarLocation.bottom - e.clientY, volumeBarLocation.bottom-volumeBarLocation.top)
+}
+
+// move sign that indicates current volume to user
+function adjustVolumeLevelSign(position, volumeBarHeight){
+    // position from bottom of volumeBarContainer
+    document.getElementById("volumeLevelSign").style.bottom = position-volumeBarHeight+"px"
 }
