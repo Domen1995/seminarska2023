@@ -43,20 +43,34 @@ body{
     width: 70%;
 }
 
-.timeline{
+.timelineContainer{
     flex-grow: 8;
+    position: relative;
+    display: flex;
+    align-items: center;
+    /*margin-top: .28rem;
+    margin-bottom: auto;*/
+}
+
+.timeline{
+    /*flex-grow: 8;*/
+    width: 100%;
     background-color: grey;
     height: .5rem;
     border-radius: .5rem;
     display: flex;
-    align-items: center;
-    position: relative;
+    align-items: baseline;
+    position: absolute;
 }
 
 #timelineButton{
     position: absolute;
-    width: 100%;
+    /*width: 100%;*/
+    background-color: black;
+    width: 3px;
+    height: 1.5rem;
     display: none;
+    margin-bottom: auto;
     /*left:30px;*/
 }
 
@@ -99,15 +113,26 @@ body{
 
 .volumeSetting{
     position: relative;
+    z-index: 50;
+}
+
+.volumeBarContainer{
+    display: none;
+    position: relative;
 }
 
 .volumeBar{
-    display: none;
+    position: absolute;
+    /*display: none;*/
     width: .4rem;
-    height: 3rem;
+    height: 2.5rem;
     border-radius: .4rem;
     background-color: grey;
     position: absolute;
     margin-left: .6rem;
-    transform: translateY(-5.4rem);
+    transform: translateY(-4.8rem);
+}
+
+#volumeCircle{
+
 }

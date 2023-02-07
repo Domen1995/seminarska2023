@@ -1,13 +1,18 @@
 const video = document.querySelector('video')
 
+let timeIntervalID
 function togglePlay(){
+    //const timeInterval = setInterval(incrementCurrentTime, 1000)
     if(video.paused){
         video.play()
-        setTimeout(incrementCurrentTime, 1000)
+        //setTimeout(incrementCurrentTime, 1000)
+        const timeInterval = setInterval(incrementCurrentTime, 1000)
+        timeIntervalID = timeInterval
         document.getElementById('playIcon').innerHTML = "pause"
     }else{
         video.pause()
-        //clearInterval(incrementCurrentTime)
+        //clearTimeout(incrementCurrentTime)
+        clearInterval(timeIntervalID)
         document.getElementById('playIcon').innerHTML = "play_circle"
     }
 }
@@ -33,11 +38,11 @@ const currentTimeElement = document.getElementById('currentTime')
 let timeline = document.getElementById('timeline')
 
 function incrementCurrentTime(){
-    if(video.paused || currentTime>=video.duration) return
+    if(/*video.paused ||*/ currentTime>video.duration) clearInterval(incrementCurrentTime)
     // calculate current time and insert it in form like 4:34
     currentTimeElement.innerHTML = secondsToMinutesSeconds(Math.floor(video.currentTime))
     moveTimelineButton()
-    setTimeout(incrementCurrentTime, 1000)
+    //setTimeout(incrementCurrentTime, 1000)
 }
 
 function moveTimelineButton(){
@@ -55,6 +60,7 @@ function checkIdle(){
     // if no interaction and video is playing, hide video controls
     if(!video.paused){
         videoControlsContainer.style.display = "none"
+        document.getElementById('timelineButton').style.display = "none"
     }
 }
 
@@ -76,6 +82,8 @@ function enableTimeSkipping(){
     timeline.addEventListener('click', (e)=>{
         // position of element "timeline"
         const timelineRect = timeline.getBoundingClientRect()
+        console.log(timelineRect.right)
+        console.log(e.clientX)
         // time in seconds to which we'll skip: ratio on timeline
         const skipTo = (e.clientX - timelineRect.left)/(timelineRect.right - timelineRect.left)*video.duration
         // skip to selected time in video
@@ -102,21 +110,27 @@ document.addEventListener('fullscreenchange', ()=>{
     moveTimelineButton()
 })
 
-document.getElementById('volumeIcon').addEventListener('click', showChangingVolume)
+document.getElementById('volumeIcon').addEventListener('click', toggleChangingVolume)
 //document.getElementById('videoControlsContainer').addEventListener('mouseout', hideChangingVolume)
 document.addEventListener('click', hideChangingVolume)
 
-function showChangingVolume(){
-    document.getElementById('volumeBar').style.display = "block"
-    justShownVolume = true
+function toggleChangingVolume(){
+    const volumeBarContainer = document.getElementById('volumeBarContainer')//('volumeBar')
+    if(volumeBarContainer.style.display == "none"){
+        volumeBarContainer.style.display = "block"
+        justShownVolume = true
+    }else{
+        volumeBarContainer.style.display = "none"
+    }
     // render the bar for changing volume
 }
 
 let justShownVolume = false
 function hideChangingVolume(e){
+    if(e.target.id == "volumeBar") return
     if(justShownVolume){
         justShownVolume = false
         return
     }
-    document.getElementById('volumeBar').style.display = "none"
+    document.getElementById('volumeBarContainer').style.display = "none"
 }

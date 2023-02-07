@@ -21,14 +21,20 @@
             </div>
             <div class="durationContainer">
                 <div id="currentTime">0:00</div>
-                <div id="timeline" class="timeline"><i id="timelineButton" class="material-icons">circle</i></div>
+                <div class="timelineContainer">
+                    <div id="timeline" class="timeline">{{--<i id="timelineButton" class="material-icons">circle</i>--}}</div>
+                    <div id="timelineButton"></div>{{--<i id="timelineButton" class="material-icons">circle</i>--}}
+                </div>
                 <div id="totalTime">10:00</div>
             </div>
             <div id="volumeSettings" class="volumeSettings">
                 <div class="volumeIcon link" id="volumeIcon">
-                    <i class="material-icons" style="font-size: 2rem">volume_up</i>
+                    <i class="material-icons" style="font-size: 2rem; user-select:none">volume_up</i>
                 </div>
-                <div id="volumeBar" class="volumeBar"></div>
+                <div id="volumeBarContainer" class="volumeBarContainer">
+                    <div id="volumeBar" class="volumeBar"></div>
+                    <i id="volumeCircle" class="material-icons">circle</i>
+                </div>
             </div>
             <div onclick="toggleFullscreen()" class="controls" id="fullscreen">
                 <button {{--onclick="toggleFullscreen()"--}} class="link"><i class="material-icons" id="fullscreenIcon">fullscreen</i></button>
