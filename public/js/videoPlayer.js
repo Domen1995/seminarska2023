@@ -1,18 +1,23 @@
 const video = document.querySelector('video')
+video.volume = 0.6
 
-let timeIntervalID
+let timeIntervalID // digital counter ID
+let analogousCounterID // analogous counter ID
 function togglePlay(){
     //const timeInterval = setInterval(incrementCurrentTime, 1000)
     if(video.paused){
         video.play()
         //setTimeout(incrementCurrentTime, 1000)
-        const timeInterval = setInterval(incrementCurrentTime, 1000)
+        const timeInterval = setInterval(incrementCurrentTime, 1000) // digital counter
         timeIntervalID = timeInterval
+        const analogousCounter = setInterval(moveTimelineButton, 100)
+        analogousCounterID = analogousCounter
         document.getElementById('playIcon').innerHTML = "pause"
     }else{
         video.pause()
         //clearTimeout(incrementCurrentTime)
         clearInterval(timeIntervalID)
+        clearInterval(analogousCounterID)
         document.getElementById('playIcon').innerHTML = "play_circle"
     }
 }
@@ -37,14 +42,16 @@ const currentTimeElement = document.getElementById('currentTime')
 
 let timeline = document.getElementById('timeline')
 
+// digital counter:
 function incrementCurrentTime(){
     if(/*video.paused ||*/ currentTime>video.duration) clearInterval(incrementCurrentTime)
     // calculate current time and insert it in form like 4:34
     currentTimeElement.innerHTML = secondsToMinutesSeconds(Math.floor(video.currentTime))
-    moveTimelineButton()
+    //moveTimelineButton()
     //setTimeout(incrementCurrentTime, 1000)
 }
 
+// analogous counter:
 function moveTimelineButton(){
     const timelineButton = document.getElementById('timelineButton')
     const timelineRect = timeline.getBoundingClientRect()
@@ -114,10 +121,13 @@ document.getElementById('volumeIcon').addEventListener('click', toggleChangingVo
 //document.getElementById('videoControlsContainer').addEventListener('mouseout', hideChangingVolume)
 document.addEventListener('click', hideChangingVolume)
 
+
+let justShownVolume = false
+
 function toggleChangingVolume(){
     const volumeBarContainer = document.getElementById('volumeBarContainer')//('volumeBar')
     if(volumeBarContainer.style.display == "none"){
-        volumeBarContainer.style.display = "block"
+        volumeBarContainer.style.display = "flex"
         justShownVolume = true
     }else{
         volumeBarContainer.style.display = "none"
@@ -125,7 +135,6 @@ function toggleChangingVolume(){
     // render the bar for changing volume
 }
 
-let justShownVolume = false
 function hideChangingVolume(e){
     if(e.target.id == "volumeBar") return
     if(justShownVolume){
@@ -133,4 +142,17 @@ function hideChangingVolume(e){
         return
     }
     document.getElementById('volumeBarContainer').style.display = "none"
+}
+
+const volumeBar = document.getElementById('volumeBar')
+volumeBar.addEventListener('click', changeVolume)
+
+function changeVolume(e){
+    // change volume of video which is between 0 and 1
+    const volumeBarLocation = volumeBar.getBoundingClientRect()
+    let newVolume = (volumeBarLocation.bottom - e.clientY)/(volumeBarLocation.bottom-volumeBarLocation.top)
+    // round new volume to 2 decimals
+    newVolume = Math.round(newVolume*100)/100
+    video.volume = newVolume
+    console.log(video.volume)
 }

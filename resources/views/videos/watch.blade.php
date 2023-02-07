@@ -33,7 +33,7 @@
                 </div>
                 <div id="volumeBarContainer" class="volumeBarContainer">
                     <div id="volumeBar" class="volumeBar"></div>
-                    <i id="volumeCircle" class="material-icons">circle</i>
+                    <div id="volumeLevelSign"></div> {{--class="material-icons">circle--}}
                 </div>
             </div>
             <div onclick="toggleFullscreen()" class="controls" id="fullscreen">
