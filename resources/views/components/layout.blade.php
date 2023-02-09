@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{BASEURL}}/css/homePage.css">
     <link rel="stylesheet" href="{{BASEURL}}/css/mainMenu.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="{{BASEURL}}/js/app.js" defer></script>
     {{$slot}}
 <x-flashMessage/>
 </body>

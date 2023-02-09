@@ -1,6 +1,6 @@
 <x-layout>
     <title>Create account</title>
-    <script src="{{BASEURL}}/js/app.js" defer></script>
+    {{--<script src="{{BASEURL}}/js/app.js" defer></script>--}}
 </head>
 <x-menu />
 <body>
@@ -15,7 +15,7 @@
         {{--<div class="form_username">--}}
             {{--<label for="username" class="formText">Who would you like to be known as?</label>--}}
             {{-- user chooses his username --}}
-            <input type="text" id="name" name="name" placeholder="Your future nickname" value="{{old('name')}}">
+            <input type="text" id="name" name="name" placeholder="Your future username" value="{{old('name')}}">
             @error('name')
                 <p class="error">{{$message}}</p>
             {{--@else

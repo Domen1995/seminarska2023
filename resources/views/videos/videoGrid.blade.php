@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="{{BASEURL}}/css/videoGrid.css">
-<script src="{{BASEURL}}/js/app.js" defer></script>
+{{--<script src="{{BASEURL}}/js/app.js" defer></script>--}}
 <div class="videoGrid">
     @foreach ($videos as $video)
     <div class="videoContainer" id="videoContainer{{$video->id}}" style="position: relative">

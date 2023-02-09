@@ -6,6 +6,8 @@
     gap: 1rem;
     /*justify-content: flex-start;*/
     font-size: 2rem;
+
+    position: relative;
 }
 
 .link{
@@ -23,8 +25,27 @@
     color: black;
 }
 
-.dropdown{
+/*.dropdown{*/
+.dropdownColumn{
     position: relative;
+}
+
+.dropdownItemsContainer{
+    position: absolute;
+    display: flex;
+    top: calc(100% + .2rem);
+    flex-direction: column;
+    width: 10rem;
+    /*height: 8rem;*/
+    left:.5rem;
+    background-color: white;
+    opacity: 0;
+    transform: translateY(-3rem);
+    transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+    border-radius: .2rem;
+    text-align: center;
+    gap:.3rem;
+    pointer-events: none;
 }
 
 .dropdown-menu{

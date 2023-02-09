@@ -129,3 +129,25 @@ function confirmDelete(vidId){
 
     //confirmationShown = true
 }
+
+// show dropdown menu elements on hover
+document.getElementById('sign_in').addEventListener('mouseenter', showDropdownItems)
+
+function showDropdownItems(){
+    const dropdownItemsContainer = document.getElementById('dropdownItemsContainer')
+    dropdownItemsContainer.style.opacity = "1"
+    dropdownItemsContainer.style.transform = "translateY(0)"
+    dropdownItemsContainer.style.pointerEvents = "auto"
+}
+
+// hide dropwodn menu elements
+
+//document.getElementById('dropdownItemsContainer').addEventListener('mouseleave', hideDropdownItems)
+addEventListener('click', hideDropdownItems)
+
+function hideDropdownItems(){
+    const dropdownItemsContainer = document.getElementById('dropdownItemsContainer')
+    dropdownItemsContainer.style.opacity = "0"
+    dropdownItemsContainer.style.transform = "translateY(-3rem)"
+    dropdownItemsContainer.style.pointerEvents = "none"
+}

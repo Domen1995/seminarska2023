@@ -1,6 +1,6 @@
 <x-layout>
 <title>Login</title>
-<script src="{{BASEURL}}/js/app.js" defer></script>
+{{--<script src="{{BASEURL}}/js/app.js" defer></script>--}}
 </head>
 <body>
     {{-- display menu for register, login, logout ... --}}
