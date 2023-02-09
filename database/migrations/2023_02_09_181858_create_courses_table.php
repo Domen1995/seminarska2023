@@ -13,18 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('videos', function(Blueprint $table){
+        Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('author');
-            $table->integer('duration'); //seconds
+            $table->string('name')->unique();
             $table->longText('description')->nullable();
-            $table->integer('views');
-            $table->string('path');
-            $table->string('videoImagePath');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            //$table->set('genre', ['music', 'entertainment', 'education'])->nullable();
-            $table->string('genre');
+            $table->foreignId('teacher_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -36,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('courses');
     }
 };

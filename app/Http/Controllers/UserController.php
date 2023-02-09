@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
-class UserController extends Controller
+abstract class UserController extends Controller
 {
-
+/*
     public function registrationForm()
         // show a form for creating an account
     {
@@ -50,7 +50,7 @@ class UserController extends Controller
 
         return redirect('/')->with('message', 'Please check your email to sign in.');
         /*auth()->login($user);
-        return redirect('/')->with('message', 'Welcome', auth()->user()->name);*/
+        return redirect('/')->with('message', 'Welcome', auth()->user()->name);
     }
 
     public function verifyMail(Request $request)
@@ -66,28 +66,29 @@ class UserController extends Controller
         auth()->login($user);
         return redirect('/')->with('message', 'Welcome to the community, '. auth()->user()->name.'!');
     }
-
-    public function loginForm()
+*/
+    public abstract function loginForm();
         // display form to user to log in
+        /*
     {
         return view('users.loginForm');
-    }
+    }*/
 
-    public function login(Request $request)
+    public abstract function login(Request $request);
         // log user in
-    {
+//    {
         /*
         $user = User::find(2);
         auth()->login($user);
         return redirect('/');*/
 
         // limit login attempts from same IP address
-        $hasMoreAttempts = RateLimiter::attempt($request->ip(), $perMinute = 5, function(){});
+        /*$hasMoreAttempts = RateLimiter::attempt($request->ip(), $perMinute = 5, function(){});
         if(!$hasMoreAttempts) return back()->withErrors(['password' => 'Too many attempts, you can retry in 1 minute']);
         //if(RateLimiter::tooManyAttempts($request->ip(), $perMinute = 1)) return "You can try logging again in 1 minute";
 
         $formData = $request->validate([
-            //'email' => ['required'/*, 'email'*/],
+            //'email' => ['required'/*, 'email'],
             'password' => 'required'
         ]);
 
@@ -113,7 +114,7 @@ class UserController extends Controller
         }*/
 
         // if user logged in with his email, put email for incoming authentication, otherwise nickname
-        if(filter_var($request->email, FILTER_VALIDATE_EMAIL)) $formData['email'] = $request->email;
+        /*if(filter_var($request->email, FILTER_VALIDATE_EMAIL)) $formData['email'] = $request->email;
         else $formData['name'] = $request->email;
 
         // if user exists, but hasn't verified throught email, don't log him in
@@ -134,7 +135,7 @@ class UserController extends Controller
         return back()->withErrors([
             'password' => 'Wrong userdata!'
         ]);
-    }
+    }*/
 
     public function logout(Request $request)
     {
@@ -148,6 +149,7 @@ class UserController extends Controller
         return redirect('/');
     }
 
+    /*
     public function foreignProfile(User $user)
         // display a requested profile to a user
     {
@@ -156,8 +158,9 @@ class UserController extends Controller
             'videos' => Video::where('user_id', $user->id)->paginate(4)
         ]);
     }
-
-    public function selfProfile()
+*/
+    public abstract function selfProfile();
+    /*
     {
         $user = auth()->user();
         //dd($user->id);
@@ -165,11 +168,11 @@ class UserController extends Controller
         foreach($videos as $video) echo $video->title;
         dd($videos);*/
         //$u = User::find(auth()->user()->id);
-        return view('users.selfProfile', [
+        /*return view('users.selfProfile', [
             'user' => $user,//User::find(auth()->user()->id),
             'videos' => Video::where('user_id', $user->id)->paginate(4)//Video::where('user_id', $user->id)->get()//User::find(auth()->user()->id)->video()->get()
             /*'channelDescription' => User::find(auth()->user()->id)->description*/
-        ]);
+        /*]);
     }
 
     public function updateProfile(Request $request)
@@ -200,7 +203,7 @@ class UserController extends Controller
         dd(($body['videoFile']));
         dd($body['title']);
         return $request->videoData->title;*/
-        $genres = $request->genres;
+        /*$genres = $request->genres;
         $genresString = "";
         if($genres!=null){
             foreach($genres as $genre){
@@ -233,7 +236,7 @@ class UserController extends Controller
         ];*/
 
         // put video into a variable $video
-        $video = $request->file('videoFile');
+        /*$video = $request->file('videoFile');
         // store video and put its path into 'path'
         $formData['path'] = $video->store('videos', 'public');
 
@@ -261,7 +264,7 @@ class UserController extends Controller
             'user_id' => 1,
             'genre' => 'fun'
         ]);*/
-    }
+    /*}
 
     public function deleteVideo(Request $request)
         // delete video on user's initiative
@@ -287,5 +290,5 @@ class UserController extends Controller
         // delete record about video from DB
         $video->delete();
         return redirect('/')->with("message", "You've successfully deleted your video");
-    }
+    }*/
 }
