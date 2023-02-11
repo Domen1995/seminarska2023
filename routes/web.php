@@ -65,6 +65,7 @@ Route::get('/videos/chunk/{video}', [VideoController::class, 'serveChunk']);
 
 Route::post('/teachers/register/{actor}', [TeacherController::class, 'register']);
 
+Route::get('/test', [TeacherController::class, 'test']);
 /*
 // returns a gif for which browser sent fetch
 Route::get('/assets/gif/{slug}', [AssetController::class, 'fetchGif']);

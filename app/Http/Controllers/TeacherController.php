@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Faculty;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -261,5 +262,27 @@ class TeacherController extends UserController
         // delete record about video from DB
         $video->delete();
         return redirect('/')->with("message", "You've successfully deleted your video");
+    }
+
+    public function test()
+    {
+        $fac = new Faculty;
+        $class = get_class($fac);
+        if(!str_contains($class, "Facult")){
+            echo "yes";
+        }else{
+            echo "no";
+        }
+    }
+
+    public function test2()
+    {
+
+    }
+
+    public function test3(){
+        return (4, 5);
+    {
+        # code...
     }
 }

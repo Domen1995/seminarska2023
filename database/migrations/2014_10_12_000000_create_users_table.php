@@ -13,14 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('teachers', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('faculty_id')->nullable()->constrained()->onDelete('set null');
-            $table->string('name')->unique();
-            $table->string('email')->unique();
+            $table->boolean('isTeacher'); // teacher or student
+            $table->string('name')->unique()->nullable();
+            $table->string('email')->unique();//->nullable();
+            //$table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->string('ip_addresses')->nullable();
             $table->string('verificationCode');
             $table->integer('verified')->default(0);
-            $table->longText('description')->nullable();
+            //$table->longText('description')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -33,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teacher');
+        Schema::dropIfExists('users');
     }
 };

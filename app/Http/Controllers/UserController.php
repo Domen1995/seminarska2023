@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\SignUp;
+use App\Models\Faculty;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User;
@@ -48,7 +49,6 @@ abstract class UserController extends Controller
             $message->to($GLOBALS['email'])->subject('Registration');
 
         });
-        $user;
         if($actor == "t"){  // teacher
             $user = Teacher::create($formData);
         }elseif($actor == "s"){  // student
@@ -68,17 +68,29 @@ abstract class UserController extends Controller
         /*$user = User::where('name', $request->n)->first();
         if($user==null || $user->verificationCode != $request->c) return "Wrong verification data!";//redirect('/users/registrationForm')->with('message', 'Wrong verification data!');
         */
-        $user = Student::where('name', $request->n)->first();
-        if($user==null || $user->verificationCode != $request->c){
+        /*$u = Faculty::find(1);
+        dd($u);*/
+        die;
+        $user = User::where('name', $request->n)->first();
+        //$isStudent = true;
+        if($user==null || $user->verificationCode != $request->c) return "Wrong verification data!";
+        /*{
             // if user isn't among students, let's see if he's among techers:
             $user = Teacher::where('name', $request->n)->first();
             if($user==null || $user->verificationCode != $request->c) return "Wrong verificaton data!";
-        }
+            $isStudent = false;
+        }*/
         // if mail has already been verified, inform user
         if($user->verified==1) return "The email has already been verified!";
         $user->verified = 1;
         $user->save();
         auth()->login($user);
+        // assign the loggedin user statut of student or teacher for later use in this session
+        if($user->isTeacher){
+            session(["teacher" => "1"]);
+        }else{
+            session(["student" => "1"]);
+        }
         return redirect('/')->with('message', 'Welcome to the community, '. $request->n.'!');//auth()->user()->name.'!');
     }
 
@@ -89,23 +101,27 @@ abstract class UserController extends Controller
         return view('users.loginForm');
     }*/
 
-    public abstract function login(Request $request);
+    public function login(Request $request)
         // log user in
-//    {
+    {
         /*
         $user = User::find(2);
         auth()->login($user);
         return redirect('/');*/
 
         // limit login attempts from same IP address
-        /*$hasMoreAttempts = RateLimiter::attempt($request->ip(), $perMinute = 5, function(){});
+        $hasMoreAttempts = RateLimiter::attempt($request->ip(), $perMinute = 5, function(){});
         if(!$hasMoreAttempts) return back()->withErrors(['password' => 'Too many attempts, you can retry in 1 minute']);
         //if(RateLimiter::tooManyAttempts($request->ip(), $perMinute = 1)) return "You can try logging again in 1 minute";
 
         $formData = $request->validate([
-            //'email' => ['required'/*, 'email'],
+            'email' => ['required'],
             'password' => 'required'
         ]);
+
+        $authData = [
+            'password' => $request->password
+        ];
 
         /*
         if(auth()->attempt($formData)){
@@ -129,19 +145,21 @@ abstract class UserController extends Controller
         }*/
 
         // if user logged in with his email, put email for incoming authentication, otherwise nickname
-        /*if(filter_var($request->email, FILTER_VALIDATE_EMAIL)) $formData['email'] = $request->email;
-        else $formData['name'] = $request->email;
+        if(filter_var($request->email, FILTER_VALIDATE_EMAIL)) $authData['email'] = $request->email;//$formData['email'] = $request->email;
+        else $authData['name'] = $request->email;//$formData['name'] = $request->email;
 
         // if user exists, but hasn't verified throught email, don't log him in
-        $user = User::where('name', $request['email'])
-                ->orWhere('email', $request['email'])->first();
-        if($user!=null && ($user->verified==0)){
+
+        /*$user = User::where('name', $request['email'])
+                ->orWhere('email', $request['email'])->first();*/
+        $userAndType = $this->getUserAndType($request);
+        if($userAndType['user']!=null && ($userAndType['user']->verified==0)){
             return back()->withErrors([
                 'password' => 'You need to click the link you received on email.'
             ]);
         }
 
-        if(auth()->attempt($formData)){   // login user
+        if(auth()->attempt($authData)){//$formData)){   // login user
             $request->session()->regenerate();  // security
 
             return redirect('/')->with('message', 'Welcome back, '.auth()->user()->name);
@@ -150,6 +168,19 @@ abstract class UserController extends Controller
         return back()->withErrors([
             'password' => 'Wrong userdata!'
         ]);
+    }
+
+    /*
+    public function getUserAndType($request){
+        // return par user and his type(teacher, student)
+        $user = Student::where('email', $request->email)->first();
+        $userType = "student";
+        if($user==null){
+            $user = Teacher::where('email', $request->email)
+                            ->orWhere('name', $request->email)->first();
+            $userType = "teacher";
+        }
+        return ["user" => $user, "type" => $userType];
     }*/
 
     public function logout(Request $request)
