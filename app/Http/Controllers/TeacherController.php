@@ -2,10 +2,65 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Teacher;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\RateLimiter;
+
 
 class TeacherController extends UserController
 {
+
+    /*
+    public function register(Request $request, $actor)
+    {
+        $formData = $request->validate([
+            'email' => ['required', 'email', Rule::unique('users', 'email')],
+            'name' => ['required', Rule::unique('users', 'name'), 'min:5', 'max:20'],   // nickname
+            'password' => ['required', 'min:7']
+        ]);
+
+        $hasMoreAttempts = RateLimiter::attempt($request->ip(), $perMinute=2, function(){});
+        if(!$hasMoreAttempts) return back()->withErrors(['password' => "Too many attempts, try again in 1 minute"]);
+
+        $formData['password'] = bcrypt($formData['password']);  // hash password
+
+        $formData['verificationCode'] = sha1(time());
+
+        //$success = User::sendMail($request->email);
+        $name = $request->name;
+        $GLOBALS['email'] = $request->email;
+        //Mail::to($request->email)->send(new SignUp($name));
+        Mail::send('mails.signup', ['name' => $name, 'verificationCode' => $formData['verificationCode']], function ($message){
+            $message->from('streamingservice@gmail.com');
+            $message->to($GLOBALS['email'])->subject('Registration');
+
+        });
+        if($actor == "t"){
+            Teacher::create($formData)
+        }
+        $user = User::create($formData);
+
+
+        return redirect('/')->with('message', 'Please check your email to sign in.');
+        /*auth()->login($user);
+        return redirect('/')->with('message', 'Welcome', auth()->user()->name);*/
+    //}
+
+    public function verifyMail(Request $request)
+    {
+        // check if the user is in database and if the verification code is correct
+        $user = User::where('name', $request->n)->first();
+        if($user==null || $user->verificationCode != $request->c) return redirect('/users/registrationForm')->with('message', 'Wrong verification data!');
+
+        // if mail has already been verified, inform user
+        if($user->verified==1) return "The email has already been verified!";
+        $user->verified = 1;
+        $user->save();
+        auth()->login($user);
+        return redirect('/')->with('message', 'Welcome to the community, '. auth()->user()->name.'!');
+    }
         public function loginForm()
         // display form to user to log in
     {

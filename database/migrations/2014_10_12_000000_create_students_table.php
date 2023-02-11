@@ -20,9 +20,9 @@ return new class extends Migration
             //$table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('ip_addresses');
-            /*$table->string('verificationCode');
+            $table->string('verificationCode');
             $table->integer('verified')->default(0);
-            $table->longText('description')->nullable();*/
+            //$table->longText('description')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

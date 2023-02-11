@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\FacultyController;
+use App\Http\Controllers\TeacherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +24,7 @@ define("BASEURL", "/seminarska2023/public");
 // display homepage on which user selects a video
 Route::get('/', [VideoController::class, 'homepage']);
 
-Route::get('/users/registrationForm', [UserController::class, 'registrationForm'])->middleware('guest');
+Route::get('/users/registrationForm/{actor}', [UserController::class, 'registrationForm'])->middleware('guest');
 
 // add new user to DB
 Route::post('/users/register', [UserController::class, 'register'])->middleware('guest');
@@ -60,6 +62,8 @@ Route::get('/videos/watch/{video}', [VideoController::class, 'watch']);
 
 // send part of video from requested starting point
 Route::get('/videos/chunk/{video}', [VideoController::class, 'serveChunk']);
+
+Route::post('/teachers/register/{actor}', [TeacherController::class, 'register']);
 
 /*
 // returns a gif for which browser sent fetch

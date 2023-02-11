@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Mail\SignUp;
+use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
@@ -13,15 +15,16 @@ use Illuminate\Validation\Rule;
 
 abstract class UserController extends Controller
 {
-/*
-    public function registrationForm()
+
+    public function registrationForm($actor)
         // show a form for creating an account
     {
-        return view('users.registrationForm');
+        //return view('users.registrationForm');
+        return view(''.$actor.'registrationForm');
     }
 
 
-    public function register(Request $request)
+    public function register(Request $request, $actor)
     {
         $formData = $request->validate([
             'email' => ['required', 'email', Rule::unique('users', 'email')],
@@ -45,28 +48,40 @@ abstract class UserController extends Controller
             $message->to($GLOBALS['email'])->subject('Registration');
 
         });
-        $user = User::create($formData);
+        $user;
+        if($actor == "t"){  // teacher
+            $user = Teacher::create($formData);
+        }elseif($actor == "s"){  // student
+            $user = Student::create($formData);
+        }
+        //$user = User::create($formData);
 
 
-        return redirect('/')->with('message', 'Please check your email to sign in.');
+        return redirect('/')->with('message', $user.', please check your email to sign in.');
         /*auth()->login($user);
-        return redirect('/')->with('message', 'Welcome', auth()->user()->name);
+        return redirect('/')->with('message', 'Welcome', auth()->user()->name);*/
     }
 
     public function verifyMail(Request $request)
     {
         // check if the user is in database and if the verification code is correct
-        $user = User::where('name', $request->n)->first();
-        if($user==null || $user->verificationCode != $request->c) return redirect('/users/registrationForm')->with('message', 'Wrong verification data!');
-
+        /*$user = User::where('name', $request->n)->first();
+        if($user==null || $user->verificationCode != $request->c) return "Wrong verification data!";//redirect('/users/registrationForm')->with('message', 'Wrong verification data!');
+        */
+        $user = Student::where('name', $request->n)->first();
+        if($user==null || $user->verificationCode != $request->c){
+            // if user isn't among students, let's see if he's among techers:
+            $user = Teacher::where('name', $request->n)->first();
+            if($user==null || $user->verificationCode != $request->c) return "Wrong verificaton data!";
+        }
         // if mail has already been verified, inform user
         if($user->verified==1) return "The email has already been verified!";
         $user->verified = 1;
         $user->save();
         auth()->login($user);
-        return redirect('/')->with('message', 'Welcome to the community, '. auth()->user()->name.'!');
+        return redirect('/')->with('message', 'Welcome to the community, '. $request->n.'!');//auth()->user()->name.'!');
     }
-*/
+
     public abstract function loginForm();
         // display form to user to log in
         /*
