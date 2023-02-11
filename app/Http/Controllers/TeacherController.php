@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Faculty;
-use App\Models\Teacher;
+use App\Models\User;
+use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Mail;
@@ -264,25 +264,24 @@ class TeacherController extends UserController
         return redirect('/')->with("message", "You've successfully deleted your video");
     }
 
-    public function test()
+    /*public function test()
     {
-        $fac = new Faculty;
+        $fac = new User;
         $class = get_class($fac);
         if(!str_contains($class, "Facult")){
             echo "yes";
         }else{
             echo "no";
         }
-    }
+    }*/
 
     public function test2()
     {
 
     }
 
-    public function test3(){
-        return (4, 5);
+    public function test()
     {
-        # code...
+
     }
 }

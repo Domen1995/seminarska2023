@@ -8,7 +8,13 @@
                 <a class="link" href="{{BASEURL}}/users/loginForm" style="">As teacher</a>
             </div>
         </div>
-        <a class="link" href="{{BASEURL}}/users/registrationForm">Register as teacher</a>
+        <div class="dropdownColumn">
+            <button id="registrationOptionsToggler">Register</button>
+            <div class="dropdownItemsContainer">
+                <a class="link" href="{{BASEURL}}/students/registrationForm">As a student</a>
+                <a class="link" href="{{BASEURL}}/teachers{{--users--}}/registrationForm">As a teacher</a>
+            </div>
+        </div>
         <a class="link" href="{{BASEURL}}/"><i class="material-icons" style="">home</i>Home</a>
     @else
         {{--<div>Welcome, {{auth()->id()}}!</div>--}}

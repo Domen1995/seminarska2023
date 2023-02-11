@@ -3,9 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Mail\SignUp;
-use App\Models\Faculty;
-use App\Models\Student;
-use App\Models\Teacher;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
@@ -50,11 +47,11 @@ abstract class UserController extends Controller
 
         });
         if($actor == "t"){  // teacher
-            $user = Teacher::create($formData);
+            $formData['isTeacher'] = true;
         }elseif($actor == "s"){  // student
-            $user = Student::create($formData);
+            $formData['isTeacher'] = false;
         }
-        //$user = User::create($formData);
+        $user = User::create($formData);
 
 
         return redirect('/')->with('message', $user.', please check your email to sign in.');
