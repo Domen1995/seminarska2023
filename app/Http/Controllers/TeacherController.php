@@ -68,7 +68,7 @@ class TeacherController extends UserController
         return view('teachers.loginForm');
     }
 
-    public function login(Request $request)
+    /*public function login(Request $request)
     // log teacher in
     {
         /*
@@ -77,13 +77,13 @@ class TeacherController extends UserController
         return redirect('/');*/
 
         // limit login attempts from same IP address
-        $hasMoreAttempts = RateLimiter::attempt($request->ip(), $perMinute = 5, function(){});
+        /*$hasMoreAttempts = RateLimiter::attempt($request->ip(), $perMinute = 5, function(){});
         if(!$hasMoreAttempts) return back()->withErrors(['password' => 'Too many attempts, you can retry in 1 minute']);
         //if(RateLimiter::tooManyAttempts($request->ip(), $perMinute = 1)) return "You can try logging again in 1 minute";
 
         $formData = $request->validate([
-            //'email' => ['required'/*, 'email'*/],
-            'password' => 'required'
+            //'email' => ['required'/*, 'email'*/ //],
+        /*    'password' => 'required'
         ]);
 
         /*
@@ -105,7 +105,7 @@ class TeacherController extends UserController
         }
         /*if(auth()->attempt($formData)){
             return "success!";
-        }*/
+        }
 
         // if user logged in with his email, put email for incoming authentication, otherwise nickname
         if(filter_var($request->email, FILTER_VALIDATE_EMAIL)) $formData['email'] = $request->email;
@@ -129,7 +129,7 @@ class TeacherController extends UserController
         return back()->withErrors([
             'password' => 'Wrong userdata!'
         ]);
-    }
+    }*/
 
     public function selfProfile()
     {

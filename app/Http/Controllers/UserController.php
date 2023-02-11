@@ -70,7 +70,6 @@ abstract class UserController extends Controller
         */
         /*$u = Faculty::find(1);
         dd($u);*/
-        die;
         $user = User::where('name', $request->n)->first();
         //$isStudent = true;
         if($user==null || $user->verificationCode != $request->c) return "Wrong verification data!";
@@ -86,11 +85,6 @@ abstract class UserController extends Controller
         $user->save();
         auth()->login($user);
         // assign the loggedin user statut of student or teacher for later use in this session
-        if($user->isTeacher){
-            session(["teacher" => "1"]);
-        }else{
-            session(["student" => "1"]);
-        }
         return redirect('/')->with('message', 'Welcome to the community, '. $request->n.'!');//auth()->user()->name.'!');
     }
 
@@ -150,10 +144,10 @@ abstract class UserController extends Controller
 
         // if user exists, but hasn't verified throught email, don't log him in
 
-        /*$user = User::where('name', $request['email'])
-                ->orWhere('email', $request['email'])->first();*/
-        $userAndType = $this->getUserAndType($request);
-        if($userAndType['user']!=null && ($userAndType['user']->verified==0)){
+        $user = User::where('name', $request['email'])
+                ->orWhere('email', $request['email'])->first();
+        //$userAndType = $this->getUserAndType($request);
+        if($user!=null && ($user->verified==0)){
             return back()->withErrors([
                 'password' => 'You need to click the link you received on email.'
             ]);
@@ -161,7 +155,6 @@ abstract class UserController extends Controller
 
         if(auth()->attempt($authData)){//$formData)){   // login user
             $request->session()->regenerate();  // security
-
             return redirect('/')->with('message', 'Welcome back, '.auth()->user()->name);
         }
 
