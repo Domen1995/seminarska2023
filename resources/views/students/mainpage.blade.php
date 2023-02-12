@@ -3,4 +3,5 @@
 </head>
 <body>
     <x-studentMenu />
+    @include()
 </x-layout>
