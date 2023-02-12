@@ -4,7 +4,7 @@
 </head>
 <x-menu />
 <body>
-    <form id="registration_form" class="form" action="{{BASEURL}}/users/register" method="POST">   <!-- form for creating account -->
+    <form id="registration_form" class="form" action="{{BASEURL}}/users/register/student" method="POST">   <!-- form for creating account -->
         @csrf
         {{--<div id="form_email">--}}
             <input type="text" id="email" name="email" placeholder="Student's email address" value="{{old('email')}}">

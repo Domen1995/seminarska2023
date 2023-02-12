@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
 
 
-class TeacherController extends UserController
+class TeacherController extends Controller
 {
 
     /*
@@ -49,6 +49,7 @@ class TeacherController extends UserController
         return redirect('/')->with('message', 'Welcome', auth()->user()->name);*/
     //}
 
+    /*
     public function verifyMail(Request $request)
     {
         // check if the user is in database and if the verification code is correct
@@ -130,6 +131,11 @@ class TeacherController extends UserController
             'password' => 'Wrong userdata!'
         ]);
     }*/
+
+    public function mainpage()
+    {
+        return "teacher";
+    }
 
     public function selfProfile()
     {

@@ -46,15 +46,15 @@ class UserController extends Controller
             $message->to($GLOBALS['email'])->subject('Registration');
 
         });
-        if($actor == "t"){  // teacher
-            $formData['isTeacher'] = true;
-        }elseif($actor == "s"){  // student
-            $formData['isTeacher'] = false;
+        if($actor == "teacher"){  // teacher
+            $formData['isTeacher'] = "1";
+        }elseif($actor == "student"){  // student
+            $formData['isTeacher'] = "0";
         }
         $user = User::create($formData);
 
 
-        return redirect('/')->with('message', $user.', please check your email to sign in.');
+        return redirect('/')->with('message', $user->name.', please check your email to sign in.');
         /*auth()->login($user);
         return redirect('/')->with('message', 'Welcome', auth()->user()->name);*/
     }
@@ -83,9 +83,9 @@ class UserController extends Controller
         auth()->login($user);
         // assign the loggedin user statut of student or teacher for later use in this session
         if($user->isTeacher){
-            return redirect(''.BASEURL.'/teachers/mainpage')->with('message', 'Welcome back, '.auth()->user()->name);
+            return redirect('/teachers/mainpage')->with('message', 'Welcome back, '.auth()->user()->name);
         }else{
-            return redirect(''.BASEURL.'/students/mainpage')->with('message', 'Welcome back, '.auth()->user()->name);
+            return redirect('/students/mainpage')->with('message', 'Welcome back, '.auth()->user()->name);
         }
         //return redirect('/')->with('message', 'Welcome to the community, '. $request->n.'!');//auth()->user()->name.'!');
     }
@@ -110,7 +110,7 @@ class UserController extends Controller
         //if(RateLimiter::tooManyAttempts($request->ip(), $perMinute = 1)) return "You can try logging again in 1 minute";
 
         $formData = $request->validate([
-            'email' => ['required'],
+            'email' => 'required',
             'password' => 'required'
         ]);
 
@@ -157,9 +157,9 @@ class UserController extends Controller
         if(auth()->attempt($authData)){//$formData)){   // login user
             $request->session()->regenerate();  // security
             if($user->isTeacher){
-                return redirect(''.BASEURL.'/teachers/mainpage')->with('message', 'Welcome back, '.auth()->user()->name);
+                return redirect('/teachers/mainpage')->with('message', 'Welcome back, '.auth()->user()->name);
             }else{
-                return redirect(''.BASEURL.'/students/mainpage')->with('message', 'Welcome back, '.auth()->user()->name);
+                return redirect('/students/mainpage')->with('message', 'Welcome back, '.auth()->user()->name);
             }
             //return redirect('/')->with('message', 'Welcome back, '.auth()->user()->name);
         }
