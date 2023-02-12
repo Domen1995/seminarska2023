@@ -142,6 +142,11 @@ class TeacherController extends Controller
         ]);
     }
 
+    public function newCourseForm()
+    {
+        return view('teachers.newCourseForm');
+    }
+
     public function selfProfile()
     {
         $user = auth()->user();

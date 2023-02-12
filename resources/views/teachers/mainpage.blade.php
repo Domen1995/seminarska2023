@@ -7,7 +7,7 @@
     <div class="flexboxCenterer">
         <div class="form" style="justify-content:start; align-items:center">
             <div style="font-size:2rem; font-family:inherit">{{$user->name}}</div>
-            <a class="link" href="{{BASEURL}}/teachers/newCourse" style="font-size: 3rem; font-family:inherit">Create new course</a>
+            <a class="link" href="{{BASEURL}}/teachers/newCourseForm" style="font-size: 3rem; font-family:inherit">Create new course</a>
             {{--<label for="channelDescription" style="font-size: 2rem;">Describe your channel: </label>--}}
             {{--<input type="text" id="channelDescription" name="channelDescription" height="6rem">--}}
             {{--<textarea id="channelDescription" name="channelDescription" rows="4" cols="60">{{$user->description}}</textarea>

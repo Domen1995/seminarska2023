@@ -79,7 +79,7 @@ Route::get('students/selfProfile', [StudentController::class, 'selfProfile'])->m
 
 Route::get('courses/search', [CourseController::class, 'search'])->middleware('auth');
     //->where(auth()->user()->isTeacher, '0');
-Route::get('teachers/newCourse', [TeacherController::class, 'newCourse'])->middleware('auth');
+Route::get('teachers/newCourseForm', [TeacherController::class, 'newCourseForm'])->middleware('auth');
 /*Route::get('courses/search', [TeacherController::class, 'mainpage'])->middleware('auth')
     ->where(auth()->user()->isTeacher, '1');*/
 

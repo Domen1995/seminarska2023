@@ -65,6 +65,10 @@ body{
     margin-right: auto;
 }
 
+.form label{
+    font-size: 2rem;
+}
+
 .form > .submitUserdata{
     background-color: #AAA;
     width: 45%;
