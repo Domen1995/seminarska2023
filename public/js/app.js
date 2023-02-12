@@ -131,7 +131,8 @@ function confirmDelete(vidId){
 }
 
 // show dropdown menu elements on hover
-document.getElementById('sign_in').addEventListener('mouseenter', showDropdownItems)
+//document.getElementById('sign_in').addEventListener('mouseenter', showDropdownItems)ž
+document.getElementById('registrationOptionsToggler').addEventListener('mouseenter', showDropdownItems)
 
 function showDropdownItems(){
     const dropdownItemsContainer = document.getElementById('dropdownItemsContainer')

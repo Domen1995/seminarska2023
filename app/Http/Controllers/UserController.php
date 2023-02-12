@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
-abstract class UserController extends Controller
+class UserController extends Controller
 {
 
     public function registrationForm($actor)
         // show a form for creating an account
     {
         //return view('users.registrationForm');
-        return view(''.$actor.'registrationForm');
+        return view(''.$actor.'.registrationForm');
     }
 
 
@@ -82,15 +82,19 @@ abstract class UserController extends Controller
         $user->save();
         auth()->login($user);
         // assign the loggedin user statut of student or teacher for later use in this session
-        return redirect('/')->with('message', 'Welcome to the community, '. $request->n.'!');//auth()->user()->name.'!');
+        if($user->isTeacher){
+            return redirect(''.BASEURL.'/teachers/mainpage')->with('message', 'Welcome back, '.auth()->user()->name);
+        }else{
+            return redirect(''.BASEURL.'/students/mainpage')->with('message', 'Welcome back, '.auth()->user()->name);
+        }
+        //return redirect('/')->with('message', 'Welcome to the community, '. $request->n.'!');//auth()->user()->name.'!');
     }
 
-    public abstract function loginForm();
+    public function loginForm()
         // display form to user to log in
-        /*
     {
         return view('users.loginForm');
-    }*/
+    }
 
     public function login(Request $request)
         // log user in
@@ -146,13 +150,18 @@ abstract class UserController extends Controller
         //$userAndType = $this->getUserAndType($request);
         if($user!=null && ($user->verified==0)){
             return back()->withErrors([
-                'password' => 'You need to click the link you received on email.'
+                'password' => 'You need to click on the link you received on email.'
             ]);
         }
 
         if(auth()->attempt($authData)){//$formData)){   // login user
             $request->session()->regenerate();  // security
-            return redirect('/')->with('message', 'Welcome back, '.auth()->user()->name);
+            if($user->isTeacher){
+                return redirect(''.BASEURL.'/teachers/mainpage')->with('message', 'Welcome back, '.auth()->user()->name);
+            }else{
+                return redirect(''.BASEURL.'/students/mainpage')->with('message', 'Welcome back, '.auth()->user()->name);
+            }
+            //return redirect('/')->with('message', 'Welcome back, '.auth()->user()->name);
         }
 
         return back()->withErrors([
@@ -195,7 +204,7 @@ abstract class UserController extends Controller
         ]);
     }
 */
-    public abstract function selfProfile();
+    //public function selfProfile();
     /*
     {
         $user = auth()->user();

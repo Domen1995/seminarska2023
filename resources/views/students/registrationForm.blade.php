@@ -4,10 +4,10 @@
 </head>
 <x-menu />
 <body>
-    <form id="registration_form" class="form" action="{{BASEURL}}/users/register/teacher" method="POST">   <!-- form for creating account -->
+    <form id="registration_form" class="form" action="{{BASEURL}}/users/register" method="POST">   <!-- form for creating account -->
         @csrf
         {{--<div id="form_email">--}}
-            <input type="text" id="email" name="email" placeholder="Your email address" value="{{old('email')}}">
+            <input type="text" id="email" name="email" placeholder="Student's email address" value="{{old('email')}}">
             @error('email')
             <p class="error">{{$message}}</p>
             @enderror
@@ -15,7 +15,7 @@
         {{--<div class="form_username">--}}
             {{--<label for="username" class="formText">Who would you like to be known as?</label>--}}
             {{-- user chooses his username --}}
-            <input type="text" id="name" name="name" placeholder="Username" value="{{old('name')}}">
+            <input type="text" id="name" name="name" placeholder="Name and surname" value="{{old('name')}}">
             @error('name')
                 <p class="error">{{$message}}</p>
             {{--@else

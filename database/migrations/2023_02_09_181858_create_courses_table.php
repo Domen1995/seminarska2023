@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->longText('description')->nullable();
-            $table->foreignId('teacher_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->integer('presenceChecks')->default(0);
             $table->timestamps();
         });
     }

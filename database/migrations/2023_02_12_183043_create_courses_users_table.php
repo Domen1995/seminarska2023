@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->integer('screwUps');
+            //$table->integer('screwUps');
             $table->timestamps();
         });
     }

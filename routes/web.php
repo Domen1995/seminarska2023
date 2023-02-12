@@ -22,12 +22,13 @@ use App\Http\Controllers\TeacherController;
 define("BASEURL", "/seminarska2023/public");
 
 // display homepage on which user selects a video
-Route::get('/', [VideoController::class, 'homepage']);
+//Route::get('/', [VideoController::class, 'homepage']);
+Route::get('/', [UserController::class, 'loginForm']);
 
 Route::get('/users/registrationForm/{actor}', [UserController::class, 'registrationForm'])->middleware('guest');
 
 // add new user to DB
-Route::post('/users/register', [UserController::class, 'register'])->middleware('guest');
+Route::post('/users/register/{actor}', [UserController::class, 'register'])->middleware('guest');
 
 Route::get('/users/verifyMail', [UserController::class, 'verifyMail'])->middleware('guest');
 
@@ -63,7 +64,11 @@ Route::get('/videos/watch/{video}', [VideoController::class, 'watch']);
 // send part of video from requested starting point
 Route::get('/videos/chunk/{video}', [VideoController::class, 'serveChunk']);
 
-Route::post('/teachers/register/{actor}', [TeacherController::class, 'register']);
+//Route::post('/teachers/register/{actor}', [TeacherController::class, 'register']);
+
+Route::get('/teachers/mainpage', [TeacherController::class, 'mainpage']);
+
+Route::get('/students/mainpage', [StudentController::class, 'mainpage']);
 
 Route::get('/test', [TeacherController::class, 'test']);
 /*

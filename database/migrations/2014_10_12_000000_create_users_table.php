@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('ip_addresses')->nullable();
             $table->string('verificationCode');
             $table->integer('verified')->default(0);
+            $table->integer('screwUps')->default(0);
+            $table->integer('presences')->default(0);
             //$table->longText('description')->nullable();
             $table->rememberToken();
             $table->timestamps();

@@ -39,7 +39,7 @@ body{
     background-color: rgb(240, 240, 240);
     border-radius:.7rem;
     /*width: 25rem;*/
-    width: 35rem;
+    width: 40rem;/*35rem;*/
     height: 25rem;
     justify-content: center;
     /*align-content: space-between;*/
@@ -82,6 +82,12 @@ body{
     margin-left:4rem;
     font-size: 1rem;
     color:black;
+}
+
+.form .formMainText{
+    font-size: 2rem;
+    margin: 0 auto;
+    color: black;
 }
 
 /*.form > div > input {
