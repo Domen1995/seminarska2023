@@ -17,11 +17,12 @@
                 <a href="{{BASEURL}}/users{{--users--}}/registrationForm/teachers" class="link" >As a teacher</a>
             </div>
         </div>
-        <a class="link" href="{{BASEURL}}/"><i class="material-icons" style="">home</i>Home</a>
+        {{--<a class="link" href="{{BASEURL}}/"><i class="material-icons" style="">home</i>Home</a>--}}
     @else
         {{--<div>Welcome, {{auth()->id()}}!</div>--}}
         {{--<div class="dropdown">--}}
-            <a href="{{BASEURL}}/users/selfProfile{{--auth()->id()--}}" class="link">{{auth()->user()->name}}'s profile</a>
+            @if(auth()->user()->isTeacher) <a href="{{BASEURL}}/users/selfProfile{{--auth()->id()--}}" class="link">{{auth()->user()->name}}'s profile</a>
+            @endif
             {{--<div class="dropdown-menu">
                 <a href="{{BASEURL}}/users/uploadForm" class="link">Upload your video</a>
             </div>--}}

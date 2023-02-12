@@ -8,6 +8,13 @@ class StudentController extends Controller
 {
     public function mainpage()
     {
-        return "student";
+        return view('students.mainpage', [
+
+        ]);
+    }
+
+    public function selfProfile()
+    {
+        return view('students.selfProfile');
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use GuzzleHttp\Middleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,16 +61,18 @@ Route::get('/users/uploadForm', [UserController::class, 'uploadForm'])->middlewa
 Route::post('/users/store', [UserController::class, 'store'])->middleware('auth');
 
 // // send a page that contains the video tag with source of the selected video
-Route::get('/videos/watch/{video}', [VideoController::class, 'watch']);
+Route::get('/videos/watch/{video}', [VideoController::class, 'watch'])->middleware('auth');   // pri navadnem streamingu ni bilo auth
 
 // send part of video from requested starting point
-Route::get('/videos/chunk/{video}', [VideoController::class, 'serveChunk']);
+Route::get('/videos/chunk/{video}', [VideoController::class, 'serveChunk'])->middleware('auth');
 
 //Route::post('/teachers/register/{actor}', [TeacherController::class, 'register']);
 
-Route::get('/teachers/mainpage', [TeacherController::class, 'mainpage']);
+Route::get('/teachers/mainpage', [TeacherController::class, 'mainpage'])->middleware('auth');
 
-Route::get('/students/mainpage', [StudentController::class, 'mainpage']);
+Route::get('/students/mainpage', [StudentController::class, 'mainpage'])->middleware('auth');
+
+Route::get('students/selfProfile', [StudentController::class, 'selfProfile'])->middleware('auth');
 
 Route::get('/test', [TeacherController::class, 'test']);
 /*

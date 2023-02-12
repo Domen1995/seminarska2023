@@ -1,3 +1,5 @@
+{{-- NOT IN USE --}}
+
 <x-layout>
     <title>Create account</title>
     {{--<script src="{{BASEURL}}/js/app.js" defer></script>--}}
