@@ -18,15 +18,13 @@
             </div>
         </div>
         {{--<a class="link" href="{{BASEURL}}/"><i class="material-icons" style="">home</i>Home</a>--}}
-    @else
-        {{--<div>Welcome, {{auth()->id()}}!</div>--}}
-        {{--<div class="dropdown">--}}
-            @if(auth()->user()->isTeacher) <a href="{{BASEURL}}/users/selfProfile{{--auth()->id()--}}" class="link">{{auth()->user()->name}}'s profile</a>
+    {{--@else
+            @if(auth()->user()->isTeacher) <a href="{{BASEURL}}/users/selfProfile{{--auth()->id()--" class="link">{{auth()->user()->name}}'s profile</a>
             @endif
             {{--<div class="dropdown-menu">
                 <a href="{{BASEURL}}/users/uploadForm" class="link">Upload your video</a>
             </div>--}}
-        {{--</div>--}}
+        {{--</div>--
         <a class="link" href="{{BASEURL}}/"><i class="material-icons" style="">home</i>Home</a>
     <form action="{{BASEURL}}/users/logout" method="POST" style="margin-left:auto">
         @csrf

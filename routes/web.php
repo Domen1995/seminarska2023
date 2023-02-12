@@ -71,13 +71,15 @@ Route::get('/videos/chunk/{video}', [VideoController::class, 'serveChunk'])->mid
 
 Route::get('/teachers/mainpage', [TeacherController::class, 'mainpage'])->middleware('auth');
 
+Route::get('teachers/selfProfile', [TeacherController::class, 'selfProfile'])->middleware('auth');
+
 Route::get('/students/mainpage', [StudentController::class, 'mainpage'])->middleware('auth');
 
 Route::get('students/selfProfile', [StudentController::class, 'selfProfile'])->middleware('auth');
 
 Route::get('courses/search', [CourseController::class, 'search'])->middleware('auth');
     //->where(auth()->user()->isTeacher, '0');
-
+Route::get('teachers/newCourse', [TeacherController::class, 'newCourse'])->middleware('auth');
 /*Route::get('courses/search', [TeacherController::class, 'mainpage'])->middleware('auth')
     ->where(auth()->user()->isTeacher, '1');*/
 

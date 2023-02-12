@@ -135,8 +135,10 @@ class TeacherController extends Controller
 
     public function mainpage()
     {
+        $user = auth()->user();
         return view('teachers.mainpage', [
-            $courses = Course::where('user_id', auth()->user()->id)
+            'user' => $user,
+            'courses' => Course::where('user_id', $user->id)->paginate()
         ]);
     }
 
@@ -148,7 +150,7 @@ class TeacherController extends Controller
         foreach($videos as $video) echo $video->title;
         dd($videos);*/
         //$u = User::find(auth()->user()->id);
-        return view('users.selfProfile', [
+        return view('teachers.selfProfile', [
             'user' => $user,//User::find(auth()->user()->id),
             'videos' => Video::where('user_id', $user->id)->paginate(4)//Video::where('user_id', $user->id)->get()//User::find(auth()->user()->id)->video()->get()
             /*'channelDescription' => User::find(auth()->user()->id)->description*/
