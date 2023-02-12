@@ -3,5 +3,5 @@
 </head>
 <body>
     <x-studentMenu />
-    @include()
+    @include('courses.search')
 </x-layout>

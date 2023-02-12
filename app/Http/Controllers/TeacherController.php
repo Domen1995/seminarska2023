@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Video;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Mail;
@@ -134,7 +135,9 @@ class TeacherController extends Controller
 
     public function mainpage()
     {
-        return "teacher";
+        return view('teachers.mainpage', [
+            $courses = Course::where('user_id', auth()->user()->id)
+        ]);
     }
 
     public function selfProfile()
