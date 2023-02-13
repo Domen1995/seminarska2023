@@ -1,6 +1,6 @@
 //const { read } = require("@popperjs/core");
 
-const baseurl = "https://localhost/seminarska2023/public"
+//const baseurl = "https://localhost/seminarska2023/public"
 
 function addLoadingGif(){
     //let gif = await fetch("../assets/gif/loading");
@@ -36,6 +36,7 @@ videoContainer.addEventListener("drop", (e)=>{
     //console.log(document.getElementById("videoFile").value.size)
 })
 
+/*
 const imageContainer = document.getElementById('imageContainer')
 
 imageContainer.addEventListener("dragover", (e)=>{
@@ -77,7 +78,8 @@ imageContainer.addEventListener("drop", (e)=>{
     console.log(document.getElementById('videoFile').value)*/
     //document.getElementById("videoFile").value = formVideo
     //console.log(document.getElementById("videoFile").value.size)
-})
+//})
+
 
 function setImgAsBackground(){
     // set uploaded image as background of image container

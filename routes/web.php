@@ -82,7 +82,10 @@ Route::get('/teachers/mainpage', [TeacherController::class, 'mainpage'])->middle
 
 Route::get('/teachers/selfProfile', [TeacherController::class, 'selfProfile'])->middleware('auth');
 
-Route::get('/teachers/uploadForm', [TeacherController::class, 'uploadForm'])->middleware('auth');
+// shows form for uploading a video
+Route::get('/teachers/uploadForm/{course}', [TeacherController::class, 'uploadForm'])->middleware('auth');
+
+Route::post('/teachers/store/{course}', [TeacherController::class, 'store'])->middleware('auth');
 
 Route::get('/students/mainpage', [StudentController::class, 'mainpage'])->middleware('auth');
 

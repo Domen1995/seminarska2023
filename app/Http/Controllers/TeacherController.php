@@ -172,13 +172,15 @@ class TeacherController extends Controller
         return redirect('/')->with('message', 'Your data has been successfully updated!');
     }
 
-    public function uploadForm()
+    public function uploadForm(Course $course)
     // show form for uploading a video
     {
-        return view('teachers.upload');
+        return view('teachers.upload', [
+            'course' => $course
+        ]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request, Course $course){
         // method stores new user's video to database
 
         // first check if user sent valid data
@@ -191,7 +193,7 @@ class TeacherController extends Controller
         dd(($body['videoFile']));
         dd($body['title']);
         return $request->videoData->title;*/
-        $genres = $request->genres;
+        /*$genres = $request->genres;
         $genresString = "";
         if($genres!=null){
             foreach($genres as $genre){
@@ -199,14 +201,17 @@ class TeacherController extends Controller
             }
             $genresString = trim($genresString, ",");
             $genresString.="";
+        }*/
+        if($course->user_id != auth()->user()->id){
+            return back()->with('message', 'Only the course owner can upload videos');
         }
         $formData = $request->validate([
             'title' => 'required',
             // video mustn't exceed 400 MB
             'videoFile' => ['required', 'max:400000', 'mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi'],
-            'videoImage' => ['required', 'mimes:jpeg,png,jpg,svg'],
+            /*'videoImage' => ['required', 'mimes:jpeg,png,jpg,svg'],
             'description' => 'nullable',
-            'genre' => 'nullable'
+            'genre' => 'nullable'*/
         ]);
 
         // user who uploaded the video
@@ -229,16 +234,18 @@ class TeacherController extends Controller
         $formData['path'] = $video->store('videos', 'public');
 
         // store image that represents the video
-        $videoImage = $request->file('videoImage');
-        $formData['videoImagePath'] = $videoImage->store('videoImages', 'public');
+        /*$videoImage = $request->file('videoImage');
+        $formData['videoImagePath'] = $videoImage->store('videoImages', 'public');*/
 
         // create other video metadata
-        $formData['user_id'] = $user->id;
+        //$formData['user_id'] = $user->id;
         $formData['author'] = $user->name;
         //$formData['genre'] = 'music';
-        $formData['genre'] = $genresString;
+        //$formData['genre'] = $genresString;
         $formData['views'] = 0;
 
+        $formData['course_id'] = $course->id;
+        $formData['duration'] = 30;
 
         // insert video metadata into DB
         Video::create($formData);

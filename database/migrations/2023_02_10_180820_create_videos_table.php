@@ -18,13 +18,14 @@ return new class extends Migration
             $table->string('title');
             $table->string('author');
             $table->integer('duration'); //seconds
-            $table->longText('description')->nullable();
+            //$table->longText('description')->nullable();
             $table->integer('views');
             $table->string('path');
-            $table->string('videoImagePath');
+            //$table->string('videoImagePath');
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
             //$table->set('genre', ['music', 'entertainment', 'education'])->nullable();
-            $table->string('genre');
+            //$table->string('genre');
+            $table->integer('duration')->nullable();
             $table->timestamps();
         });
     }
