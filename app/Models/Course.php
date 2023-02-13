@@ -9,6 +9,12 @@ class Course extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'faculty',
+        'user_id'
+    ];
+
     public static function findMatching($limitations)
     {
         return Course::where('name', 'like', "%".$limitations."%")

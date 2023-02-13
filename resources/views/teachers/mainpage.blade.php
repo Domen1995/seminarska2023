@@ -22,4 +22,5 @@
         <div style="margin-left: auto; margin-right:auto; width:15rem; text-align:center; background-color:#4b3268;font-size:2rem; border-radius:.3rem">Your creations: </div>
         @include('videos.videoGrid')--}}
     @endif
+    <x-flashMessage />
 </x-layout>

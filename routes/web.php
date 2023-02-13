@@ -83,6 +83,8 @@ Route::get('teachers/newCourseForm', [TeacherController::class, 'newCourseForm']
 /*Route::get('courses/search', [TeacherController::class, 'mainpage'])->middleware('auth')
     ->where(auth()->user()->isTeacher, '1');*/
 
+Route::post('courses/create', [CourseController::class, 'create'])->middleware('auth');
+
 Route::get('/test', [TeacherController::class, 'test']);
 /*
 // returns a gif for which browser sent fetch

@@ -157,7 +157,7 @@ class TeacherController extends Controller
         //$u = User::find(auth()->user()->id);
         return view('teachers.selfProfile', [
             'user' => $user,//User::find(auth()->user()->id),
-            'videos' => Video::where('user_id', $user->id)->paginate(4)//Video::where('user_id', $user->id)->get()//User::find(auth()->user()->id)->video()->get()
+            //'videos' => Video::where('user_id', $user->id)->paginate(4)//Video::where('user_id', $user->id)->get()//User::find(auth()->user()->id)->video()->get()
             /*'channelDescription' => User::find(auth()->user()->id)->description*/
         ]);
 
@@ -290,6 +290,7 @@ class TeacherController extends Controller
             echo "no";
         }
     }*/
+
 
     public function test2()
     {

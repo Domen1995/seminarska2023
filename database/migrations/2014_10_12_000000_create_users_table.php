@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('verified')->default(0);
             $table->integer('screwUps')->default(0);
             $table->integer('presences')->default(0);
+            //$table->string('faculty')->nullable();
             //$table->longText('description')->nullable();
             $table->rememberToken();
             $table->timestamps();
