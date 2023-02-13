@@ -18,8 +18,9 @@
 .pageList ul{
     display: flex;
     list-style: none;
-
 }
+
+
 /*
 video:-webkit-full-screen{
     display: none;
