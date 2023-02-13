@@ -32,6 +32,7 @@ class CourseController extends Controller
             'faculty' => ['required', 'min:2', 'max:50']
         ]);
         $courseData['user_id'] = $user->id;
+        $courseData['teacher'] = $user->name;
         Course::create($courseData);
         return redirect('/teachers/mainpage')->with('message', 'Course'. $request->name .'created successfully.');
     }
