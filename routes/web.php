@@ -68,6 +68,8 @@ Route::get('/users/uploadForm', [UserController::class, 'uploadForm'])->middlewa
 // store new user's video to database
 Route::post('/users/store', [UserController::class, 'store'])->middleware('auth');
 
+Route::get('/videos/courseVideos/{course}', [VideoController::class, 'courseVideos'])->middleware('auth');
+
 // // send a page that contains the video tag with source of the selected video
 Route::get('/videos/watch/{video}', [VideoController::class, 'watch'])->middleware('auth');   // pri navadnem streamingu ni bilo auth
 

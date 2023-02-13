@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Video;
 use App\Models\User;
+use App\Models\Video;
+use App\Models\Course;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class VideoController extends Controller
 {
+
+    public function courseVideos(Course $course)
+        // show all videos of the selected course
+    {
+        # code...
+    }
 
     public function homepage(Request $request){
         // display homepage on which user selects a video

@@ -10,14 +10,18 @@ class CourseController extends Controller
     public function search(Request $request)
     {
         $courses = Course::findMatching($request->limitations);
-        if(auth()->user()->isTeacher){
+        $user = auth()->user();
+        //if(auth()->user()->isTeacher){
+        if($user->isTeacher){
             return view('teachers.mainpage', [
                 // select all courses that student is signed in
+                'user' => $user,
                 'courses' => $courses
             ]);
         }else{
             return view('students.mainpage', [
                 // select all courses that student is signed in
+                'user' => $user,
                 'courses' => $courses
             ]);
         }

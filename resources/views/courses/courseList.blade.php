@@ -1,7 +1,8 @@
 {{--@if(count($courses)>0)--}}
 <link rel="stylesheet" href="{{BASEURL}}/css/videoGrid.css">
     @if(count($courses)>0)
-        <table>
+        <table class="courseList">
+            <caption>Courses</caption>
             <tr>
                 <th>Subject</th>
                 <th>Teacher</th>
@@ -9,9 +10,12 @@
             </tr>
         @foreach ($courses as $course)
             <tr>
-                <td>{{$course->name}}</td>
+                <td><a href="{{BASEURL}}/videos/courseVideos/{{$course->name}}">{{$course->name}}</a></td>
                 <td>{{$course->teacher}}</td>
                 <td>{{$course->faculty}}</td>
+                @if(!$user->isTeacher)
+                    <td><a href="{{BASEURL}}/students/enroll">Request enrollment</a></td>
+                @endif
             </tr>
         @endforeach
         </table>

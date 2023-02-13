@@ -12,7 +12,7 @@
 @endauth
 --}}
 
-@include('videos.searchForm')
+{{--@include('videos.searchForm')--}}
 @include('videos.videoGrid')
 {{--
 @foreach ($videos as $video)
