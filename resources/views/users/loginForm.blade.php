@@ -1,5 +1,5 @@
 <x-layout>
-<title>Login</title>
+<title>Sign in</title>
 {{--<script src="{{BASEURL}}/js/app.js" defer></script>--}}
 </head>
 <body>

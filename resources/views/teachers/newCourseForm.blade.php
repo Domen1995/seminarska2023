@@ -7,8 +7,8 @@
         <form action="{{BASEURL}}/courses/create" method="POST" class="form" style="justify-content:start; align-items:center">
             @csrf
             <label for="courseName">Name of the subject (course) as students know it: </label>
-            <input type="text" id="name" name="courseName" value="{{old('courseName')}}" style="height: 2rem; font-size:1.8rem">
-            @error('courseName')
+            <input type="text" id="name" name="name" value="{{old('courseName')}}" style="height: 2rem; font-size:1.8rem">
+            @error('name')
                 <p class="error">{{$message}}</p>
             @enderror
             <label for="faculty">Faculty acronym, doesn't need to be official: </label>

@@ -15,7 +15,7 @@ class StudentController extends Controller
             $courses = Course::findMatching($request->limitations);
         // if this was a usual arrival on the page, we retrieve all courses the student is signed in
         }else{*/
-        $courses = Course::whereIn('id', CoursesUser::select('course_id')->where('user_id', auth()->user()->id)->get());
+        $courses = Course::whereIn('id', CoursesUser::select('course_id')->where('user_id', auth()->user()->id)->get())->get();
 
         return view('students.mainpage', [
             // select all courses that student is signed in

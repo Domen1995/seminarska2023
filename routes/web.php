@@ -26,7 +26,11 @@ define("BASEURL", "/seminarska2023/public");
 
 // display homepage on which user selects a video
 //Route::get('/', [VideoController::class, 'homepage']);
-Route::get('/', [UserController::class, 'loginForm']);
+//Route::get('/', [UserController::class, 'loginForm'])->middleware('guest');
+Route::get('/', [UserController::class, 'mainPage']);
+
+//Route::get('/', [UserController::class, 'redirectToMainpage'])->middleware('auth')
+//    ->where(auth()->user()!=null);
 
 Route::get('/users/registrationForm/{actor}', [UserController::class, 'registrationForm'])->middleware('guest');
 
@@ -34,6 +38,9 @@ Route::get('/users/registrationForm/{actor}', [UserController::class, 'registrat
 Route::post('/users/register/{actor}', [UserController::class, 'register'])->middleware('guest');
 
 Route::get('/users/verifyMail', [UserController::class, 'verifyMail'])->middleware('guest');
+
+// deletes user on his request before verification was made
+Route::get('/users/deleteBeforeVerified', [UserController::class, 'deleteBeforeVerified'])->middleware('guest');
 
 // display form to user to log in
 Route::get('/users/loginForm', [UserController::class, 'loginForm'])->middleware('guest');

@@ -4,4 +4,10 @@
 <body>
     <x-studentMenu />
     @include('courses.search')
+
+    @if(count($courses)>0)
+        @foreach ($courses as $course)
+            <div>{{$course->name}}</div>
+        @endforeach
+    @endif
 </x-layout>

@@ -28,11 +28,11 @@ class CourseController extends Controller
         $user = auth()->user();
         if(!$user->isTeacher) return "How can you have a course if you're not a teacher?";
         $courseData = $request->validate([
-            'courseName' => ['required', 'min:5', 'max:50'],
+            'name' => ['required', 'min:5', 'max:50'],
             'faculty' => ['required', 'min:2', 'max:50']
         ]);
-        $course['user_id'] = $user->id;
+        $courseData['user_id'] = $user->id;
         Course::create($courseData);
-        return redirect('/teachers/mainpage')->with('message', 'New course created successfully.');
+        return redirect('/teachers/mainpage')->with('message', 'Course'. $request->name .'created successfully.');
     }
 }

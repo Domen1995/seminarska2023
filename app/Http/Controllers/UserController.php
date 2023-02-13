@@ -14,6 +14,14 @@ use Illuminate\Validation\Rule;
 class UserController extends Controller
 {
 
+    public function mainPage()
+    {
+        if(auth()->user()==null){
+            return $this->loginForm();
+        }
+        return $this->redirectToMainpage();
+    }
+
     public function registrationForm($actor)
         // show a form for creating an account
     {
@@ -41,7 +49,7 @@ class UserController extends Controller
         $name = $request->name;
         $GLOBALS['email'] = $request->email;
         //Mail::to($request->email)->send(new SignUp($name));
-        Mail::send('mails.signup', ['name' => $name, 'verificationCode' => $formData['verificationCode']], function ($message){
+        Mail::send('mails.signup', ['name' => $name, 'verificationCode' => $formData['verificationCode'], 'email' => $request->email], function ($message){
             $message->from('streamingservice@gmail.com');
             $message->to($GLOBALS['email'])->subject('Registration');
 
@@ -83,11 +91,21 @@ class UserController extends Controller
         auth()->login($user);
         // assign the loggedin user statut of student or teacher for later use in this session
         if($user->isTeacher){
-            return redirect('/teachers/mainpage')->with('message', 'Welcome back, '.auth()->user()->name);
+            return redirect('/teachers/mainpage')->with('message', 'Welcome to the community, '. $request->n.'!');
         }else{
-            return redirect('/students/mainpage')->with('message', 'Welcome back, '.auth()->user()->name);
+            return redirect('/students/mainpage')->with('message', 'Welcome to the community, '. $request->n.'!');
         }
         //return redirect('/')->with('message', 'Welcome to the community, '. $request->n.'!');//auth()->user()->name.'!');
+    }
+
+    public function deleteBeforeVerified(Request $request)
+    {
+        $user = User::where('verificationCode', $request->c)->first();
+        if($user->verified == 0){
+            $user->delete();
+            return redirect('/')->with('message', 'Successfully deleted, you can register again');
+        }
+        return "Can't be deleted, the email was already verified";
     }
 
     public function loginForm()
@@ -156,11 +174,12 @@ class UserController extends Controller
 
         if(auth()->attempt($authData)){//$formData)){   // login user
             $request->session()->regenerate();  // security
-            if($user->isTeacher){
-                return redirect('/teachers/mainpage')->with('message', 'Welcome back, '.auth()->user()->name);
+            $this->redirectToMainpage();
+            /*if($user->isTeacher){
+                return redirect('/teachers/mainpage')->with('message', 'Welcome back, '.$user->name);
             }else{
-                return redirect('/students/mainpage')->with('message', 'Welcome back, '.auth()->user()->name);
-            }
+                return redirect('/students/mainpage')->with('message', 'Welcome back, '.$user->name);
+            }*/
             //return redirect('/')->with('message', 'Welcome back, '.auth()->user()->name);
         }
 
@@ -192,6 +211,16 @@ class UserController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    public function redirectToMainpage()
+    {
+        $user = auth()->user();
+        if($user->isTeacher){
+            return redirect('/teachers/mainpage')->with('message', 'Welcome back, '.$user->name);
+        }else{
+            return redirect('/students/mainpage')->with('message', 'Welcome back, '.$user->name);
+        }
     }
 
     /*

@@ -18,6 +18,6 @@ class Course extends Model
     public static function findMatching($limitations)
     {
         return Course::where('name', 'like', "%".$limitations."%")
-                        ->orWhereIn('user_id', User::where('name', 'like', '%'.$limitations.'%')->where('isTeacher', '1'));
+                        ->orWhereIn('user_id', User::where('name', 'like', '%'.$limitations.'%')->where('isTeacher', '1')->get())->get();
     }
 }

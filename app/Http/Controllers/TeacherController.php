@@ -138,7 +138,7 @@ class TeacherController extends Controller
         $user = auth()->user();
         return view('teachers.mainpage', [
             'user' => $user,
-            'courses' => Course::where('user_id', $user->id)->paginate()
+            'courses' => Course::where('user_id', $user->id)->paginate(8)
         ]);
     }
 
