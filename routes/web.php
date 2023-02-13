@@ -80,7 +80,9 @@ Route::get('/videos/chunk/{video}', [VideoController::class, 'serveChunk'])->mid
 
 Route::get('/teachers/mainpage', [TeacherController::class, 'mainpage'])->middleware('auth');
 
-Route::get('teachers/selfProfile', [TeacherController::class, 'selfProfile'])->middleware('auth');
+Route::get('/teachers/selfProfile', [TeacherController::class, 'selfProfile'])->middleware('auth');
+
+Route::get('/teachers/uploadForm', [TeacherController::class, 'uploadForm'])->middleware('auth');
 
 Route::get('/students/mainpage', [StudentController::class, 'mainpage'])->middleware('auth');
 

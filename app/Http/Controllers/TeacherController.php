@@ -175,7 +175,7 @@ class TeacherController extends Controller
     public function uploadForm()
     // show form for uploading a video
     {
-        return view('users.upload');
+        return view('teachers.upload');
     }
 
     public function store(Request $request){

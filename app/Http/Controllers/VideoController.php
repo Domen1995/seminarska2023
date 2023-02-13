@@ -14,7 +14,12 @@ class VideoController extends Controller
     public function courseVideos(Course $course)
         // show all videos of the selected course
     {
-        # code...
+        $videos = Video::where('course_id', $course->id)->paginate(24);
+        return view('videos.courseVideos', [
+            'videos' => $videos,
+            'course' => $course,
+            'user' => auth()->user()
+        ]);
     }
 
     public function homepage(Request $request){

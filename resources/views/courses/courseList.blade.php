@@ -10,7 +10,7 @@
             </tr>
         @foreach ($courses as $course)
             <tr>
-                <td><a href="{{BASEURL}}/videos/courseVideos/{{$course->name}}">{{$course->name}}</a></td>
+                <td><a href="{{BASEURL}}/videos/courseVideos/{{$course->id}}">{{$course->name}}</a></td>
                 <td>{{$course->teacher}}</td>
                 <td>{{$course->faculty}}</td>
                 @if(!$user->isTeacher)
