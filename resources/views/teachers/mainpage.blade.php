@@ -14,12 +14,14 @@
             <input type="submit" value="Save?" class="submitUserdata">--}}
         </div>
     </div>
+    @include('courses.courseList')
+    {{--
     @if(count($courses)>0)
         @foreach ($courses as $course)
             <div>{{$course->name}}</div>
         @endforeach
         {{--
         <div style="margin-left: auto; margin-right:auto; width:15rem; text-align:center; background-color:#4b3268;font-size:2rem; border-radius:.3rem">Your creations: </div>
-        @include('videos.videoGrid')--}}
-    @endif
+        @include('videos.videoGrid')
+    @endif--}}
 </x-layout>
