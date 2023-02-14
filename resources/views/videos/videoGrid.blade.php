@@ -19,7 +19,7 @@
         </a>
         <br>
         By <a href="{{BASEURL}}/users/profile/{{$video->user_id}}">{{$video->author}}</a>
-        <div>{{$video->views}} views</div>
+        <div>{{$video->views}} student's views</div>
     </div>
     @endforeach
 </div>

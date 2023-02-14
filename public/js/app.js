@@ -110,7 +110,8 @@ function confirmDelete(vidId){
     // create buttons for confirmation
     const yes = document.createElement("a")
     yes.innerHTML = "<button type='button'>Yes</button>" // make link look like a button    //yes.type = "submit"
-    yes.href = baseurl+"/users/deleteVideo?vidId="+vidId
+    //yes.href = baseurl+"/users/deleteVideo?vidId="+vidId
+    yes.href = baseurl+"/teachers/deleteVideo?vidId="+vidId
     yes.style.marginRight = ".2rem"
     yes.setAttribute('class', 'deletionWindow')
     const no = document.createElement("button")

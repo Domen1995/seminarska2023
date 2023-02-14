@@ -240,16 +240,17 @@ class TeacherController extends Controller
         // create other video metadata
         //$formData['user_id'] = $user->id;
         $formData['author'] = $user->name;
+        $formData['user_id'] = $user->id;
         //$formData['genre'] = 'music';
         //$formData['genre'] = $genresString;
-        $formData['views'] = 0;
+        //$formData['views'] = 0;   // views by a student
 
         $formData['course_id'] = $course->id;
         $formData['duration'] = 30;
 
         // insert video metadata into DB
         Video::create($formData);
-        return redirect('/');
+        return redirect('/videos/courseVideos/'.$course->id);
         /*Video::create([
             'title' => 'FirstVideo2',
             'author' => User::find(1)->name,
@@ -277,14 +278,16 @@ class TeacherController extends Controller
         //dd(filesize('storage/'.$video->path));
 
         // delete image that represents the video from storage
-        if(file_exists('storage/'.$video->videoImagePath)) unlink('storage/'.$video->videoImagePath);
+        //if(file_exists('storage/'.$video->videoImagePath)) unlink('storage/'.$video->videoImagePath);
+
         //echo($video->videoImagePath);
         //Storage::delete('storage/'.$video->videoImagePath);
         //dd($video->videoImagePath);
 
         // delete record about video from DB
         $video->delete();
-        return redirect('/')->with("message", "You've successfully deleted your video");
+        //return redirect('/')->with("message", "You've successfully deleted your video");
+        return back()->with('message', "You've successfully deleted your video");
     }
 
     /*public function test()

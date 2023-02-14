@@ -19,13 +19,14 @@ return new class extends Migration
             $table->string('author');
             $table->integer('duration'); //seconds
             //$table->longText('description')->nullable();
-            $table->integer('views');
+            $table->integer('views')->default(0);  // views by students
             $table->string('path');
             //$table->string('videoImagePath');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');  // id of teacher that uploaded
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
             //$table->set('genre', ['music', 'entertainment', 'education'])->nullable();
             //$table->string('genre');
-            $table->integer('duration')->nullable();
+            //$table->integer('duration')->nullable();
             $table->timestamps();
         });
     }

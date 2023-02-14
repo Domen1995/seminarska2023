@@ -87,6 +87,8 @@ Route::get('/teachers/uploadForm/{course}', [TeacherController::class, 'uploadFo
 
 Route::post('/teachers/store/{course}', [TeacherController::class, 'store'])->middleware('auth');
 
+Route::get('/teachers/deleteVideo', [TeacherController::class, 'deleteVideo'])->middleware('auth');
+
 Route::get('/students/mainpage', [StudentController::class, 'mainpage'])->middleware('auth');
 
 Route::get('students/selfProfile', [StudentController::class, 'selfProfile'])->middleware('auth');

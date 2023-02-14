@@ -49,10 +49,12 @@ class VideoController extends Controller
     public function watch(Video $video){
         // sends a page that contains the video tag with source of the selected video
 
-        // increment number of views of the video
-        $video->update([
-            'views' => $video->views +1
-        ]);
+        // increment number of views of the video, if clicked by a student
+        if(!auth()->user()->isTeacher){
+            $video->update([
+                'views' => $video->views +1
+            ]);
+        }
         return view('videos.watch', [
             'video' => $video
         ]);

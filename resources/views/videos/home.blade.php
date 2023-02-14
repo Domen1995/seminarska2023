@@ -1,3 +1,5 @@
+{{-- NOT IN USE --}}
+
 <x-layout>
     <title>Streaming service</title>
     {{--<link rel="stylesheet" href="css/videoGrid.css">--}}

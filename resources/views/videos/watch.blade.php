@@ -7,7 +7,7 @@
     <x-menu />
     <div class="videoHeader">
         <div class="selectedVideoTitle">{{$video->title}}</div>
-        <a class="arrowBack" href="{{BASEURL}}/"><i style="font-size: 2.5rem" class="material-icons">arrow_back</i></a>
+        <a class="arrowBack" href="javascript:history.back()">{{--"{{BASEURL}}/">--}}<i style="font-size: 2.5rem" class="material-icons">arrow_back</i></a>
     </div>
     <div id="videoMainContainer" class="videoMainContainer">
         {{--<video class="videoArea" id="video" width="100%"{{--"500"--} controls="false" autoplay style="position:absolute; z-index:-1">
@@ -25,7 +25,7 @@
                     <div id="timeline" class="timeline">{{--<i id="timelineButton" class="material-icons">circle</i>--}}</div>
                     <div id="timelineButton"></div>{{--<i id="timelineButton" class="material-icons">circle</i>--}}
                 </div>
-                <div id="totalTime">10:00</div>
+                <div id="totalTime">{{$video->duration}}</div>
             </div>
             <div id="volumeSettings" class="volumeSettings">
                 <div class="volumeIcon link" id="volumeIcon">
