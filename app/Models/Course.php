@@ -32,7 +32,7 @@ class Course extends Model
                             $query->where('allowedEmails', 'like', '%'.$GLOBALS['studentsEmailEnding'].'%')
                                     ->orWhereNull('allowedEmails');
                         });
-            return $courses->paginate(1);
+            return $courses->paginate(8);
         }
     }
 }
