@@ -89,6 +89,10 @@ Route::post('/teachers/store/{course}', [TeacherController::class, 'store'])->mi
 
 Route::get('/teachers/deleteVideo', [TeacherController::class, 'deleteVideo'])->middleware('auth');
 
+Route::get('/teachers/studentPermissions', [TeacherController::class, 'studentPermissions'])->middleware('auth');
+
+Route::post('/teachers/addAllowedEmail', [TeacherController::class, 'addAllowedEmail']);//->middleware('auth');
+
 Route::get('/students/mainpage', [StudentController::class, 'mainpage'])->middleware('auth');
 
 Route::get('students/selfProfile', [StudentController::class, 'selfProfile'])->middleware('auth');

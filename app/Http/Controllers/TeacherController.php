@@ -301,6 +301,31 @@ class TeacherController extends Controller
         }
     }*/
 
+    public function studentPermissions()
+        // shows the view in which teacher can edit permissions given to his students
+    {
+        $teacher = auth()->user();
+        if(!$teacher->isTeacher) abort(403, "You're not even a teacher");
+        return view('teachers.studentPermissions', [
+            'teacher' => $teacher
+        ]);
+    }
+
+    public function addAllowedEmail(Request $request)
+        // to each course that is owned by the teacher, add the ending of email addresses to which the course will be visible
+    {
+        $emailEnding = $request[0];
+        $teacher = auth()->user();
+        if(!$teacher->isTeacher) abort(403, "You're not even a teacher");
+        $courses = Course::where('user_id', $teacher->id);
+        foreach($courses as $course){
+            $allowedEmailsTillNow = $course->allowedEmails;
+            $course->update([
+                'allowedEmails' => $allowedEmailsTillNow . $emailEnding
+            ]);
+        }
+        return "added";
+    }
 
     public function test2()
     {

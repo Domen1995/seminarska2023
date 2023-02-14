@@ -21,6 +21,7 @@ return new class extends Migration
             //$table->longText('description')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->integer('presenceChecks')->default(0);
+            $table->string('allowedEmails')->nullable();     // endings of emails that students must have to see the course
             $table->timestamps();
         });
     }

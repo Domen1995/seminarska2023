@@ -35,4 +35,12 @@
             <input class="submitUserdata" type="submit" value="Create!">
         {{--</div>--}}
     </form>
+
+    <iframe src="https://giphy.com/embed/17mNCcKU1mJlrbXodo" id="loadingGif" width="480" height="480" frameBorder="0" class="giphy-embed" style="pointer-events: none; display:none; position:fixed; top:15%; left:35%; border-radius:15rem" allowFullScreen></iframe>
+
+    <script>
+    function addLoadingGif(){
+        document.getElementById("loadingGif").style.display = "block";
+    }
+    </script>
 </x-layout>
