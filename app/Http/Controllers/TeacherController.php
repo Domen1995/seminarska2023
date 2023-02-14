@@ -306,22 +306,27 @@ class TeacherController extends Controller
     {
         $teacher = auth()->user();
         if(!$teacher->isTeacher) abort(403, "You're not even a teacher");
+        $anyTeacherscourse = Course::where('user_id', $teacher->id)->first();
+        // allowed emails are stored as comma separated values, put them into array:
+        $allowedEmails = explode(",", $anyTeacherscourse->allowedEmails);
         return view('teachers.studentPermissions', [
-            'teacher' => $teacher
+            'teacher' => $teacher,
+            'allowedEmails' => $allowedEmails
         ]);
     }
 
     public function addAllowedEmail(Request $request)
-        // to each course that is owned by the teacher, add the ending of email addresses to which the course will be visible
+        // to each course that is owned by the teacher, add the ending of email addresses to make courses visible to those students
     {
         $emailEnding = $request[0];
         $teacher = auth()->user();
         if(!$teacher->isTeacher) abort(403, "You're not even a teacher");
-        $courses = Course::where('user_id', $teacher->id);
+        $courses = Course::where('user_id', $teacher->id)->get();
+
         foreach($courses as $course){
             $allowedEmailsTillNow = $course->allowedEmails;
             $course->update([
-                'allowedEmails' => $allowedEmailsTillNow . $emailEnding
+                'allowedEmails' => $allowedEmailsTillNow .','. $emailEnding
             ]);
         }
         return "added";

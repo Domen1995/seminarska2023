@@ -32,7 +32,7 @@
             @enderror
         {{--</div>
         <div>--}}
-            <input class="submitUserdata" type="submit" value="Create!">
+            <input onclick="addLoadingGif()" class="submitUserdata" type="submit" value="Create!">
         {{--</div>--}}
     </form>
 

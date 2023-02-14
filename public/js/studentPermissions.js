@@ -15,6 +15,11 @@ async function addAllowedEmail(){
                                     }
                                 })//+email)
     const text = await response.text()
-    console.log(text)
+    if(text == "added"){
+        const newAllowedEmailElement = document.createElement("div")
+        newAllowedEmailElement.innerHTML = email
+        document.getElementById('emailsAllowedSoFar').appendChild(newAllowedEmailElement)
+    }
+    //console.log(text)
     //await fetch(BASEURL)
 }

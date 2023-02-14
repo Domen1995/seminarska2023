@@ -49,6 +49,18 @@ class User extends Authenticatable// implements MustVerifyEmail
         return $this->hasMany(Video::class, 'user_id');
     }
 
+
+    public static function emailEnding($email)
+    {
+        $ending = "";
+        $atSignAppeared = false;
+        for($i=0; $i<strlen($email); $i++){
+            $currentChar = substr($email, $i, 1);
+            if($currentChar == "@") $atSignAppeared = true;
+            if($atSignAppeared) $ending.= $currentChar;
+        }
+        return $ending;
+    }
     /*
     public static function sendMail($address)
     {

@@ -8,14 +8,24 @@
     <div class="flexboxCenterer">
         <div {{--form-- action="{{BASEURL}}/courses/create" method="POST"--}} class="form" style="justify-content:start; align-items:center">
             @csrf
-            <label for="allowedEmail">Your courses will only be visible to the students whose emails end with: </label>
+            <label for="allowedEmail">The enrollment request will be possible for the students whose emails end with: </label>
             <div style="display: flex; align-items:center;">
                 <input type="text" id="allowedEmail" name="allowedEmail" placeholder="@student.example.com" style="line-height: 2rem; font-size:1.8rem">
                 <button onclick="addAllowedEmail()" style="line-height: 2rem; width:3rem; font-size:1rem">Add</button>
             </div>
+            <div id="emailsAllowedSoFar">
+            @if(count($allowedEmails)>0)
+                    @foreach ($allowedEmails as $allowedEmail)
+                        <div>{{$allowedEmail}}</div>
+                    @endforeach
+            @else
+                    Any registered student can request enrollment to your courses
+            @endif
+            </div>
             @error('')
                 <p class="error">{{$message}}</p>
             @enderror
+
             {{--<label for="faculty">Faculty acronym, doesn't need to be official: </label>
             <input type="text" id="faculty" style="height: 2rem; font-size:1.8rem">
             @error('faculty')
