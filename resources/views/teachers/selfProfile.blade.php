@@ -2,7 +2,7 @@
     <title>My profile</title>
 </head>
 <body>
-    <x-teacherMenu />
+    <x-teacherMenu :courses/>
     <div class="flexboxCenterer">
         <div class="form" style="justify-content:start; align-items:center">
             <div style="font-size:2rem; font-family:inherit">{{$user->name}}</div>
