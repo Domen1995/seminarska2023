@@ -1,5 +1,5 @@
 <x-layout>
-    <title>New course</title>
+    <title>Student permissions</title>
     <meta id="usersToken" name="csrf-token" content="{{ csrf_token() }}">
     <script src="{{BASEURL}}/js/studentPermissions.js" defer></script>
 </head>

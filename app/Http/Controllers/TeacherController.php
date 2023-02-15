@@ -306,14 +306,17 @@ class TeacherController extends Controller
     {
         $teacher = auth()->user();
         if(!$teacher->isTeacher) abort(403, "You're not even a teacher");
-        $anyTeacherscourse = Course::where('user_id', $teacher->id)->first();
+        //$anyTeacherscourse = Course::where('user_id', $teacher->id)->first();
+        //$courses = Course::where('user_id', $teacher->id)->get();
+        $allowedEmailsString = TeacherSettings::where('user_id', $teacher->id)->get('allowedEmails');
         // allowed emails are stored as comma separated values, put them into array:
-        if($anyTeacherscourse==null){
+        /*if($anyTeacherscourse==null){
             return back()->with('message', "Let's first create a course before limiting students");
         };
-        return $anyTeacherscourse->allowedEmails;
+        return $anyTeacherscourse->allowedEmails;*/
         //return $allowedEmailsString;
-        $allowedEmails = explode(",", $anyTeacherscourse->allowedEmails);
+        //$allowedEmails = explode(",", $anyTeacherscourse->allowedEmails);
+        $allowedEmails = explode(',', $allowedEmailsString);
         return view('teachers.studentPermissions', [
             'teacher' => $teacher,
             'allowedEmails' => $allowedEmails
