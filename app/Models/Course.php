@@ -23,7 +23,7 @@ class Course extends Model
         // select all courses with name containing substring "limitations" or they belong to teacher whose name contains "limitations"
         if($user->isTeacher){
             return Course::where('name', 'like', "%".$limitations."%")
-                        ->orWhereIn('user_id', User::where('name', 'like', '%'.$limitations.'%')->where('isTeacher', '1')->get('id'))->paginate(1);//->get();
+                        ->orWhereIn('user_id', User::where('name', 'like', '%'.$limitations.'%')->where('isTeacher', '1')->get('id'))->paginate(8);//->get();
         }else{
             $GLOBALS['studentsEmailEnding'] = User::emailEnding($user->email);
             $courses = Course::where('name', 'like', "%".$limitations."%")

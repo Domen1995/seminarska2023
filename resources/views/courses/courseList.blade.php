@@ -14,7 +14,35 @@
                 <td>{{$course->teacher}}</td>
                 <td>{{$course->faculty}}</td>
                 @if(!$user->isTeacher)
-                    <td><a href="{{BASEURL}}/students/enroll">Request enrollment</a></td>
+                    @if(isset($coursesUsers))
+                        {{--@php
+                            $GLOBALS['currentCourse'] = 0;
+                            foreach ($coursesUsers as $courseUser) {
+                                if($courseUser->course_id == $course->id){
+                                    break;
+                                }
+                                $GLOBALS['currentCourse']++;
+                            }
+                            //dd($coursesUsers[0]->course_id)
+
+                        @endphp--}}
+                        @if(!isset($coursesUsers[$course->id]))
+                            <td><a href="{{BASEURL}}/students/enrollReq/{{$course->id}}">Request enrollment</a></td>
+                        @else
+                        {{--@switch($coursesUsers[$GLOBALS['currentCourse']]->status)--}}
+                            @switch($coursesUsers[$course->id]->status)
+                           {{-- @switch($coursesUsers)--}}
+                            @case('requested')
+                                <td><a href="{{BASEURL}}/students/enrollReq/{{$course->id}}">Delete request</a></td>
+                                @break
+
+                            @default
+                                    <td>blabla</td>
+                        @endswitch
+                        @endif
+                    @else
+                        <td><a href="{{BASEURL}}/students/enrollReq/{{$course->id}}">Request enrollment</a></td>
+                    @endif
                 @endif
             </tr>
         @endforeach

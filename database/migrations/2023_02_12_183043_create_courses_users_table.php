@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             //$table->integer('screwUps');
+            $table->string('status')->default('requested');
             $table->timestamps();
         });
     }

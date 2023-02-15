@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\TeacherSettings;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -33,10 +34,13 @@ class CourseController extends Controller
         if(!$user->isTeacher) return "How can you have a course if you're not a teacher?";
         $courseData = $request->validate([
             'name' => ['required', 'min:5', 'max:50'],
-            'faculty' => ['required', 'min:2', 'max:50']
+            'faculty' => ['required', 'min:2', 'max:50'],
+            //'allowedEmails' => $allowedEmails//TeacherSettings::where('user_id', $user->id)->first()->allowedEmails
         ]);
         $courseData['user_id'] = $user->id;
         $courseData['teacher'] = $user->name;
+        $allowedEmails = TeacherSettings::where('user_id', $user->id)->first()->allowedEmails;
+        $courseData['allowedEmails'] = $allowedEmails;
         Course::create($courseData);
         return redirect('/teachers/mainpage')->with('message', 'Course'. $request->name .'created successfully.');
     }
