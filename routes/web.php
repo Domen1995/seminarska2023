@@ -105,7 +105,7 @@ Route::get('teachers/newCourseForm', [TeacherController::class, 'newCourseForm']
 
 Route::post('courses/create', [CourseController::class, 'create'])->middleware('auth');
 
-Route::get('/test', [TeacherController::class, 'test']);
+Route::get('/test', [TeacherController::class, 'test2']);
 /*
 // returns a gif for which browser sent fetch
 Route::get('/assets/gif/{slug}', [AssetController::class, 'fetchGif']);

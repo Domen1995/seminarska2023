@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Mail\SignUp;
+use App\Models\StudentStatistics;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Facades\Storage;
+use App\Models\TeacherSettings;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\RateLimiter;
 
 class UserController extends Controller
 {
@@ -88,6 +90,17 @@ class UserController extends Controller
         if($user->verified==1) return "The email has already been verified!";
         $user->verified = 1;
         $user->save();
+
+        // create a record in TeacherSettings if teacher or in UserStatistics if user
+        if($user->isTeacher){
+            TeacherSettings::create([
+                'user_id' => $user->id,
+            ]);
+        }else{
+            StudentStatistics::create([
+                'user_id' => $user->id
+            ]);
+        }
         auth()->login($user);
         // assign the loggedin user statut of student or teacher for later use in this session
         if($user->isTeacher){

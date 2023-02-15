@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Video;
 use App\Models\Course;
+use App\Models\TeacherSettings;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Mail;
@@ -308,7 +309,7 @@ class TeacherController extends Controller
         if(!$teacher->isTeacher) abort(403, "You're not even a teacher");
         //$anyTeacherscourse = Course::where('user_id', $teacher->id)->first();
         //$courses = Course::where('user_id', $teacher->id)->get();
-        $allowedEmailsString = TeacherSettings::where('user_id', $teacher->id)->get('allowedEmails');
+        $allowedEmailsString = TeacherSettings::where('user_id', $teacher->id)->first()->allowedEmails;
         // allowed emails are stored as comma separated values, put them into array:
         /*if($anyTeacherscourse==null){
             return back()->with('message', "Let's first create a course before limiting students");
@@ -316,7 +317,8 @@ class TeacherController extends Controller
         return $anyTeacherscourse->allowedEmails;*/
         //return $allowedEmailsString;
         //$allowedEmails = explode(",", $anyTeacherscourse->allowedEmails);
-        $allowedEmails = explode(',', $allowedEmailsString);
+        if($allowedEmailsString == null) $allowedEmails = [];
+        else $allowedEmails = explode(',', $allowedEmailsString);
         return view('teachers.studentPermissions', [
             'teacher' => $teacher,
             'allowedEmails' => $allowedEmails
@@ -329,12 +331,18 @@ class TeacherController extends Controller
         $emailEnding = $request[0];
         $teacher = auth()->user();
         if(!$teacher->isTeacher) abort(403, "You're not even a teacher");
-        $courses = Course::where('user_id', $teacher->id)->get();
+        $teacherSettings = TeacherSettings::where('user_id', $teacher->id)->first();
+        $allowedEmailsTillNow = $teacherSettings->allowedEmails;
+        $allowedEmailsFromNow = $allowedEmailsTillNow . ',' . $emailEnding;
+        $teacherSettings->update([
+            'allowedEmails' => $allowedEmailsFromNow
+        ]);
 
+        $courses = Course::where('user_id', $teacher->id)->get();
         foreach($courses as $course){
-            $allowedEmailsTillNow = $course->allowedEmails;
+            //$allowedEmailsTillNow = $course->allowedEmails;
             $course->update([
-                'allowedEmails' => $allowedEmailsTillNow .','. $emailEnding
+                'allowedEmails' => $allowedEmailsFromNow//$allowedEmailsTillNow .','. $emailEnding
             ]);
         }
         return "added";
@@ -343,6 +351,7 @@ class TeacherController extends Controller
     public function test2()
     {
 
+        TeacherSettings::create(["user_id" => 8]);
     }
 
     public function test()
