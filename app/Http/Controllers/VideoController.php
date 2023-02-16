@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Video;
 use App\Models\Course;
+use App\Models\CoursesUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -15,10 +16,16 @@ class VideoController extends Controller
         // show all videos of the selected course
     {
         $videos = Video::where('course_id', $course->id)->paginate(24);
+        $user = auth()->user();
+        // get all students that requested for enrollments in this course, if it's owned by this user
+        if($user->isTeacher && $user->id == $course->user_id){
+            $studentsToEnroll = User::whereIn('id', CoursesUser::where('course_id', $course->id)->get('user_id'))->get();
+        }
         return view('videos.courseVideos', [
             'videos' => $videos,
             'course' => $course,
-            'user' => auth()->user()
+            'user' => auth()->user(),
+            'studentsToEnroll' => $studentsToEnroll
         ]);
     }
 

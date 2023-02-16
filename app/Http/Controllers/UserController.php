@@ -18,10 +18,11 @@ class UserController extends Controller
 
     public function mainPage()
     {
-        if(auth()->user()==null){
+        $user = auth()->user();
+        if($user==null){
             return $this->loginForm();
         }
-        return $this->redirectToMainpage();
+        return $this->redirectToMainpage($user);
     }
 
     public function registrationForm($actor)
@@ -187,7 +188,7 @@ class UserController extends Controller
 
         if(auth()->attempt($authData)){//$formData)){   // login user
             $request->session()->regenerate();  // security
-            $this->redirectToMainpage();
+            return $this->redirectToMainpage($user);
             /*if($user->isTeacher){
                 return redirect('/teachers/mainpage')->with('message', 'Welcome back, '.$user->name);
             }else{
@@ -226,9 +227,9 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    public function redirectToMainpage()
+    public function redirectToMainpage($user)
     {
-        $user = auth()->user();
+        //$user = auth()->user();
         if($user->isTeacher){
             return redirect('/teachers/mainpage')->with('message', 'Welcome back, '.$user->name);
         }else{
