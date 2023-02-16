@@ -27,21 +27,22 @@
 
                         @endphp--}}
                         @if(!isset($coursesUsers[$course->id]))
-                            <td><a href="{{BASEURL}}/students/enrollReq/{{$course->id}}">Request enrollment</a></td>
+                            <td><a href="{{BASEURL}}/students/enrollment/request/{{$course->id}}">Request enrollment</a></td>
                         @else
                         {{--@switch($coursesUsers[$GLOBALS['currentCourse']]->status)--}}
                             @switch($coursesUsers[$course->id]->status)
                            {{-- @switch($coursesUsers)--}}
                             @case('requested')
-                                <td><a href="{{BASEURL}}/students/enrollReq/{{$course->id}}">Delete request</a></td>
+                                <td><a href="{{BASEURL}}/students/enrollment/delete/{{$course->id}}">Delete request</a></td>
                                 @break
-
+                            @case('approved')
+                                @break
                             @default
                                     <td>blabla</td>
                         @endswitch
                         @endif
                     @else
-                        <td><a href="{{BASEURL}}/students/enrollReq/{{$course->id}}">Request enrollment</a></td>
+                        <td><a href="{{BASEURL}}/students/enrollment/request/{{$course->id}}">Request enrollment</a></td>
                     @endif
                 @endif
             </tr>

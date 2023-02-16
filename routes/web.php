@@ -95,7 +95,9 @@ Route::post('/teachers/addAllowedEmail', [TeacherController::class, 'addAllowedE
 
 Route::get('/students/mainpage', [StudentController::class, 'mainpage'])->middleware('auth');
 
-Route::get('/students/enrollReq/{course}', [StudentController::class, 'enrollReq'])->middleware('auth');
+Route::get('/students/enrollment/request/{course}', [StudentController::class, 'requestEnrollment'])->middleware('auth');
+
+Route::get('/students/enrollment/delete/{course}', [StudentController::class, 'deleteEnrollmentRequest'])->middleware('auth');
 
 Route::get('students/selfProfile', [StudentController::class, 'selfProfile'])->middleware('auth');
 

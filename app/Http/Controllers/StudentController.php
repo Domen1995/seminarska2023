@@ -37,15 +37,45 @@ class StudentController extends Controller
         ]);
     }
 
-    public function enrollReq(Request $request, Course $course)
+    public function requestEnrollment(Request $request, Course $course)
     {
-        $user = auth()->user();
+        $student = auth()->user();
+        // check if student's enrollment record already exists
+        $enrollmentRecord = CoursesUser::where('course_id', $course->id)
+                            ->where('user_id', $student->id)
+                            ->first();
+        if($enrollmentRecord!=null){
+            return back()->with('message', 'You have already requested for this course');
+        }
+
         CoursesUser::create([
-            'user_id' => $user->id,
+            'user_id' => $student->id,
             'course_id' => $course->id
         ]);
 
         return back()->with('message', 'Teacher is noted to let you in');
+    }
+
+    public function deleteEnrollmentRequest(Request $request, Course $course)
+        // deletes request to join a course from teacher's list for the student who changed his mind
+    {
+        $student = auth()->user();
+        $enrollmentRecord = CoursesUser::where('course_id', $course->id)
+                                        ->where('user_id', $student->id)
+                                        ->first();
+        // if the request doesn't exist, return
+        if($enrollmentRecord==null){
+            return back()->with('message', "Deletion unsuccessful");
+        }
+        // if teacher hasn't approved the request yet, request can be deleted
+        if($enrollmentRecord->status == 'requested'){
+            $enrollmentRecord->delete();
+            return back()->with('message', "Your request was successfully removed from teacher's list");
+        }
+        // if teacher already admitted the student to his course, it's too late
+        if($enrollmentRecord->status == 'approved') return back()->with('message', 'Too late, teacher has already let you in.');
+        // any other case, just return with negative message
+        return back()->with('message', "Deletion unsuccessful");
     }
 
     public function selfProfile()
