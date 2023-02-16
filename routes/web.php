@@ -99,6 +99,12 @@ Route::get('/students/enrollment/request/{course}', [StudentController::class, '
 
 Route::get('/students/enrollment/delete/{course}', [StudentController::class, 'deleteEnrollmentRequest'])->middleware('auth');
 
+Route::get('/teachers/enrollStudent', [TeacherController::class, 'enrollStudent'])->middleware('auth');
+
+Route::get('/teachers/coursePage/{course}', [TeacherController::class, 'coursePage'])->middleware('auth');
+
+Route::get('/students/coursePage/{course}', [StudentController::class, 'coursePage'])->middleware('auth');
+
 Route::get('students/selfProfile', [StudentController::class, 'selfProfile'])->middleware('auth');
 
 Route::get('courses/search', [CourseController::class, 'search'])->middleware('auth');

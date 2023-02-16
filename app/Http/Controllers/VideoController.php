@@ -12,14 +12,18 @@ use Illuminate\Support\Facades\Cache;
 class VideoController extends Controller
 {
 
-    public function courseVideos(Course $course)
-        // show all videos of the selected course
+
+
+    /*public function courseVideos(Course $course)
+        // show all videos of the selected course to the author and also course manager if user is the owner
     {
         $videos = Video::where('course_id', $course->id)->paginate(24);
         $user = auth()->user();
-        // get all students that requested for enrollments in this course, if it's owned by this user
+        // get all students that requested for enrollments in this course, if it's owned by this user and if their status is "requested"
         if($user->isTeacher && $user->id == $course->user_id){
-            $studentsToEnroll = User::whereIn('id', CoursesUser::where('course_id', $course->id)->get('user_id'))->get();
+            $studentsToEnroll = User::whereIn('id', CoursesUser::where('course_id', $course->id)
+                                                                ->where('status', 'requested')->get('user_id'))
+                                            ->get();
         }
         return view('videos.courseVideos', [
             'videos' => $videos,
@@ -27,7 +31,25 @@ class VideoController extends Controller
             'user' => auth()->user(),
             'studentsToEnroll' => $studentsToEnroll
         ]);
-    }
+    }*/
+
+    /*
+    public function courseVideos(Course $course)
+    {
+        $user = auth()->user();
+        // check if user is really enrolled
+        $enrollment = CoursesUser::where('course_id', $course->id)
+                                    ->where('user_id', $user->id)
+                                    ->where('status', 'enrolled')
+                                    ->first();
+        if($enrollment==null) return back('message', "You're not even enrolled to this course");
+        $videos = Video::where('course_id', $course->id)->paginate(24);
+        return view('videos.courseVideos', [
+            'videos' => $videos,
+            'course' => $course,
+            'user' => $user
+        ]);
+    }*/
 
     public function homepage(Request $request){
         // display homepage on which user selects a video

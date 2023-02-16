@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Video;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Models\CoursesUser;//CourseStudent;
@@ -81,6 +82,23 @@ class StudentController extends Controller
     public function selfProfile()
     {
         return view('students.selfProfile');
+    }
+
+    public function coursePage(Course $course)
+    {
+        $user = auth()->user();
+        // check if user is really enrolled
+        $enrollment = CoursesUser::where('course_id', $course->id)
+                                    ->where('user_id', $user->id)
+                                    ->where('status', 'enrolled')
+                                    ->first();
+        if($enrollment==null) return back('message', "You're not even enrolled to this course");
+        $videos = Video::where('course_id', $course->id)->paginate(24);
+        return view('students.coursePage', [
+            'videos' => $videos,
+            'course' => $course,
+            'user' => $user
+        ]);
     }
 
     /*public function emailEnding($email)

@@ -10,7 +10,7 @@
             </tr>
         @foreach ($courses as $course)
             <tr>
-                <td><a href="{{BASEURL}}/videos/courseVideos/{{$course->id}}">{{$course->name}}</a></td>
+                <td>{{--<a href="{{BASEURL}}/videos/courseVideos/{{$course->id}}">--}}{{$course->name}}{{--</a>--}}</td>
                 <td>{{$course->teacher}}</td>
                 <td>{{$course->faculty}}</td>
                 @if(!$user->isTeacher)
@@ -38,12 +38,14 @@
                             @case('approved')
                                 @break
                             @default
-                                    <td>blabla</td>
+                                <td><a href="{{BASEURL}}/students/coursePage/{{--/videos/courseVideos/--}}{{$course->id}}">Watch videos</a></td>
                         @endswitch
                         @endif
                     @else
                         <td><a href="{{BASEURL}}/students/enrollment/request/{{$course->id}}">Request enrollment</a></td>
                     @endif
+                @elseif ($course->user_id== $user->id)
+                    <td><a href="{{BASEURL}}/teachers/coursePage/{{$course->id}}">Go to course</a></td>
                 @endif
             </tr>
         @endforeach

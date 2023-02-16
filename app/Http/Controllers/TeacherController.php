@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Video;
 use App\Models\Course;
+use App\Models\CoursesUser;
 use App\Models\TeacherSettings;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -347,6 +348,40 @@ class TeacherController extends Controller
         }
         return "added";
     }
+
+    public function enrollStudent(Request $request)
+    {
+        $enrollment = CoursesUser::where('user_id', $request->studentID)
+                                    ->where('course_id', $request->courseID)
+                                    ->first();
+        if($enrollment==null) return back()->with('message', 'Enrollment failed');
+        if($enrollment->status == "requested"){
+            $enrollment->status = "enrolled";
+            $enrollment->save();
+            return back()->with('message', 'Student successfully enrolled');
+        }
+        return back()->with('message', 'Enrollment failed');
+    }
+
+    public function coursePage(Course $course)
+    // show all videos of the selected course to the author and also course manager if user is the owner
+{
+    $user = auth()->user();
+    if(!($user->isTeacher && $user->id == $course->user_id)) return abort(403, "You're not even the owner of this course");
+    $videos = Video::where('course_id', $course->id)->paginate(24);
+    //$user = auth()->user();
+    // get all students that requested for enrollments in this course, if it's owned by this user and if their status is "requested"
+    //if($user->isTeacher && $user->id == $course->user_id){
+    $studentsToEnroll = User::whereIn('id', CoursesUser::where('course_id', $course->id)
+                                                        ->where('status', 'requested')->get('user_id'))
+                                    ->get();
+    return view('videos.courseVideos', [
+        'videos' => $videos,
+        'course' => $course,
+        'user' => auth()->user(),
+        'studentsToEnroll' => $studentsToEnroll
+    ]);
+}
 
     public function test2()
     {

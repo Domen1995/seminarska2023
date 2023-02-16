@@ -16,6 +16,7 @@
 }
 
 .pageList ul{
+    /* for pagination*/
     display: flex;
     list-style: none;
 }
