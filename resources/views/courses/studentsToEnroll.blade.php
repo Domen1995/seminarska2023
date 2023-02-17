@@ -1,5 +1,5 @@
 <table class="courseList">
-    <caption>Requesting students:</caption>
+    <caption style="font-size:1.2rem; width:12rem">Requesting students:</caption>
     @foreach ($studentsToEnroll as $student)
         <tr>
             <td>{{$student->name}}</td>

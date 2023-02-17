@@ -252,7 +252,8 @@ class TeacherController extends Controller
 
         // insert video metadata into DB
         Video::create($formData);
-        return redirect('/videos/courseVideos/'.$course->id);
+        //return redirect('/videos/courseVideos/'.$course->id);
+        return redirect('/teachers/coursePage/'.$course->id);
         /*Video::create([
             'title' => 'FirstVideo2',
             'author' => User::find(1)->name,

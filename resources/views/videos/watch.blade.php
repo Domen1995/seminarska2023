@@ -4,10 +4,17 @@
     <script src="{{BASEURL}}/js/videoPlayer.js" defer></script>
 </head>
 <body>
-    <x-menu />
+    @auth
+        @if(auth()->user()->isTeacher)
+            <x-teacherMenu />
+        @else
+            <x-studentMenu />
+        @endif
+    @endauth
+    {{--<x-menu />--}}
     <div class="videoHeader">
         <div class="selectedVideoTitle">{{$video->title}}</div>
-        <a class="arrowBack" href="javascript:history.back()">{{--"{{BASEURL}}/">--}}<i style="font-size: 2.5rem" class="material-icons">arrow_back</i></a>
+        {{--<a class="arrowBack" href="javascript:history.back()">{{--"{{BASEURL}}/">--}<i style="font-size: 2.5rem" class="material-icons">arrow_back</i></a>--}}
     </div>
     <div id="videoMainContainer" class="videoMainContainer">
         {{--<video class="videoArea" id="video" width="100%"{{--"500"--} controls="false" autoplay style="position:absolute; z-index:-1">

@@ -69,7 +69,24 @@
     pointer-events: auto;
 }
 
+.arrowBack{
+    /* to return to previous webpage */
+    position: relative;
+    display: block;
+    /*margin-left: auto;*/
+    /*position: absolute;*/
+    /*margin-top: auto;
+    /*right: 1rem;
+    display: flex;
+    align-items: baseline;
+    /*width: 4rem;*/
+}
 
+.arrowBack > *{
+    position: absolute;
+    display: inline-block;
+    transform: translateY(-1.9rem);
+}
 
 /* user's profile */
 

@@ -95,13 +95,14 @@ body{
     position: relative;
 }
 
+/*
 .arrowBack{
     /* to return to previous webpage */
     /*margin-left: auto;*/
-    position: absolute;
+    /*position: absolute;
     right: 1rem;
     /*width: 4rem;*/
-}
+
 
 .selectedVideoTitle{
     /*margin: 0 auto;*/
