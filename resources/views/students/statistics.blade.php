@@ -1,5 +1,5 @@
 <x-layout>
-    <title>My profile</title>
+    <title>My statistics</title>
 </head>
 <body>
     <x-studentMenu />

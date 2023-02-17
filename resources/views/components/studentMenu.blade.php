@@ -3,7 +3,8 @@
                 <a href="{{BASEURL}}/users/uploadForm" class="link">Upload your video</a>
             </div>--}}
         {{--</div>--}}
-    <a href="{{BASEURL}}/students/selfProfile{{--auth()->id()--}}" class="link">{{auth()->user()->name}}'s profile</a>
+    <a href="{{BASEURL}}/students/statistics{{--auth()->id()--}}" class="link">{{auth()->user()->name}}'s statistics</a>
+    <a href="{{BASEURL}}/students/settings" class="link">Settings</a>
     <a class="link" href="{{BASEURL}}/students/mainpage"><i class="material-icons" style="">home</i>Home</a>
     <a class="link arrowBack" href="javascript:history.back()">{{--"{{BASEURL}}/">--}}<i style="font-size: 2.5rem;" class="material-icons">arrow_back</i></a>
     <form action="{{BASEURL}}/users/logout" method="POST" style="margin-left:auto">

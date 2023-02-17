@@ -105,7 +105,11 @@ Route::get('/teachers/coursePage/{course}', [TeacherController::class, 'coursePa
 
 Route::get('/students/coursePage/{course}', [StudentController::class, 'coursePage'])->middleware('auth');
 
-Route::get('students/selfProfile', [StudentController::class, 'selfProfile'])->middleware('auth');
+Route::get('/students/statistics', [StudentController::class, 'statistics'])->middleware('auth');
+
+Route::get('/students/settings', [StudentController::class, 'settings'])->middleware('auth');
+
+Route::get('/students/ipForm', [StudentController::class, 'showIpForm'])->middleware('auth');
 
 Route::get('courses/search', [CourseController::class, 'search'])->middleware('auth');
     //->where(auth()->user()->isTeacher, '0');
