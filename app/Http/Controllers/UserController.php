@@ -179,6 +179,7 @@ class UserController extends Controller
 
         $user = User::where('name', $request['email'])
                 ->orWhere('email', $request['email'])->first();
+        if($user==null) return back()->with('message', 'Wrong userdata!');
         //$userAndType = $this->getUserAndType($request);
         if($user!=null && ($user->verified==0)){
             return back()->withErrors([
