@@ -234,7 +234,7 @@ class UserController extends Controller
             return redirect('/teachers/mainpage')->with('message', 'Welcome back, '.$user->name);
         }else{
             // get first of possible 2 student's IP addresses
-            $studentIP = StudentStatistics::where('user_id', $user->id)->first('ip_address');
+            $studentIP = StudentStatistics::where('user_id', $user->id)->first('ip_addresses')->ip_addresses;
             // if it isn't set, redirect student to the page where he will confirm or reject current IP to be permanent
             if($studentIP == null) return redirect('/students/ipForm');
             // else let user in as normal

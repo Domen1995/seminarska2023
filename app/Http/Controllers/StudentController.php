@@ -111,9 +111,11 @@ class StudentController extends Controller
         ]);
     }
 
-    public function showIpForm()
+    public function showIpForm(Request $request)
     {
-        return view('students.showIpForm')
+        return view('students.showIpForm', [
+            'studentsIP' => $request->ip()
+        ]);
     }
 
     /*public function emailEnding($email)
