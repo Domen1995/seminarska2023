@@ -6,7 +6,7 @@ function showIpConfirmation(ip){
 let confirmationId
 let confirmationClassName
 
-function createConfirmationWindow(parentId, windowId, message, url){
+function createConfirmationWindow(parentId, windowId, message, remainingUrl){
     //if(deletionWindowId!=false) return
     if(document.getElementById(windowId)!=null) return
     const confirmation = document.createElement("div")
@@ -35,7 +35,7 @@ function createConfirmationWindow(parentId, windowId, message, url){
     const yes = document.createElement("a")
     yes.innerHTML = "<button type='button'>Yes</button>" // make link look like a button    //yes.type = "submit"
     //yes.href = baseurl+"/users/deleteVideo?vidId="+vidId
-    yes.href = baseurl+"/teachers/deleteVideo?vidId="+vidId
+    yes.href = baseurl+remainingUrl
     yes.style.marginRight = ".2rem"
     yes.setAttribute('class', 'confirmationWindow')
     const no = document.createElement("button")
@@ -57,7 +57,7 @@ function createConfirmationWindow(parentId, windowId, message, url){
 }
 
 // close confirmation window on click
-let justCreated = false
+//let justCreated = false
 
 addEventListener('click', (e)=>{
     //console.log(deletionWindows)
@@ -72,7 +72,7 @@ addEventListener('click', (e)=>{
 
     // if clicked anywhere but on window, close window
     if(e.target.className!="confirmationWindow"){
-        document.getElementById("del").remove()
+        document.getElementById(confirmationId).remove()
     }
     /*console.log(deleteWindows.pop().id)
     console.log(e.target.id)

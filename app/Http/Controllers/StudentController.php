@@ -113,7 +113,7 @@ class StudentController extends Controller
 
     public function showIpForm(Request $request)
     {
-        return view('students.showIpForm', [
+        return view('students.ipForm', [
             'studentsIP' => $request->ip()
         ]);
     }
