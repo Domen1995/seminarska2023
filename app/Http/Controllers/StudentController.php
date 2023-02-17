@@ -79,9 +79,19 @@ class StudentController extends Controller
         return back()->with('message', "Deletion unsuccessful");
     }
 
-    public function selfProfile()
+    public function statistics()
     {
-        return view('students.selfProfile');
+        return view('students.statistics');
+        // samo 1 IP naslov ima loh študent, loh pa specifično za svoje course mu doda profesor še 1-ga. Če mu ga in se pri-
+        // javita 2 istočasno, ga bana. Da ne bo omejen; loh si doda sam še 1ga, pod pogojem, da študira v tujem kraju - to bo vidno
+        // vsem profesorjem -
+        // na 2 lokacijah, s svarilom, da če je prijavljen na obeh istočasno,
+        // onemogočena uporaba pod tem mailom in obema IP-jema.
+    }
+
+    public function settings()
+    {
+        return view('students.settings');
     }
 
     public function coursePage(Course $course)
@@ -99,6 +109,11 @@ class StudentController extends Controller
             'course' => $course,
             'user' => $user
         ]);
+    }
+
+    public function showIpForm()
+    {
+        return view('students.showIpForm')
     }
 
     /*public function emailEnding($email)
