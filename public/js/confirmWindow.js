@@ -1,5 +1,5 @@
 function showIpConfirmation(ip){
-    createConfirmationWindow('ipQuestion', 'ipConfirmation', "Permanently add "+ip+"?", '/students/addIp/?ip='+ip)
+    createConfirmationWindow('ipQuestion', 'ipConfirmation', "Permanently add "+ip+"?", '/students/addIp?ip='+ip)
 }
 
 

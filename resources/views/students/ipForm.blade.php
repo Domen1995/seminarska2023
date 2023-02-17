@@ -5,7 +5,7 @@
 <body>
     <div class="flexboxCenterer">
         <div class="form" style="width: 50%">
-            <div style="color:red">You are only allowed to watch videos from up to 2 locations. When the hash of your IP address is stored in database, you can't replace it
+            <div style="color:red">You are only allowed to watch videos from up to 2 locations. When your hashed IP address is stored in database, you can't replace it
                 with another one. Please log out if you're not currently connected through your home router.
             </div>
             <div id="ipQuestion" style="display:flex; gap:2rem; position:relative">

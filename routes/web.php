@@ -111,6 +111,8 @@ Route::get('/students/settings', [StudentController::class, 'settings'])->middle
 
 Route::get('/students/ipForm', [StudentController::class, 'showIpForm'])->middleware('auth');
 
+Route::get('/students/addIp', [StudentController::class, 'addIp'])->middleware('auth');
+
 Route::get('courses/search', [CourseController::class, 'search'])->middleware('auth');
     //->where(auth()->user()->isTeacher, '0');
 Route::get('teachers/newCourseForm', [TeacherController::class, 'newCourseForm'])->middleware('auth');
