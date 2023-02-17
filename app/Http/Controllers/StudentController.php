@@ -87,7 +87,8 @@ class StudentController extends Controller
         // javita 2 istočasno, ga bana. Da ne bo omejen; loh si doda sam še 1ga, pod pogojem, da študira v tujem kraju - to bo vidno
         // vsem profesorjem -
         // na 2 lokacijah, s svarilom, da če je prijavljen na obeh istočasno,
-        // onemogočena uporaba pod tem mailom in obema IP-jema.
+        // onemogočena uporaba pod tem mailom in obema IP-jema. Moral si bo narediti kljukico, če si bo hotel dodati še 1 IP naslov. Ne, pred
+        // gledanjem videa se bo počekiralo ujemanje še enkrat.
     }
 
     public function settings()
@@ -128,6 +129,18 @@ class StudentController extends Controller
         $studentStatistic->save();
         return redirect('/students/mainpage')->with('message', "IP address was immediately hashed and added to database; we're not interested in your location.");
     }
+
+    /*
+    public static function ipLoginValidation(Request $request, User $user)
+        // returns false if student's IP in request doesn't match with the one in DB
+    {
+        $studentIP = StudentStatistics::where('user_id', $user->id)->first('ip_addresses')->ip_addresses;
+        // if it isn't set yet, OK
+        if($studentIP == null) return true;
+        // return true only if his IP in DB matches with the one he's currently using
+        $ipMatches = str_contains($studentIP, sha1($request->ip()));
+        return $ipMatches;
+    }*/
 
     /*public function emailEnding($email)
     {

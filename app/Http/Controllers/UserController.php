@@ -16,13 +16,13 @@ use Illuminate\Support\Facades\RateLimiter;
 class UserController extends Controller
 {
 
-    public function mainPage()
+    public function mainPage(Request $request)
     {
         $user = auth()->user();
         if($user==null){
             return $this->loginForm();
         }
-        return $this->redirectToMainpage($user);
+        return $this->redirectToMainpage($request, $user);
     }
 
     public function registrationForm($actor)
@@ -185,10 +185,16 @@ class UserController extends Controller
                 'password' => 'You need to click on the link you received on email.'
             ]);
         }
+        // if user is student, don't let him in if his IP is invalid
+        if(!$user->isTeacher){
+            if(!StudentStatistics::ipLoginValidation($request, $user)){
+                return back()->with('message', 'Wrong IP address!');
+            }
+        }
 
         if(auth()->attempt($authData)){//$formData)){   // login user
             $request->session()->regenerate();  // security
-            return $this->redirectToMainpage($user);
+            return $this->redirectToMainpage($request, $user);
             /*if($user->isTeacher){
                 return redirect('/teachers/mainpage')->with('message', 'Welcome back, '.$user->name);
             }else{
@@ -227,7 +233,7 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    public function redirectToMainpage($user)
+    public function redirectToMainpage(Request $request, $user)
     {
         //$user = auth()->user();
         if($user->isTeacher){
@@ -237,7 +243,10 @@ class UserController extends Controller
             $studentIP = StudentStatistics::where('user_id', $user->id)->first('ip_addresses')->ip_addresses;
             // if it isn't set, redirect student to the page where he will confirm or reject current IP to be permanent
             if($studentIP == null) return redirect('/students/ipForm');
-            // else let user in as normal
+            // let student in only if his IP in DB matches with the one he's currently using
+            //$ipMatches = str_contains($studentIP, sha1($request->ip()));
+            //if($ipMatches) return redirect('/students/mainpage')->with('message', 'Welcome back, '.$user->name);
+            // if they don't match:
             return redirect('/students/mainpage')->with('message', 'Welcome back, '.$user->name);
         }
     }
