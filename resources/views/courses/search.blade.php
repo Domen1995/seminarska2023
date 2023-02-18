@@ -4,7 +4,7 @@
         <div class="searchBar">
             <input type="text" name="limitations" placeholder="Search courses or teachers ...">
             <button type="submit">
-                <i class="material-icons" style="">search</i>
+                <i class="material-icons">search</i>
             </button>
         </div>
     </div>

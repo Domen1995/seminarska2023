@@ -16,7 +16,10 @@
             <div id="emailsAllowedSoFar">
             @if(count($allowedEmails)>0)
                     @foreach ($allowedEmails as $allowedEmail)
-                        <div>{{$allowedEmail}}</div>
+                        <div class="singleMailContainer" id="{{$allowedEmail}}" style="display: flex; gap: .2rem">
+                            <div>{{$allowedEmail}}</div>
+                            <button onclick="removeAllowedEmail(this)" style="width: 2rem; height:2rem; padding: 0px 0px 0px 0px; border-radius:.4rem"><i class="material-icons" style="color: red">cancel</i></button>
+                        </div>
                     @endforeach
             @else
                     Any registered student can request enrollment to your courses

@@ -9,7 +9,7 @@
                 with another one. Please log out if you're not currently connected through your home router.
             </div>
             <div id="ipQuestion" style="display:flex; gap:2rem; position:relative">
-                <button class="link" onclick="showIpConfirmation('{{$studentsIP}}')">One of my 2 IP address will be {{$studentsIP}} forever</button>
+                <button class="link" onclick="showIpConfirmation('{{$studentsIP}}')" style="height: .9rem">One of my 2 IP address will be {{$studentsIP}} forever</button>
                 <form action="{{BASEURL}}/users/logout" method="POST" style="">
                     @csrf
                     <input class="link" type="submit" value="Log out" style="width:14rem; height:6rem; font-size:4rem">

@@ -350,6 +350,28 @@ class TeacherController extends Controller
         return "added";
     }
 
+    public function removeAllowedEmail(Request $request)
+    {
+        $emailEnding = $request[0];
+        $teacher = auth()->user();
+        if(!$teacher->isTeacher) abort(403, "You're not even a teacher");
+        $teacherSettings = TeacherSettings::where('user_id', $teacher->id)->first();
+        $allowedEmailsTillNow = $teacherSettings->allowedEmails;
+        $allowedEmailsFromNow = str_replace($emailEnding.",", "", $allowedEmailsTillNow);
+        $teacherSettings->update([
+            'allowedEmails' => $allowedEmailsFromNow
+        ]);
+
+        $courses = Course::where('user_id', $teacher->id)->get();
+        foreach($courses as $course){
+            //$allowedEmailsTillNow = $course->allowedEmails;
+            $course->update([
+                'allowedEmails' => $allowedEmailsFromNow//$allowedEmailsTillNow .','. $emailEnding
+            ]);
+        }
+        return "removed";
+    }
+
     public function enrollStudent(Request $request)
     {
         $enrollment = CoursesUser::where('user_id', $request->studentID)

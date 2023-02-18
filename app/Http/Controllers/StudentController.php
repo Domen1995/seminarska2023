@@ -127,7 +127,7 @@ class StudentController extends Controller
         $studentStatistic = StudentStatistics::where('user_id', $student->id)->first();
         $studentStatistic->ip_addresses .= sha1($request->ip).',';
         $studentStatistic->save();
-        return redirect('/students/mainpage')->with('message', "IP address was immediately hashed and added to database; we're not interested in your location.");
+        return redirect('/students/mainpage')->with('message', "Success. IP address was immediately hashed; we're not interested in your location.");
     }
 
     /*

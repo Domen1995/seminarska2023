@@ -57,6 +57,7 @@ class UserController extends Controller
             $message->to($GLOBALS['email'])->subject('Registration');
 
         });
+        // assign the user statut of student or teacher for DB record
         if($actor == "teacher"){  // teacher
             $formData['isTeacher'] = "1";
         }elseif($actor == "student"){  // student
@@ -103,11 +104,14 @@ class UserController extends Controller
             ]);
         }
         auth()->login($user);
-        // assign the loggedin user statut of student or teacher for later use in this session
         if($user->isTeacher){
             return redirect('/teachers/mainpage')->with('message', 'Welcome to the community, '. $request->n.'!');
         }else{
-            return redirect('/students/mainpage')->with('message', 'Welcome to the community, '. $request->n.'!');
+            // remember in student's session that he doesn't have his IP in DB and redirect to page where he will approve IP
+            session(['ipStatus' => 'noIP']);
+            session(['ipsRegistered' => 0]);
+            return redirect('/students/ipForm');
+            //return redirect('/students/mainpage')->with('message', 'Welcome to the community, '. $request->n.'!');
         }
         //return redirect('/')->with('message', 'Welcome to the community, '. $request->n.'!');//auth()->user()->name.'!');
     }
