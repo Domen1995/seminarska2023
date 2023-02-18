@@ -2,6 +2,7 @@
     <title>Student permissions</title>
     <meta id="usersToken" name="csrf-token" content="{{ csrf_token() }}">
     <script src="{{BASEURL}}/js/studentPermissions.js" defer></script>
+    <link rel="stylesheet" href="{{BASEURL}}/css/studentPermissions.css">
 </head>
 <body>
     <x-teacherMenu />
@@ -18,7 +19,7 @@
                     @foreach ($allowedEmails as $allowedEmail)
                         <div class="singleMailContainer" id="{{$allowedEmail}}" style="display: flex; gap: .2rem">
                             <div>{{$allowedEmail}}</div>
-                            <button onclick="removeAllowedEmail(this)" style="width: 2rem; height:2rem; padding: 0px 0px 0px 0px; border-radius:.4rem"><i class="material-icons" style="color: red">cancel</i></button>
+                            <button class="removeAllowedEmail" onclick="removeAllowedEmail(this)" style="width: 2rem; height:2rem; padding: 0px 0px 0px 0px; border-radius:.4rem"><i class="material-icons" style="color: red">cancel</i></button>
                         </div>
                     @endforeach
             @else

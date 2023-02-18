@@ -16,8 +16,24 @@ async function addAllowedEmail(){
                                 })//+email)
     const text = await response.text()
     if(text == "added"){
+        // add new element for this allowed email and his potential removal to DOM
         const newAllowedEmailElement = document.createElement("div")
-        newAllowedEmailElement.innerHTML = email
+        newAllowedEmailElement.style.display = "flex"
+        newAllowedEmailElement.style.gap = ".2rem"
+        const newEmailName = document.createElement("div")
+        newEmailName.innerHTML = email
+        //newAllowedEmailElement.innerHTML = email
+        newEmailButton = document.createElement("button")
+        newEmailButton.style.width = "2rem"
+        newEmailButton.style.height = "2rem"
+        newEmailButton.style.borderRadius = ".4rem"
+        const cancelIcon = document.createElement("i")
+        cancelIcon.setAttribute("class", "material-icons")
+        cancelIcon.innerHTML = "cancel"
+        cancelIcon.style.color = "red"
+        newEmailButton.appendChild(cancelIcon)
+        newAllowedEmailElement.appendChild(newEmailName)
+        newAllowedEmailElement.appendChild(newEmailButton)
         document.getElementById('emailsAllowedSoFar').appendChild(newAllowedEmailElement)
     }
     //console.log(text)

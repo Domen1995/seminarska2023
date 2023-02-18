@@ -321,6 +321,8 @@ class TeacherController extends Controller
         //$allowedEmails = explode(",", $anyTeacherscourse->allowedEmails);
         if($allowedEmailsString == null) $allowedEmails = [];
         else $allowedEmails = explode(',', $allowedEmailsString);
+        // because last value after comma is empty, we need to delete it from array:
+        unset($allowedEmails[count($allowedEmails)-1]);
         return view('teachers.studentPermissions', [
             'teacher' => $teacher,
             'allowedEmails' => $allowedEmails
@@ -335,7 +337,7 @@ class TeacherController extends Controller
         if(!$teacher->isTeacher) abort(403, "You're not even a teacher");
         $teacherSettings = TeacherSettings::where('user_id', $teacher->id)->first();
         $allowedEmailsTillNow = $teacherSettings->allowedEmails;
-        $allowedEmailsFromNow = $allowedEmailsTillNow . ',' . $emailEnding;
+        $allowedEmailsFromNow = $allowedEmailsTillNow /*. ',' */. $emailEnding.',';
         $teacherSettings->update([
             'allowedEmails' => $allowedEmailsFromNow
         ]);
