@@ -71,7 +71,7 @@ Route::post('/users/store', [UserController::class, 'store'])->middleware('auth'
 Route::get('/videos/courseVideos/{course}', [VideoController::class, 'courseVideos'])->middleware('auth');
 
 // // send a page that contains the video tag with source of the selected video
-Route::get('/videos/watch/{video}', [VideoController::class, 'watch'])->middleware('auth');   // pri navadnem streamingu ni bilo auth
+Route::get('/videos/watch/{video}/{course}', [VideoController::class, 'watch'])->middleware('auth');   // pri navadnem streamingu ni bilo auth
 
 // send part of video from requested starting point
 Route::get('/videos/chunk/{video}', [VideoController::class, 'serveChunk'])->middleware('auth');

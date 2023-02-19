@@ -6,8 +6,8 @@ use App\Models\User;
 use App\Models\Video;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use App\Models\StudentSettings;
 use App\Models\CoursesUser;//CourseStudent;
-use App\Models\StudentStatistics;
 
 class StudentController extends Controller
 {
@@ -124,9 +124,9 @@ class StudentController extends Controller
         // add new permanent IP student chose or append one IP already exists
     {
         $student = auth()->user();
-        $studentStatistic = StudentStatistics::where('user_id', $student->id)->first();
-        $studentStatistic->ip_addresses .= sha1($request->ip).',';
-        $studentStatistic->save();
+        $studentSettings = StudentSettings::where('user_id', $student->id)->first();
+        $studentSettings->ip_addresses .= sha1($request->ip).',';
+        $studentSettings->save();
         return redirect('/students/mainpage')->with('message', "Success. IP address was immediately hashed; we're not interested in your location.");
     }
 

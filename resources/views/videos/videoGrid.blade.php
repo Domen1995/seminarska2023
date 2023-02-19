@@ -8,7 +8,7 @@
                 <button onclick="confirmDelete({{$video->id}})" {{--href="deleteVideo"--}} style="position: absolute; left:9rem; top:2rem; z-index: 1;"><i class="material-icons" style="color: red; font-size:1.5rem">delete</i></button>
             @endif
         @endauth
-        <a class="video" {{--id="video"--}} href="{{BASEURL}}/videos/watch/{{$video->id}}" style="position: relative">
+        <a class="video" {{--id="video"--}} href="{{BASEURL}}/videos/watch/{{$video->id}}/{{$course->id}}" style="position: relative">
             <h2 class="{{BASEURL}}/videoTitle">{{$video->title}}</h2>
             <img class="videoImage" src="{{--$video->videoImagePath--}}{{BASEURL}}/storage/{{$video->videoImagePath}}" alt="Play video!">
             {{--@auth

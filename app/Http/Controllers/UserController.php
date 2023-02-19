@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\SignUp;
-use App\Models\StudentStatistics;
+use App\Models\StudentSettings;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
@@ -99,7 +99,7 @@ class UserController extends Controller
                 'user_id' => $user->id,
             ]);
         }else{
-            StudentStatistics::create([
+            StudentSettings::create([
                 'user_id' => $user->id
             ]);
         }
@@ -248,7 +248,7 @@ class UserController extends Controller
             // get first of possible 2 student's IP addresses
             //$studentIP = StudentStatistics::where('user_id', $user->id)->first('ip_addresses')->ip_addresses;
             // if it isn't set, redirect student to the page where he will confirm or reject current IP to be permanent
-            return StudentStatistics::ipLoginValidation($request, $user);
+            return StudentSettings::ipLoginValidation($request, $user);
                 //return back()->with('message', 'Wrong IP address!');
             //if($studentIP == null) return redirect('/students/ipForm');
             // let student in only if his IP in DB matches with the one he's currently using

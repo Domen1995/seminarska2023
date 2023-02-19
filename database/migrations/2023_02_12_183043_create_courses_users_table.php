@@ -21,6 +21,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             //$table->integer('screwUps');
             $table->string('status')->default('requested');
+            $table->integer('screwUps')->default(0);
+            $table->integer('presences')->default(0);
             $table->timestamps();
         });
     }

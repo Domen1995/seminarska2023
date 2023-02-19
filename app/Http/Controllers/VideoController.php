@@ -75,15 +75,28 @@ class VideoController extends Controller
         ]);
     }
 
-    public function watch(Video $video){
+    public function watch(Video $video, Course $course){
         // sends a page that contains the video tag with source of the selected video
+        $user = auth()->user();
+        // if user is the teacher who made the video, he will be allowed to watch
+        $watchPermission = false;
+        if($user->id == $video->user_id) $watchPermission = true;
 
         // increment number of views of the video, if clicked by a student
+
         if(!auth()->user()->isTeacher){
+            $courseUser = CoursesUser::where('user_id', $user->id)->first();
+            // if the value of screwUps minus presences is non-negative, let him watch the video
+            $studentCredits = $courseUser->presences - $courseUser->screwUps;
+            if($studentCredits >=0) $watchPermission = true;
+            else{
+                return back()->with("message", "All videos will be unlocked if you'll be at the lectures at the time of next ".(-$studentCredits)." presence checkings.");
+            }
             $video->update([
                 'views' => $video->views +1
             ]);
         }
+        if(!$watchPermission) return back()->with("message", "You're not enrolled to watch the video");
         return view('videos.watch', [
             'video' => $video
         ]);

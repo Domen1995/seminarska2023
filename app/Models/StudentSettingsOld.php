@@ -21,7 +21,7 @@ class StudentStatistics extends Model
     public static function ipLoginValidation(Request $request, User $user)
         // sets session attributes and redirects according to match between student's IP in request and with the one in DB
     {
-        $studentIP = StudentStatistics::where('user_id', $user->id)->first('ip_addresses')->ip_addresses;
+        $studentIP = StudentSettings::where('user_id', $user->id)->first('ip_addresses')->ip_addresses;
         // if it isn't set, redirect student to the page where he will confirm or reject current IP to be permanent
         if($studentIP == null){
             session(["ipStatus" => "noIP"]);
