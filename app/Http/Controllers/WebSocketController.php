@@ -35,9 +35,10 @@ class WebSocketController extends Controller implements MessageComponentInterfac
     public function onMessage(ConnectionInterface $from, $msg)
     {
         $msg = json_decode($msg);
-        if(isset($msg['type'])){
-            switch($msg['type']){
+        if(isset($msg->type)){
+            switch($msg->type){
                 case 'ping':
+                    //return;
                     $response = ["type" => "pong"];
                     $from->send(json_encode($response));
             }

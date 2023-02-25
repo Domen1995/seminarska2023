@@ -8,7 +8,7 @@
 
         conn.onopen = function(e){
             console.log("connected")
-            setTimeout(pingMessage, 5000)
+            setTimeout(pingMessage, 20000)
         }
         conn.onmessage = function(e){
             console.log("message arrived")
@@ -24,9 +24,10 @@
         }
 
         function pingMessage(){
+            // every 20 seconds ping server to prevent automatic disconnecting
             const msg = {type : "ping"}
             conn.send(JSON.stringify(msg))
-            setTimeout(pingMessage, 5000)
+            setTimeout(pingMessage, 20000)
         }
     </script>
 </x-layout>
