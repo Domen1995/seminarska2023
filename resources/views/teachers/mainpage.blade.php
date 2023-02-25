@@ -2,6 +2,11 @@
     <title>My courses</title>
 </head>
 <body>
+    {{--@if(cache('clients')!=null)--}}
+        {{--@php
+            dd(cache('conn'))
+        @endphp--}}
+    {{--@endif--}}
     <x-teacherMenu />
     @include('courses.search')
     <div class="flexboxCenterer">

@@ -21,8 +21,12 @@ use App\Http\Controllers\TeacherController;
 |
 */
 
+// php-cgi.exe -b 127.0.0.1:9000
+// https://127.0.0.1/teachers/mainpage
+
 // base URL of the website
-define("BASEURL", "/seminarska2023/public");
+//define("BASEURL", "/seminarska2023/public");
+define("BASEURL", "");
 
 // display homepage on which user selects a video
 //Route::get('/', [VideoController::class, 'homepage']);
@@ -104,6 +108,8 @@ Route::get('/students/enrollment/delete/{course}', [StudentController::class, 'd
 Route::get('/teachers/enrollStudent', [TeacherController::class, 'enrollStudent'])->middleware('auth');
 
 Route::get('/teachers/coursePage/{course}', [TeacherController::class, 'coursePage'])->middleware('auth');
+
+Route::get('/teachers/checkIp', [TeacherController::class, 'checkIp']);
 
 Route::get('/students/coursePage/{course}', [StudentController::class, 'coursePage'])->middleware('auth');
 

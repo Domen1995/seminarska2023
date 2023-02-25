@@ -408,6 +408,11 @@ class TeacherController extends Controller
     ]);
 }
 
+    public function checkIp()
+    {
+        return view('teachers.ipChecking');
+    }
+
     public function test2()
     {
 

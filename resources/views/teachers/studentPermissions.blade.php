@@ -23,7 +23,7 @@
                         </div>
                     @endforeach
             @else
-                    Any registered student can request enrollment to your courses
+                    <div id="allEmailsAllowedInscription">Any registered student can request enrollment to your courses</div>
             @endif
             </div>
             @error('')

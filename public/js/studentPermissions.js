@@ -27,6 +27,7 @@ async function addAllowedEmail(){
         newEmailButton.style.width = "2rem"
         newEmailButton.style.height = "2rem"
         newEmailButton.style.borderRadius = ".4rem"
+        newEmailButton.setAttribute("onclick", "removeAllowedEmail(this)")
         const cancelIcon = document.createElement("i")
         cancelIcon.setAttribute("class", "material-icons")
         cancelIcon.innerHTML = "cancel"
@@ -35,6 +36,11 @@ async function addAllowedEmail(){
         newAllowedEmailElement.appendChild(newEmailName)
         newAllowedEmailElement.appendChild(newEmailButton)
         document.getElementById('emailsAllowedSoFar').appendChild(newAllowedEmailElement)
+        // if the inscription saying "Any student can request enrollment" is set, remove it
+        const allEmailsAllowed = document.getElementById('allEmailsAllowedInscription')
+        //console.log(allEmailsAllowed)
+        //if(allEmailsAllowed!=null) allEmailsAllowed.innerHTML = ""
+        if(allEmailsAllowed) allEmailsAllowed.remove()
     }
     //console.log(text)
     //await fetch(BASEURL)
@@ -57,7 +63,6 @@ async function removeAllowedEmail(emailButton){
                                     }
                                 })//+email)
     const text = await response.text()
-    console.log(text)
     if(text == "removed"){
         emailElement.remove()
     }
