@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Console\Commands\WebSocketServer;
 use App\Models\User;
 use App\Models\Video;
 use App\Models\Course;
 use App\Models\CoursesUser;
-use App\Models\TeacherSettings;
 use Illuminate\Http\Request;
+use App\Models\TeacherSettings;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
 
 
@@ -416,7 +418,14 @@ class TeacherController extends Controller
     public function test2()
     {
 
-        TeacherSettings::create(["user_id" => 8]);
+        //TeacherSettings::create(["user_id" => 8]);
+        //Cache::flush('client');
+        //$clients = WebSocketController::$clients;
+        /*foreach(WebSocketController::$clients as $client){
+            $response = ["type" => "fromTeacherClass"];
+            $client->send(json_encode($response));
+        }*/
+        //dd(WebSocketController::$clients->count());
     }
 
     public function test()

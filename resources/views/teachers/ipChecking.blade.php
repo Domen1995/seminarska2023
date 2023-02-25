@@ -2,6 +2,7 @@
     <title>Checking student presence</title>
 </head>
 <body>
+    <div id="wsOutput"></div>
     <script>
         //const conn = new WebSocket('wss://ratchet.192.168.0.20:8888/wss2/NNN')
         const conn = new WebSocket('wss://127.0.0.1:443/robots/')//('wss://127.0.0.1:4111/')
@@ -15,6 +16,12 @@
             const data = JSON.parse(e.data)
             //console.log(e.data)
             console.log(data.type)
+            if(data.type=="studentJoined"){
+                if(data.content!=null){
+                    document.getElementById("wsOutput").innerHTML = data.content
+                }
+            }
+            //document.getElementById("wsOutput").innerHTML = e.data.type
             /*const data = JSON.parse(e.data)
             console.log(data.data)*/
         }

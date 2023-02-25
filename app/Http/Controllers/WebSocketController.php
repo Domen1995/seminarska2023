@@ -10,26 +10,31 @@ use Ratchet\ConnectionInterface;
 
 class WebSocketController extends Controller implements MessageComponentInterface
 {
-    public $clients;
+    private $clients;
 
     public function __construct()
     {
         $this->clients = new \SplObjectStorage;
-        cache(["clients" => $this->clients]);
+        //$this::$clients = new \SplObjectStorage;
+        //cache(["clients" => $this->clients]);
     }
 
     public function onOpen(ConnectionInterface $conn)
     {
         $this->clients->attach($conn);
+        //$this::$clients->attach($conn);
         $response = ["type" => "connectionConfirmed"];
         //$response["type"] = "firstMsg";
         //foreach($this->clients as $client) $client->send("msg");
         //$conn->send("second msg");
         $conn->send(json_encode($response));
+        //cache(["client" => $conn->resourceId]);
+        //dd($this::$clients->count());
         //$conn->send(count($this->clients));
         //cache(["conn" => $conn]);
         //$toSend = ["data" => "123"];
         //$conn->send(json_encode($toSend));
+
     }
 
     public function onMessage(ConnectionInterface $from, $msg)
@@ -41,6 +46,12 @@ class WebSocketController extends Controller implements MessageComponentInterfac
                     //return;
                     $response = ["type" => "pong"];
                     $from->send(json_encode($response));
+                    break;
+                case 'studentJoined':
+                    $response = ["type" => "studentjoined", "content" => "Domen joined"];
+                    foreach($this->clients as $client){
+                        $client->send(json_encode($response));
+                }
             }
         }
     }
@@ -48,6 +59,7 @@ class WebSocketController extends Controller implements MessageComponentInterfac
     public function onClose(ConnectionInterface $conn)
     {
         $this->clients->detach($conn);
+        //$this::$clients->detach($conn);
     }
 
     public function onError(ConnectionInterface $conn, Exception $e)
