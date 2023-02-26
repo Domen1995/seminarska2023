@@ -50,6 +50,7 @@ class WebSocketController extends Controller implements MessageComponentInterfac
                     $from->send(json_encode($response));
                     break;
                 case 'student_joined':
+
                     $response = ["type" => "student_joined", "info" => /*$msg->info.",".*/$from->remoteAddress];
                     foreach($this->clients as $client){
                         $client->send(json_encode($response));
@@ -68,5 +69,10 @@ class WebSocketController extends Controller implements MessageComponentInterfac
     {
         echo "Error {$e->getMessage()}";
         $conn->close();
+    }
+
+    public function doesIpMatch($studentIp)
+    {
+
     }
 }
