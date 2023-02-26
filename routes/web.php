@@ -109,7 +109,7 @@ Route::get('/teachers/enrollStudent', [TeacherController::class, 'enrollStudent'
 
 Route::get('/teachers/coursePage/{course}', [TeacherController::class, 'coursePage'])->middleware('auth');
 
-Route::get('/teachers/checkIp', [TeacherController::class, 'checkIp']);
+Route::get('/teachers/checkIp/{course}', [TeacherController::class, 'checkIp']);
 
 Route::get('/students/coursePage/{course}', [StudentController::class, 'coursePage'])->middleware('auth');
 

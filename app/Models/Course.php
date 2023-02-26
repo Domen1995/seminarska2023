@@ -15,7 +15,8 @@ class Course extends Model
         'teacher',
         'faculty',
         'user_id',
-        'allowedEmails'
+        'allowedEmails',
+        'isCurrentlyChecking'
     ];
 
     public static function findMatching($limitations, $user)
@@ -36,14 +37,20 @@ class Course extends Model
         }
     }
 
-    public static function courseCurrentlyChecking()
+    public static function ipChecking($student)
         // check if any course student is signed in is being checked for presence at the moment,
         // return which one if it is
     {
-        $student = auth()->user();
-        $coursesChecking = Course::where('user_id', $student->id)
-                            ->where('isCurrentlyChecking', 1)
+        $coursesChecking = Course::where('isCurrentlyChecking', 1)
+                            ->whereIn('id', CoursesUser::where('user_id', $student->id)->get('id'))
                             ->get();
-        dd(count($coursesChecking));
+        return $coursesChecking;
+        if(count($coursesChecking)==0) return;
+        if(count($coursesChecking)==1){
+            $websocketToken = md5(uniqid());
+
+        }
     }
+
+
 }

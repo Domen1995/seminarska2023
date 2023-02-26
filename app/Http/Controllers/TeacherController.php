@@ -410,8 +410,11 @@ class TeacherController extends Controller
     ]);
 }
 
-    public function checkIp()
+    public function checkIp(Course $course)
     {
+        $course = Course::find($course->id);
+        $course->isCurrentlyChecking = 1;
+        $course->save();
         return view('teachers.ipChecking');
     }
 

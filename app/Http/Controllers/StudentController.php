@@ -11,17 +11,18 @@ use App\Models\CoursesUser;//CourseStudent;
 
 class StudentController extends Controller
 {
-    public function mainpage(/*Request $request*/)
+    public function mainpage(Request $request)
     {
-        // check if teacher is currently checking course
-
-        Course::courseCurrentlyChecking();
+        $student = auth()->user();
+        // check if teacher is currently checking course student's enrolled in; if doesn't proceed normally
+        $coursesChecking = Course::ipChecking($student);
+        if(count($coursesChecking)>=1) return $this->ipChecking($coursesChecking, $request);
         // if student searched in search bar for matching courses, the request has limitations:
         /*if($request->has('limitations')){
             $courses = Course::findMatching($request->limitations);
         // if this was a usual arrival on the page, we retrieve all courses the student is signed in
         }else{*/
-        $student = auth()->user();
+
         $studentsEmailEnding = User::emailEnding($student->email);
         $courses = Course::whereIn('id', CoursesUser::select('course_id')->where('user_id', auth()->user()->id)->get())  //courses student's enrolled in or waiting for approval
                     ->orwhere('allowedEmails', 'like', '%'.$studentsEmailEnding.'%')  //courses matching student's email address
@@ -133,12 +134,20 @@ class StudentController extends Controller
         return redirect('/students/mainpage')->with('message', "Success. IP address was immediately hashed; we're not interested in your location.");
     }
 
-    public function ipChecking(Request $request)
+    public function ipChecking($coursesChecking, Request $request)
     {
-        return view('students.ipChecking', [
-            'student' => auth()->user(),
-            'ip' => $request->ip()
-        ]);
+        // if only 1 course that student't enrolled in is checking IP at this moment, at him to IpTesting table.
+        // če se IP ne ujema, ni obveščen, samo če se, je - redirectan je na pohvalni view. povezava loh traja samo 1 hip in je zabeleženo, zato
+        // ni treba includati na vsak view posebej, ki ga obišče, nič.
+        $student = auth()->user();
+        if(count($coursesChecking)==1){
+            //$webSocketToken = md5(uniqid());  ne rabi tokena, samo userId
+
+            return view('students.ipChecking', [
+                'student' => auth()->user(),
+                //'ip' => $request->ip()
+            ]);
+        }
     }
 
     /*public function courseCurrentlyChecking()
