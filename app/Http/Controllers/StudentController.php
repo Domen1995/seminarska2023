@@ -8,6 +8,7 @@ use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Models\StudentSettings;
 use App\Models\CoursesUser;//CourseStudent;
+use App\Models\Ip_testing;
 
 class StudentController extends Controller
 {
@@ -141,10 +142,16 @@ class StudentController extends Controller
         // ni treba includati na vsak view posebej, ki ga obišče, nič.
         $student = auth()->user();
         if(count($coursesChecking)==1){
+            $course = $coursesChecking[0];
             //$webSocketToken = md5(uniqid());  ne rabi tokena, samo userId
-
+            Ip_testing::create([
+                'user_id' => $student->id,
+                'course_id' => $course->id,
+                'ip' => $request->ip(),
+                'is_tester' => 0
+            ]);
             return view('students.ipChecking', [
-                'student' => auth()->user(),
+                'student' => $student
                 //'ip' => $request->ip()
             ]);
         }
