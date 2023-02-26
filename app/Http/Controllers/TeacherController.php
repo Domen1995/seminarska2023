@@ -417,7 +417,7 @@ class TeacherController extends Controller
 
     public function test2()
     {
-
+        return $_SERVER['SERVER_ADDR'];
         //TeacherSettings::create(["user_id" => 8]);
         //Cache::flush('client');
         //$clients = WebSocketController::$clients;

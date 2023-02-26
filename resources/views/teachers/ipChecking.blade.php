@@ -5,7 +5,8 @@
     <div id="wsOutput"></div>
     <script>
         //const conn = new WebSocket('wss://ratchet.192.168.0.20:8888/wss2/NNN')
-        const conn = new WebSocket('wss://127.0.0.1:443/robots/')//('wss://127.0.0.1:4111/')
+        // DELUJOČA: const conn = new WebSocket('wss://127.0.0.1:443/robots/')//('wss://127.0.0.1:4111/')
+        const conn = new WebSocket('wss://192.168.64.100:443/robots/')
 
         conn.onopen = function(e){
             console.log("connected")
@@ -18,9 +19,10 @@
             console.log(data.type)
             if(data.type=="student_joined"){
                 if(data.info!=null){
-                    info = JSON.parse(data.info)
-                    const studentName = info.name
-                    console.log(studentName)
+                    const info = data.info//JSON.parse(data.info)
+                    console.log(info)
+                    /*const studentName = info.name
+                    console.log(studentName)*/
                     //document.getElementById("wsOutput").innerHTML = data.info
                 }
             }

@@ -35,4 +35,15 @@ class Course extends Model
             return $courses->paginate(8);
         }
     }
+
+    public static function courseCurrentlyChecking()
+        // check if any course student is signed in is being checked for presence at the moment,
+        // return which one if it is
+    {
+        $student = auth()->user();
+        $coursesChecking = Course::where('user_id', $student->id)
+                            ->where('isCurrentlyChecking', 1)
+                            ->get();
+        dd(count($coursesChecking));
+    }
 }

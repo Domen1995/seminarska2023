@@ -13,6 +13,9 @@ class StudentController extends Controller
 {
     public function mainpage(/*Request $request*/)
     {
+        // check if teacher is currently checking course
+
+        Course::courseCurrentlyChecking();
         // if student searched in search bar for matching courses, the request has limitations:
         /*if($request->has('limitations')){
             $courses = Course::findMatching($request->limitations);
@@ -136,6 +139,17 @@ class StudentController extends Controller
             'student' => auth()->user(),
             'ip' => $request->ip()
         ]);
+    }
+
+    /*public function courseCurrentlyChecking()
+        // check if any course student is signed in is being checked for presence at the moment,
+        // return which one if it is
+    {
+        $student = auth()->user();
+        $coursesChecking = Course::where('user_id', $student->id)
+                            ->where('isCurrentlyChecking', 1)
+                            ->get();
+        dd(count($coursesChecking));
     }
 
     /*

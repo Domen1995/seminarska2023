@@ -34,12 +34,14 @@ class WebSocketController extends Controller implements MessageComponentInterfac
         //cache(["conn" => $conn]);
         //$toSend = ["data" => "123"];
         //$conn->send(json_encode($toSend));
-
+        $response = ["type" => $conn->remoteAddress];
+        $conn->send(json_encode($response));
     }
 
     public function onMessage(ConnectionInterface $from, $msg)
     {
         $msg = json_decode($msg);
+
         if(isset($msg->type)){
             switch($msg->type){
                 case 'ping':
@@ -48,7 +50,7 @@ class WebSocketController extends Controller implements MessageComponentInterfac
                     $from->send(json_encode($response));
                     break;
                 case 'student_joined':
-                    $response = ["type" => "student_joined", "info" => $msg->info];
+                    $response = ["type" => "student_joined", "info" => /*$msg->info.",".*/$from->remoteAddress];
                     foreach($this->clients as $client){
                         $client->send(json_encode($response));
                 }
