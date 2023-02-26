@@ -47,8 +47,8 @@ class WebSocketController extends Controller implements MessageComponentInterfac
                     $response = ["type" => "pong"];
                     $from->send(json_encode($response));
                     break;
-                case 'studentJoined':
-                    $response = ["type" => "studentjoined", "content" => "Domen joined"];
+                case 'student_joined':
+                    $response = ["type" => "student_joined", "info" => $msg->info];
                     foreach($this->clients as $client){
                         $client->send(json_encode($response));
                 }

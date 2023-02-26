@@ -130,6 +130,14 @@ class StudentController extends Controller
         return redirect('/students/mainpage')->with('message', "Success. IP address was immediately hashed; we're not interested in your location.");
     }
 
+    public function ipChecking(Request $request)
+    {
+        return view('students.ipChecking', [
+            'student' => auth()->user(),
+            'ip' => $request->ip()
+        ]);
+    }
+
     /*
     public static function ipLoginValidation(Request $request, User $user)
         // returns false if student's IP in request doesn't match with the one in DB

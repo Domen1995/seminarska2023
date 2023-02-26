@@ -16,9 +16,12 @@
             const data = JSON.parse(e.data)
             //console.log(e.data)
             console.log(data.type)
-            if(data.type=="studentJoined"){
-                if(data.content!=null){
-                    document.getElementById("wsOutput").innerHTML = data.content
+            if(data.type=="student_joined"){
+                if(data.info!=null){
+                    info = JSON.parse(data.info)
+                    const studentName = info.name
+                    console.log(studentName)
+                    //document.getElementById("wsOutput").innerHTML = data.info
                 }
             }
             //document.getElementById("wsOutput").innerHTML = e.data.type
