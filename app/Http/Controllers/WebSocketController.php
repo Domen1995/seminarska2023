@@ -25,6 +25,9 @@ class WebSocketController extends Controller implements MessageComponentInterfac
     public function onOpen(ConnectionInterface $conn)
     {
         $this->clients->attach($conn);
+        //$requestURL = $conn->httpRequest->getUri()->getQuery();
+        //parse_str($requestURL, $requestArr);
+        //Ip_testing::where('token', $requestArr['token'])->update(['websocketId' => $conn->resourceId]);
         //$this::$clients->attach($conn);
         $response = ["type" => "connectionConfirmed"];
         //$response["type"] = "firstMsg";
@@ -56,13 +59,13 @@ class WebSocketController extends Controller implements MessageComponentInterfac
                     // only send through socket that belongs to the teacher
                     //$response = ["type" => "student_joined", "info" => /*$msg->info.",".*/$from->remoteAddress];
                     if(isset($msg->studentId)){
-                        $ipTesting = Ip_testing::where('user_id', $msg->studentId);
-                        $course = Course::where('id', $ipTesting->course_id);
+                        $ipTesting = Ip_testing::where('user_id', $msg->studentId)->first();
+                        $course = Course::where('id', $ipTesting->course_id)->first();
                         $ipMatching = $ipTesting->ip == $course->ipForChecking;
                         if($ipMatching){
                             $student = User::find($msg->studenId);
                             $informTeacher = ["type" => "student_joined", "name"=> $student->name];
-                            $teacherWSid = Ip_testing::select('websocketId')->where('user_id', $course->user_id);
+                            $teacherWSid = Ip_testing::select('websocketId')->where('user_id', $course->user_id)->first();
                             foreach($this->clients as $client){
                                 if($client->resoutceId == $teacherWSid){
                                     $client->send(json_encode($informTeacher));

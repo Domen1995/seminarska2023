@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Video;
 use App\Models\Course;
 use App\Models\CoursesUser;
+use App\Models\Ip_testing;
 use Illuminate\Http\Request;
 use App\Models\TeacherSettings;
 use Illuminate\Validation\Rule;
@@ -410,12 +411,22 @@ class TeacherController extends Controller
     ]);
 }
 
-    public function checkIp(Course $course)
+    public function checkIp(Course $course, Request $request)
     {
         $course = Course::find($course->id);
         $course->isCurrentlyChecking = 1;
         $course->save();
-        return view('teachers.ipChecking');
+        $webSocketToken = md5(uniqid());
+        Ip_testing::create([
+            'user_id' => auth()->user()->id,
+            'course_id' => $course->id,
+            'ip' => $request->ip(),
+            'is_tester' => 1,
+            'token' => $webSocketToken
+        ]);
+        return view('teachers.ipChecking', [
+            'token' => $webSocketToken
+        ]);
     }
 
     public function test2()

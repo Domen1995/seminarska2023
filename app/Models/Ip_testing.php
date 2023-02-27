@@ -11,8 +11,10 @@ class Ip_testing extends Model
 
     protected $fillable = [
         'course_id',
+        'user_id',
         'is_tester',
         'ip',
         'websocketId',
+        'token'
     ];
 }

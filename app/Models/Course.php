@@ -42,7 +42,7 @@ class Course extends Model
         // return which one if it is
     {
         $coursesChecking = Course::where('isCurrentlyChecking', 1)
-                            ->whereIn('id', CoursesUser::where('user_id', $student->id)->get('id'))
+                            ->whereIn('id', CoursesUser::where('user_id', $student->id)->get('course_id'))
                             ->get();
         return $coursesChecking;
         if(count($coursesChecking)==0) return;

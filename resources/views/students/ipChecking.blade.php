@@ -5,7 +5,7 @@
     const studentEmail = "{{$student->email}}"*/
    /* const studentInfo = {
         name : studentName,//"{{$student->name}}+'"',
-        //ip : "{{$ip}}",
+        //ip : "$ip",
 
     }*/
 
@@ -13,10 +13,10 @@
         const informingPresence = {
             type : "student_joined",
             studentId : "{{$student->id}}"
+        }
             /*name : studentName,
             email : studentEmail*/
             //info : JSON.stringify(studentInfo)
-        }
         conn.send(JSON.stringify(informingPresence))
     }
 

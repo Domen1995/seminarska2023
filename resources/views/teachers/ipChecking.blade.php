@@ -10,6 +10,7 @@
 
         conn.onopen = function(e){
             console.log("connected")
+            conn.send(JSON.stringify({type : "token", tokenValue : "{{$token}}"}))
             setTimeout(pingMessage, 20000)
         }
 
@@ -20,7 +21,7 @@
             console.log(data.type)
             if(data.type=="student_joined"){
                 //if(data.info!=null){
-                if(data.name!=null)}{
+                if(data.name!=null){
                     //const info = data.info//JSON.parse(data.info)
                     const studentName = data.name
                     //const studentId

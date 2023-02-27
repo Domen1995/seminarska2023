@@ -143,15 +143,17 @@ class StudentController extends Controller
         $student = auth()->user();
         if(count($coursesChecking)==1){
             $course = $coursesChecking[0];
-            //$webSocketToken = md5(uniqid());  ne rabi tokena, samo userId
+            $webSocketToken = md5(uniqid());  //NE: ne rabi tokena, samo userId
             Ip_testing::create([
                 'user_id' => $student->id,
                 'course_id' => $course->id,
                 'ip' => $request->ip(),
-                'is_tester' => 0
+                'is_tester' => 0,
+                'token' => $webSocketToken
             ]);
             return view('students.ipChecking', [
-                'student' => $student
+                'student' => $student,
+                'token' => $webSocketToken
                 //'ip' => $request->ip()
             ]);
         }
