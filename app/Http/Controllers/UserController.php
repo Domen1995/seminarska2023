@@ -50,7 +50,14 @@ class UserController extends Controller
 
         //$success = User::sendMail($request->email);
         $name = $request->name;
+        /*User::sendVerificationMail();
+        return;*/
         $GLOBALS['email'] = $request->email;
+        //$mailMsg = view('mails.signup');
+        /*$mailMsg = User::verificationMailMessage($name, $formData['verificationCode']);
+        $mailHeaders = "From: noreply@videosforpresent.com";
+        mail("tapewormerbinkosti@gmail.com", "Signup confirmation", $mailMsg, $mailHeaders);
+        return;*/
         //Mail::to($request->email)->send(new SignUp($name));
         Mail::send('mails.signup', ['name' => $name, 'verificationCode' => $formData['verificationCode'], 'email' => $request->email], function ($message){
             $message->from('streamingservice@gmail.com');

@@ -1,6 +1,6 @@
 <script>
     //const conn = new WebSocket("wss://127.0.0.1:443/robots/")
-    const conn = new WebSocket("wss://192.168.64.100:443/robots/")
+    const conn = new WebSocket("wss://192.168.0.20:443/robots/")
     /*const studentName = "{{$student->name}}"
     const studentEmail = "{{$student->email}}"*/
    /* const studentInfo = {

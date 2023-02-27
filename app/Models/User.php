@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use SimpleMail;
 
 class User extends Authenticatable// implements MustVerifyEmail
 {
@@ -60,6 +61,28 @@ class User extends Authenticatable// implements MustVerifyEmail
             if($atSignAppeared) $ending.= $currentChar;
         }
         return $ending;
+    }
+
+    public static function sendVerificationMail()
+    {
+        $send = SimpleMail::make()
+            ->setTo('89181150@student.upr.si', 'Tape')
+            ->setFrom('noreply@videosforpresent.com', 'Admin')
+            ->setSubject('Verify registration')
+            ->setMessage('Please click link to verify')
+            //->setHtml()
+            ->setWrap(100)
+            ->send();
+
+        echo ($send) ? "Email sent successfully" : "Not sent";
+    }
+
+    public static function verificationMailMessage($name, $verificationCode)
+    {
+        return 'Please click the following link to verify your email address'/*, $name: <a href="https://'.$_SERVER["SERVER_ADDR"].'/users/verifyMail?n='.$name.'&c='.$verificationCode-'">https://'.$_SERVER["SERVER_ADDR"].'/users/verifyMail?n={{$name}}&c={{$verificationCode}}</a>
+            {{--"https://localhost/seminarska2023/public--}}
+            <br>
+            Until email is verified, this link will delete the record from database: <a href="https://'.$_SERVER["SERVER_ADDR"].'/users/deleteBeforeVerified?c='.$verificationCode.'">https://'.$_SERVER["SERVER_ADDR"].'/users/deleteBeforeVerified?c={{$verificationCode}}</a>';*/;
     }
     /*
     public static function sendMail($address)
