@@ -17,7 +17,11 @@ class StudentController extends Controller
         $student = auth()->user();
         // check if teacher is currently checking course student's enrolled in; if doesn't proceed normally
         $coursesChecking = Course::ipChecking($student);
-        if(count($coursesChecking)>=1) return $this->ipChecking($coursesChecking, $request);
+        if(count($coursesChecking)>=1){
+            $ipCheckingPage = $this->ipChecking($coursesChecking, $request);
+            //dd($request->ip());
+            if($ipCheckingPage!="wrongIP") return $ipCheckingPage;
+        }// return $this->ipChecking($coursesChecking, $request);
         // if student searched in search bar for matching courses, the request has limitations:
         /*if($request->has('limitations')){
             $courses = Course::findMatching($request->limitations);
@@ -143,6 +147,9 @@ class StudentController extends Controller
         $student = auth()->user();
         if(count($coursesChecking)==1){
             $course = $coursesChecking[0];
+
+            // if professor's IP and student's IP don't match, continue on site normally; don't even let student know he screwed up
+            if($course->ipForChecking != $request->ip()) return "wrongIP";
             $webSocketToken = md5(uniqid());  //NE: ne rabi tokena, samo userId
             Ip_testing::create([
                 'user_id' => $student->id,
@@ -157,6 +164,12 @@ class StudentController extends Controller
                 //'ip' => $request->ip()
             ]);
         }
+    }
+
+    public function ipCheckingSuccess()
+        // show a page that confirms IP was successfully checked
+    {
+        return view('students.ipCheckingSuccess');
     }
 
     /*public function courseCurrentlyChecking()

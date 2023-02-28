@@ -73,6 +73,9 @@ class WebSocketController extends Controller implements MessageComponentInterfac
                             foreach($this->clients as $client){
                                 if($client->resourceId == $teacherWSid){
                                     $client->send(json_encode($informTeacher));
+                                    $informStudent = ["type" => "checkingFinished", "redirect" => "/students/ipCheckingSuccess"];
+                                    $from->send(json_encode($informStudent));
+                                    $this->clients->detach($from);
                                     break;
                                 }
                         }

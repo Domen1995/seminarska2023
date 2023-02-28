@@ -2,7 +2,6 @@
     <title>Checking student presence</title>
 </head>
 <body>
-    <div id="wsOutput"></div>
     <table id="presentStudents">
     </table>
     <script>

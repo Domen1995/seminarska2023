@@ -24,6 +24,11 @@
     conn.onmessage = function(e){
         const data = JSON.parse(e.data)
         console.log(data.type)
+        if(data.type=="checkingFinished"){
+            if(data.redirect!=null){
+                location = data.redirect
+            }
+        }
     }
 
     conn.onclose = function(e){

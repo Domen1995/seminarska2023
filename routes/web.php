@@ -123,6 +123,8 @@ Route::get('/students/addIp', [StudentController::class, 'addIp'])->middleware('
 
 Route::get('/students/ipChecking', [StudentController::class, 'ipChecking'])->middleware('auth');
 
+Route::get('/students/ipCheckingSuccess', [StudentController::class, 'ipCheckingSuccess'])->middleware('auth');
+
 Route::get('courses/search', [CourseController::class, 'search'])->middleware('auth');
     //->where(auth()->user()->isTeacher, '0');
 Route::get('teachers/newCourseForm', [TeacherController::class, 'newCourseForm'])->middleware('auth');
