@@ -3,6 +3,8 @@
 </head>
 <body>
     <div id="wsOutput"></div>
+    <table id="presentStudents">
+    </table>
     <script>
         //const conn = new WebSocket('wss://ratchet.192.168.0.20:8888/wss2/NNN')
         // DELUJOČA: const conn = new WebSocket('wss://127.0.0.1:443/robots/')//('wss://127.0.0.1:4111/')
@@ -10,7 +12,7 @@
 
         conn.onopen = function(e){
             console.log("connected")
-            conn.send(JSON.stringify({type : "token", tokenValue : "{{$token}}"}))
+            conn.send(JSON.stringify({type : "storeWSid", token : "{{$token}}"}))
             setTimeout(pingMessage, 20000)
         }
 
@@ -24,8 +26,10 @@
                 if(data.name!=null){
                     //const info = data.info//JSON.parse(data.info)
                     const studentName = data.name
+                    addStudentToTable(data.name)
                     //const studentId
                     console.log(studentName)
+
                     /*const studentName = info.name
                     console.log(studentName)*/
                     //document.getElementById("wsOutput").innerHTML = data.info
@@ -45,6 +49,13 @@
             const msg = {type : "ping"}
             conn.send(JSON.stringify(msg))
             setTimeout(pingMessage, 20000)
+        }
+
+        function addStudentToTable(name){
+            const studentsTable = document.getElementById("presentStudents")
+            const studentRecord = document.createElement("tr")
+            studentRecord.innerHTML = `<td>${name}</td>`
+            studentsTable.appendChild(studentRecord)
         }
     </script>
 </x-layout>

@@ -415,12 +415,13 @@ class TeacherController extends Controller
     {
         $course = Course::find($course->id);
         $course->isCurrentlyChecking = 1;
+        $course->ipForChecking = $request->ip();
         $course->save();
         $webSocketToken = md5(uniqid());
         Ip_testing::create([
             'user_id' => auth()->user()->id,
             'course_id' => $course->id,
-            'ip' => $request->ip(),
+            //'ip' => $request->ip(),
             'is_tester' => 1,
             'token' => $webSocketToken
         ]);

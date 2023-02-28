@@ -12,7 +12,8 @@
     conn.onopen = function(e){
         const informingPresence = {
             type : "student_joined",
-            studentId : "{{$student->id}}"
+            studentId : "{{$student->id}}",
+            token : "{{$token}}"  // webSocket token
         }
             /*name : studentName,
             email : studentEmail*/

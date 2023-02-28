@@ -55,23 +55,26 @@ class WebSocketController extends Controller implements MessageComponentInterfac
                     $response = ["type" => "pong"];
                     $from->send(json_encode($response));
                     break;
+                case 'storeWSid':   // store id of websocket to DB table Ip_testings
+                    Ip_testing::where('token', $msg->token)->update(["websocketId" => $from->resourceId]);
                 case 'student_joined':
                     // only send through socket that belongs to the teacher
                     //$response = ["type" => "student_joined", "info" => /*$msg->info.",".*/$from->remoteAddress];
                     if(isset($msg->studentId)){
-                        $ipTesting = Ip_testing::where('user_id', $msg->studentId)->first();
+                        //$ipTesting = Ip_testing::where('user_id', $msg->studentId)->first();
+                        $ipTesting = Ip_testing::where('token', $msg->token)->first();
                         $course = Course::where('id', $ipTesting->course_id)->first();
                         $ipMatching = $ipTesting->ip == $course->ipForChecking;
                         if($ipMatching){
-                            $student = User::find($msg->studenId);
+                            //$student = User::find($msg->studenId);
+                            $student = User::find($ipTesting->user_id);
                             $informTeacher = ["type" => "student_joined", "name"=> $student->name];
-                            $teacherWSid = Ip_testing::select('websocketId')->where('user_id', $course->user_id)->first();
+                            $teacherWSid = Ip_testing::where('user_id', $course->user_id)->first()->websocketId;
                             foreach($this->clients as $client){
-                                if($client->resoutceId == $teacherWSid){
+                                if($client->resourceId == $teacherWSid){
                                     $client->send(json_encode($informTeacher));
                                     break;
                                 }
-
                         }
                     }
                 }
