@@ -109,7 +109,9 @@ Route::get('/teachers/enrollStudent', [TeacherController::class, 'enrollStudent'
 
 Route::get('/teachers/coursePage/{course}', [TeacherController::class, 'coursePage'])->middleware('auth');
 
-Route::get('/teachers/checkIp/{course}', [TeacherController::class, 'checkIp']);
+Route::get('/teachers/checkIp/{course}', [TeacherController::class, 'checkIp'])->middleware('auth');
+
+Route::post('/teachers/submitPresentStudents/{course}', [TeacherController::class, 'submitPresentStudents']);
 
 Route::get('/students/coursePage/{course}', [StudentController::class, 'coursePage'])->middleware('auth');
 
@@ -133,7 +135,9 @@ Route::get('teachers/newCourseForm', [TeacherController::class, 'newCourseForm']
 
 Route::post('courses/create', [CourseController::class, 'create'])->middleware('auth');
 
-Route::get('/test', [TeacherController::class, 'test2']);
+Route::get('/test', [TeacherController::class, 'test']);
+
+Route::get('/test2', [TeacherController::class, 'test2']);
 /*
 // returns a gif for which browser sent fetch
 Route::get('/assets/gif/{slug}', [AssetController::class, 'fetchGif']);

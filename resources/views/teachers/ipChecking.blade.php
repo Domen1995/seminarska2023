@@ -2,12 +2,17 @@
     <title>Checking student presence</title>
 </head>
 <body>
-    <table id="presentStudents">
-    </table>
+    <form action="/teachers/submitPresentStudents/{{$course->id}}" method="POST">
+        @csrf
+        <table id="presentStudents">
+        </table>
+        <button type="submit">Submit data, no one else is coming</button>
+    </form>
     <script>
         //const conn = new WebSocket('wss://ratchet.192.168.0.20:8888/wss2/NNN')
         // DELUJOČA: const conn = new WebSocket('wss://127.0.0.1:443/robots/')//('wss://127.0.0.1:4111/')
-        const conn = new WebSocket('wss://192.168.0.20:443/robots/')
+        //const conn = new WebSocket('wss://192.168.0.20:443/robots/')
+        const conn = new WebSocket("wss://192.168.43.170:443/robots/")
 
         conn.onopen = function(e){
             console.log("connected")
@@ -25,9 +30,11 @@
                 if(data.name!=null){
                     //const info = data.info//JSON.parse(data.info)
                     const studentName = data.name
-                    addStudentToTable(data.name)
+                    const studentMail = data.email
+                    const studentId = data.studentId
+                    addStudentToTable(studentId, studentName, studentMail)
                     //const studentId
-                    console.log(studentName)
+                    console.log(studentId, studentName, studentMail)
 
                     /*const studentName = info.name
                     console.log(studentName)*/
@@ -50,10 +57,13 @@
             setTimeout(pingMessage, 20000)
         }
 
-        function addStudentToTable(name){
+        function addStudentToTable(id, name, email){
             const studentsTable = document.getElementById("presentStudents")
             const studentRecord = document.createElement("tr")
-            studentRecord.innerHTML = `<td>${name}</td>`
+            studentRecord.innerHTML =
+                `<td>${name}</td>
+                <td>${email}</td>
+                <input type="hidden" name="studentIds[]" value="${id}">`
             studentsTable.appendChild(studentRecord)
         }
     </script>

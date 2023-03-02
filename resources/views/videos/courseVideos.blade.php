@@ -1,4 +1,3 @@
-{{-- NOT IN USE --}}
 <x-layout>
     <title>{{$course->name}}</title>
     {{--<link rel="stylesheet" href="css/videoGrid.css">--}}

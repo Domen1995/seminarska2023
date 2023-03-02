@@ -68,7 +68,11 @@ class WebSocketController extends Controller implements MessageComponentInterfac
                         if($ipMatching){
                             //$student = User::find($msg->studenId);
                             $student = User::find($ipTesting->user_id);
-                            $informTeacher = ["type" => "student_joined", "name"=> $student->name];
+                            $informTeacher = ["type" => "student_joined",
+                                                "name"=> $student->name,
+                                                "email"=> $student->email,
+                                                "studentId" => $student->id
+                                            ];
                             $teacherWSid = Ip_testing::where('user_id', $course->user_id)->first()->websocketId;
                             foreach($this->clients as $client){
                                 if($client->resourceId == $teacherWSid){

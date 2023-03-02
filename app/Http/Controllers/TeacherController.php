@@ -426,13 +426,29 @@ class TeacherController extends Controller
             'token' => $webSocketToken
         ]);
         return view('teachers.ipChecking', [
-            'token' => $webSocketToken
+            'token' => $webSocketToken,
+            'course' => $course
         ]);
     }
 
-    public function test2()
+    public function submitPresentStudents(Course $course, Request $request)
     {
-        return $_SERVER['SERVER_ADDR'];
+        $studentIds = $request->studentIds;
+        /*foreach($studentIds as $studentId){
+            echo "Submited was:". $studentId;
+        }*/
+        $coursesUser_all_present = CoursesUser::whereIn('user_id', $studentIds)->get();
+        foreach($coursesUser_all_present as $courseUser_one){
+            $courseUser_one->presences = $courseUser_one->presences+1;
+            $courseUser_one->save();
+        }
+        return $this->coursePage($course);
+    }
+
+    public function test()
+    {
+        return view('test');
+        //return $_SERVER['SERVER_ADDR'];
         //TeacherSettings::create(["user_id" => 8]);
         //Cache::flush('client');
         //$clients = WebSocketController::$clients;
@@ -443,7 +459,7 @@ class TeacherController extends Controller
         //dd(WebSocketController::$clients->count());
     }
 
-    public function test()
+    public function test2()
     {
 
     }
