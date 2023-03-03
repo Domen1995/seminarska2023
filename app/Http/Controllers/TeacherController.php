@@ -336,6 +336,8 @@ class TeacherController extends Controller
         // to each course that is owned by the teacher, add the ending of email addresses to make courses visible to those students
     {
         $emailEnding = $request[0];
+        // don't allow email ending containing a comma
+        if(str_contains($emailEnding, ",")) return;
         $teacher = auth()->user();
         if(!$teacher->isTeacher) abort(403, "You're not even a teacher");
         $teacherSettings = TeacherSettings::where('user_id', $teacher->id)->first();
@@ -425,9 +427,11 @@ class TeacherController extends Controller
             'is_tester' => 1,
             'token' => $webSocketToken
         ]);
+        $enrolledStudents = User::whereIn('id', CoursesUser::select('user_id')->where('course_id', $course->id)->get())->get();
         return view('teachers.ipChecking', [
             'token' => $webSocketToken,
-            'course' => $course
+            'course' => $course,
+            'enrolledStudents' => $enrolledStudents
         ]);
     }
 
@@ -437,12 +441,14 @@ class TeacherController extends Controller
         /*foreach($studentIds as $studentId){
             echo "Submited was:". $studentId;
         }*/
-        $coursesUser_all_present = CoursesUser::whereIn('user_id', $studentIds)->get();
+        $coursesUser_all_present = CoursesUser::whereIn('user_id', $studentIds)
+                                            ->where('course_id', $course->id)
+                                            ->get();
         foreach($coursesUser_all_present as $courseUser_one){
             $courseUser_one->presences = $courseUser_one->presences+1;
             $courseUser_one->save();
         }
-        return $this->coursePage($course);
+        return view('teac');
     }
 
     public function test()

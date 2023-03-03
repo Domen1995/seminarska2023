@@ -1,10 +1,23 @@
 <x-layout>
     <title>Checking student presence</title>
+    <link rel="stylesheet" href="/css/tables.css">
 </head>
 <body>
     <form action="/teachers/submitPresentStudents/{{$course->id}}" method="POST">
         @csrf
-        <table id="presentStudents">
+        <table id="presentStudents" class="students">
+            <caption>Students who joined</caption>
+        </table>
+        <br>
+        <table class="students">
+            <caption>Students enrolled in {{$course->name}}</caption>
+            @foreach ($enrolledStudents as $enrolledStudent)
+                <tr>
+                    <td>{{$enrolledStudent->name}}</td>
+                    <td>{{$enrolledStudent->email}}</td>
+                    <td><a href="#">Add manually</a></td>
+                </tr>
+            @endforeach
         </table>
         <button type="submit">Submit data, no one else is coming</button>
     </form>

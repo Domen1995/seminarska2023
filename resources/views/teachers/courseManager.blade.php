@@ -2,7 +2,8 @@
     <div class="flexboxCenterer">
         <div class="form" style="justify-content:start; align-items:center; width:80%">
             <a class="link" href="{{BASEURL}}/teachers/uploadForm/{{$course->id}}" style="font-size: 3rem; font-family:inherit">Upload a video to {{$course->name}}</a>
-            <a href="{{BASEURL}}/teachers/checkIp/{{$course->id}}">Start checking which students will connect to your IP address</a>
+            <a href="{{BASEURL}}/teachers/checkIp/{{$course->id}}" class="link">Start checking which students will connect to your IP address</a>
+            <a href="/teachers/inspectStudents/{{$course->id}}">Inspect enrolled students</a>
             <div class="enrollmentRequests">
                 {{--<div>Students who want to enroll to this course:</div>--}}
                 {{--@if($studentsToEnroll!=null)--}}
