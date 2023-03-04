@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('allowedEmails')->nullable();     // endings of emails that students must have to see the course
             $table->boolean('isCurrentlyChecking')->default(0);
             $table->string('ipForChecking')->nullable();
+            $table->bigInteger('last_time_ip_check')->default(0);
             $table->timestamps();
         });
     }

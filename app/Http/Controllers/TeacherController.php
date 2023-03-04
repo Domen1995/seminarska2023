@@ -395,30 +395,37 @@ class TeacherController extends Controller
     }
 
     public function coursePage(Course $course)
-    // show all videos of the selected course to the author and also course manager if user is the owner
-{
-    $user = auth()->user();
-    if(!($user->isTeacher && $user->id == $course->user_id)) return abort(403, "You're not even the owner of this course");
-    $videos = Video::where('course_id', $course->id)->paginate(24);
-    //$user = auth()->user();
-    // get all students that requested for enrollments in this course, if it's owned by this user and if their status is "requested"
-    //if($user->isTeacher && $user->id == $course->user_id){
-    $studentsToEnroll = User::whereIn('id', CoursesUser::where('course_id', $course->id)
-                                                        ->where('status', 'requested')->get('user_id'))
-                                    ->get();
-    return view('videos.courseVideos', [
-        'videos' => $videos,
-        'course' => $course,
-        'user' => auth()->user(),
-        'studentsToEnroll' => $studentsToEnroll
-    ]);
-}
+        // show all videos of the selected course to the author and also course manager if user is the owner
+    {
+        $user = auth()->user();
+        if(!($user->isTeacher && $user->id == $course->user_id)) return abort(403, "You're not even the owner of this course");
+        $videos = Video::where('course_id', $course->id)->paginate(24);
+        //$user = auth()->user();
+        // get all students that requested for enrollments in this course, if it's owned by this user and if their status is "requested"
+        //if($user->isTeacher && $user->id == $course->user_id){
+        $studentsToEnroll = User::whereIn('id', CoursesUser::where('course_id', $course->id)
+                                                            ->where('status', 'requested')->get('user_id'))
+                                        ->get();
+        return view('videos.courseVideos', [
+            'videos' => $videos,
+            'course' => $course,
+            'user' => auth()->user(),
+            'studentsToEnroll' => $studentsToEnroll
+        ]);
+    }
 
     public function checkIp(Course $course, Request $request)
+        // send to teacher a page which will connect him to websocket and he'll start waiting for
+        // students to join
     {
+        // store in DB that the course is in the presence checking process
         $course = Course::find($course->id);
+        $seconds_since_last_checking = time() - $course->last_time_ip_check;
+        if($seconds_since_last_checking <= 7200) return back()
+            ->with('message', $course->name.' can be checked for presence again in '.$seconds_since_last_checking.' seconds.');
         $course->isCurrentlyChecking = 1;
         $course->ipForChecking = $request->ip();
+        $course->last_time_ip_check = time();
         $course->save();
         $webSocketToken = md5(uniqid());
         $teacher_id = auth()->user()->id;
@@ -458,13 +465,15 @@ class TeacherController extends Controller
             $courseUser_one->presences = $courseUser_one->presences+1;
             $courseUser_one->save();
         }*/
+        //dd($present_student_ids);
         // all records in courses_users table that belong to this course
         $all_of_this_course = CoursesUser::where('course_id', $course->id)->get();
         // if student was present increase presences, else increase screwUps. Also store student ids of the course for later
         $students_in_course_ids = [];
         foreach($all_of_this_course as $student_of_course){
             array_push($students_in_course_ids, $student_of_course->user_id);
-            if($present_student_ids!=null && in_array($student_of_course->id, $present_student_ids)){
+            //dd($student_of_course, $present_student_ids);
+            if($present_student_ids!=null && in_array($student_of_course->user_id, $present_student_ids)){
                 $student_of_course->presences = $student_of_course->presences+1;
             }else{
                 $student_of_course->screwUps = $student_of_course->screwUps+1;
@@ -495,7 +504,7 @@ class TeacherController extends Controller
                                 ->whereNotIn('user_id', $present_student_ids)
                                 ->get();
         CoursesUser::reduce_screwUps($absent_students, 1);
-        return redirect('/')->with('message', 'As the last presence checking has never been performed');
+        return redirect('/teachers/coursePage/'.$course_id)->with('message', 'As the last presence checking has never been performed');
     }
 
     public function test()

@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Video;
 use App\Models\Course;
+use App\Models\Ip_testing;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Models\StudentSettings;
 use App\Models\CoursesUser;//CourseStudent;
-use App\Models\Ip_testing;
 
 class StudentController extends Controller
 {
@@ -18,9 +19,13 @@ class StudentController extends Controller
         // check if teacher is currently checking course student's enrolled in; if doesn't proceed normally
         $coursesChecking = Course::ipChecking($student);
         if(count($coursesChecking)>=1){
-            $ipCheckingPage = $this->ipChecking($coursesChecking, $request);
-            //dd($request->ip());
-            if($ipCheckingPage!="wrongIP") return $ipCheckingPage;
+            $last_time_present = StudentSettings::where('user_id', $student->id)->first()->last_time_present;
+            // if at least 2 hours passed since last IP checking, allow it again
+            if((time() - $last_time_present)>7200){
+                $ipCheckingPage = $this->ipChecking($coursesChecking, $request);
+                //dd($request->ip());
+                if($ipCheckingPage!="wrongIP") return $ipCheckingPage;
+            }
         }// return $this->ipChecking($coursesChecking, $request);
         // if student searched in search bar for matching courses, the request has limitations:
         /*if($request->has('limitations')){
@@ -157,6 +162,9 @@ class StudentController extends Controller
         // na connection close. Profesorja se opozarja na odobritev za konec testiranja na drugih straneh, če mu ne rata zapreti
         // na strani za testiranje. Za le-ta course se študent ne more ponovno čekirati niti po 2,5h, če je še vedno v ip_testingu
         // njegov zapis.
+        $last_time_present = StudentSettings::where('user_id', $student->id)->first()->last_time_present;
+        //dd(time());
+        $last_time_present->update(["last_time_present" => time()/*Carbon::now()*/]);
         if(count($coursesChecking)==1){
             $course = $coursesChecking[0];
 
