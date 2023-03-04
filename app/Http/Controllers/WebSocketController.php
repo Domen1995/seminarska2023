@@ -91,11 +91,13 @@ class WebSocketController extends Controller implements MessageComponentInterfac
 
     public function onClose(ConnectionInterface $conn)
     {
+        $this->clear_DB_ip_data($conn);
+        /*
         $ip_testing = Ip_testing::where('websocketId', $conn->resourceId)->first();
         // if disconnected WS is from the tester (teacher), delete all rows of this course in ip_testings table
         if($ip_testing->is_tester){
             Ip_testing::where('course_id', $ip_testing->course_id)->delete();
-        }
+        }*/
         $this->clients->detach($conn);
         //$this::$clients->detach($conn);
     }
@@ -103,16 +105,29 @@ class WebSocketController extends Controller implements MessageComponentInterfac
     public function onError(ConnectionInterface $conn, Exception $e)
     {
         echo "Error {$e->getMessage()}";
+        $this->clear_DB_ip_data($conn);
+        /*
         $ip_testing = Ip_testing::where('websocketId', $conn->resourceId)->first();
         // if disconnected WS is from the tester (teacher), delete all rows of this course in ip_testings table
         if($ip_testing->is_tester){
             Ip_testing::where('course_id', $ip_testing->course_id)->delete();
-        }
+        }*/
         $conn->close();
     }
 
+    public function clear_DB_ip_data(ConnectionInterface $conn)
+    {
+        $ip_testing = Ip_testing::where('websocketId', $conn->resourceId)->first();
+        // if disconnected WS is from the tester (teacher), delete all rows of this course in ip_testings table
+        if($ip_testing->is_tester){
+            Ip_testing::where('course_id', $ip_testing->course_id)->delete();
+            Course::where('id', $ip_testing->course_id)->update(['ipForChecking'=>null, 'isCurrentlyChecking'=>0]);
+        }
+    }
+
+    /*
     public function doesIpMatch($studentIp)
     {
 
-    }
+    }*/
 }

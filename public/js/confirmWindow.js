@@ -2,6 +2,9 @@ function showIpConfirmation(ip){
     createConfirmationWindow('ipQuestion', 'ipConfirmation', "Permanently add "+ip+"?", '/students/addIp?ip='+ip)
 }
 
+function show_revert_ip_checking_confirmation(presentStudentsIds){
+    console.log("got present: "+presentStudentsIds)
+}
 
 let confirmationId
 let confirmationClassName

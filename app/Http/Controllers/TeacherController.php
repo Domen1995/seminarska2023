@@ -437,18 +437,37 @@ class TeacherController extends Controller
 
     public function submitPresentStudents(Course $course, Request $request)
     {
-        $studentIds = $request->studentIds;
+
+        $present_student_ids = $request->studentIds;
         /*foreach($studentIds as $studentId){
             echo "Submited was:". $studentId;
         }*/
+        /*
         $coursesUser_all_present = CoursesUser::whereIn('user_id', $studentIds)
                                             ->where('course_id', $course->id)
                                             ->get();
         foreach($coursesUser_all_present as $courseUser_one){
             $courseUser_one->presences = $courseUser_one->presences+1;
             $courseUser_one->save();
+        }*/
+        // all records in courses_users table that belong to this course
+        $all_of_this_course = CoursesUser::where('course_id', $course->id)->get();
+        // if student was present increase presences, else increase screwUps. Also store student ids of the course for later
+        $students_in_course_ids = [];
+        foreach($all_of_this_course as $student_of_course){
+            array_push($students_in_course_ids, $student_of_course->user_id);
+            if($present_student_ids!=null && in_array($student_of_course->id, $present_student_ids)){
+                $student_of_course->presences = $student_of_course->presences+1;
+            }else{
+                $student_of_course->screwUps = $student_of_course->screwUps+1;
+            }
+            $student_of_course->save();
         }
-        return view('teachers.after_ipChecking');
+        $students_in_course = User::whereIn('id', $students_in_course_ids)->get();
+        return view('teachers.after_ipChecking', [
+            'presentStudentIds' => $present_student_ids,
+            'studentsInCourse' => $students_in_course  // all students enrolled in course
+        ]);
     }
 
     public function test()
