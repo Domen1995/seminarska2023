@@ -3,6 +3,7 @@ function showIpConfirmation(ip){
 }
 
 function show_revert_ip_checking_confirmation(presentStudentsIds){
+    console.log(presentStudentsIds)
     createConfirmationWindow('revertQuestion', 'revertConfirmation', 'Sure you want to delete this presence checking?', '/teachers/revertIpChecking?presentIds='+presentStudentsIds)
 }
 

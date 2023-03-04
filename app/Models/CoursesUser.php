@@ -28,4 +28,14 @@ class CoursesUser extends Model
             $coursesUser->course_id;
             dd($coursesUser->course_id);*/
     }
+
+    public static function reduce_screwUps($students_in_course, $number)
+    {
+        //$coursesUser = self::whereIn('user_id', $students);
+        // student is an instance of courses_user model
+        foreach($students_in_course as $student_in_course){
+            $student_in_course->screwUps = $student_in_course->screwUps - $number;
+            $student_in_course->save();
+        }
+    }
 }

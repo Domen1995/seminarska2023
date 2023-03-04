@@ -23,7 +23,7 @@
             @if ($presentStudentIds==null) {{-- if no students have connected --}}
                 (-1)
             @else
-                ({{implode(',', $presentStudentIds)}})
+                ('{{implode(',', $presentStudentIds)}}')
             @endif
             ">Revert?
         </button>
