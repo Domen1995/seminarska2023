@@ -2,9 +2,9 @@ function showIpConfirmation(ip){
     createConfirmationWindow('ipQuestion', 'ipConfirmation', "Permanently add "+ip+"?", '/students/addIp?ip='+ip)
 }
 
-function show_revert_ip_checking_confirmation(presentStudentsIds){
+function show_revert_ip_checking_confirmation(course_id, presentStudentsIds){
     console.log(presentStudentsIds)
-    createConfirmationWindow('revertQuestion', 'revertConfirmation', 'Sure you want to delete this presence checking?', '/teachers/revertIpChecking?presentIds='+presentStudentsIds)
+    createConfirmationWindow('revertQuestion', 'revertConfirmation', 'Sure you want to delete this presence checking?', '/teachers/revertIpChecking?course='+course_id+'&presentIds='+presentStudentsIds)
 }
 
 let confirmationId

@@ -32,9 +32,19 @@ class CoursesUser extends Model
     public static function reduce_screwUps($students_in_course, $number)
     {
         //$coursesUser = self::whereIn('user_id', $students);
-        // student is an instance of courses_user model
+        // student_in_course is an instance of courses_user model
+        //$students_in_course = self::whereIn('user_id', $students_in_course_id)->get();
         foreach($students_in_course as $student_in_course){
             $student_in_course->screwUps = $student_in_course->screwUps - $number;
+            $student_in_course->save();
+        }
+    }
+
+    public static function reduce_presences($students_in_course, $number)
+    {
+        //$students_in_course = self::where('user_id', )
+        foreach($students_in_course as $student_in_course){
+            $student_in_course->presences = $student_in_course->presences - $number;
             $student_in_course->save();
         }
     }

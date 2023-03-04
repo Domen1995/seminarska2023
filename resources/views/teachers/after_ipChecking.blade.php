@@ -19,11 +19,11 @@
     </table>
 
     <div id="revertQuestion">Now it's the last opportunity to revert the whole testing.
-        <button onclick="show_revert_ip_checking_confirmation
+        <button onclick="show_revert_ip_checking_confirmation({{$course_id}},
             @if ($presentStudentIds==null) {{-- if no students have connected --}}
-                (-1)
+                -1)
             @else
-                ('{{implode(',', $presentStudentIds)}}')
+                '{{implode(',', $presentStudentIds)}}')
             @endif
             ">Revert?
         </button>

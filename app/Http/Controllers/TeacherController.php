@@ -467,17 +467,27 @@ class TeacherController extends Controller
         //dd(implode(',', $present_student_ids));
         return view('teachers.after_ipChecking', [
             'presentStudentIds' => $present_student_ids,
-            'studentsInCourse' => $students_in_course  // all students enrolled in course
+            'studentsInCourse' => $students_in_course,  // all students enrolled in course
+            'course_id' => $course->id
         ]);
     }
 
     public function revertIpChecking(Request $request)
         // decrement presences to the students who were presen and decrement screwups to the ones who werent
     {
+        $course_id = $request->course;
         $present_student_ids = explode(",", $request->presentIds);
-        $absent_students = CoursesUser::whereNotIn('user_id', $present_student_ids)->get();
+        $present_students = CoursesUser::where('course_id', $course_id)
+                                ->whereIn('user_id', $present_student_ids)
+                                ->get();
+
+        CoursesUser::reduce_presences($present_students, 1);
+
+        $absent_students = CoursesUser::where('course_id', $course_id)
+                                ->whereNotIn('user_id', $present_student_ids)
+                                ->get();
         CoursesUser::reduce_screwUps($absent_students, 1);
-        return redirect('/')->with('message', 'As the last presence checking was never performed');
+        return redirect('/')->with('message', 'As the last presence checking has never been performed');
     }
 
     public function test()
