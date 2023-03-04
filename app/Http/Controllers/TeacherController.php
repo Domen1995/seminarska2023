@@ -470,6 +470,12 @@ class TeacherController extends Controller
         ]);
     }
 
+    public function revertIpChecking(Request $request)
+    {
+        $present_student_ids = explode(",", $request->presentIds);
+        dd($present_student_ids);
+    }
+
     public function test()
     {
         return view('test');
