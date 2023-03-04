@@ -448,7 +448,7 @@ class TeacherController extends Controller
             $courseUser_one->presences = $courseUser_one->presences+1;
             $courseUser_one->save();
         }
-        return view('teac');
+        return view('teachers.after_ipChecking');
     }
 
     public function test()

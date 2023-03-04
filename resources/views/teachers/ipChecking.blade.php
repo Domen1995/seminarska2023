@@ -25,7 +25,8 @@
         //const conn = new WebSocket('wss://ratchet.192.168.0.20:8888/wss2/NNN')
         // DELUJOČA: const conn = new WebSocket('wss://127.0.0.1:443/robots/')//('wss://127.0.0.1:4111/')
         //const conn = new WebSocket('wss://192.168.0.20:443/robots/')
-        const conn = new WebSocket("wss://192.168.43.170:443/robots/")
+        //const conn = new WebSocket("wss://192.168.43.170:443/robots/")
+        const conn = new WebSocket("{{WEBSOCKET_URL}}")
 
         conn.onopen = function(e){
             console.log("connected")
