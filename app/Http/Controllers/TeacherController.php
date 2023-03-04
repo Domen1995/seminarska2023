@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
 
+use function PHPUnit\Framework\returnSelf;
 
 class TeacherController extends Controller
 {
@@ -420,8 +421,12 @@ class TeacherController extends Controller
         $course->ipForChecking = $request->ip();
         $course->save();
         $webSocketToken = md5(uniqid());
+        $teacher_id = auth()->user()->id;
+        // if already exists teacher's record in DB ip_checkings, first delete it
+        $existingTesting = Ip_testing::where('user_id', $teacher_id)->first();
+        if($existingTesting!=null) $existingTesting->delete();
         Ip_testing::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => $teacher_id,
             'course_id' => $course->id,
             //'ip' => $request->ip(),
             'is_tester' => 1,
@@ -437,7 +442,10 @@ class TeacherController extends Controller
 
     public function submitPresentStudents(Course $course, Request $request)
     {
+        // check if the caller of function really is teacher who owns the course
+        if($course->user_id!=auth()->user()->id) abort(403, "You don't even own this course");
 
+        Ip_testing::clear_DB_ip_data($course);
         $present_student_ids = $request->studentIds;
         /*foreach($studentIds as $studentId){
             echo "Submited was:". $studentId;

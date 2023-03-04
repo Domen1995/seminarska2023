@@ -17,4 +17,15 @@ class Ip_testing extends Model
         'websocketId',
         'token'
     ];
+
+    public static function clear_DB_ip_data(Course $course)
+    {
+        //$ip_testing = Ip_testing::where('user_id', auth()->user()->id)->first();
+        // if disconnected WS is from the tester (teacher), delete all rows of this course in ip_testings table
+        //if($ip_testing->is_tester){
+        Ip_testing::where('course_id', $course->id)->delete();
+        //Course::where('id', $ip_testing->course_id)->update(['ipForChecking'=>null, 'isCurrentlyChecking'=>0]);
+        $course->update(['ipForChecking'=>null, 'isCurrentlyChecking'=>0]);
+        //}
+    }
 }

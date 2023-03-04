@@ -145,6 +145,18 @@ class StudentController extends Controller
         // če se IP ne ujema, ni obveščen, samo če se, je - redirectan je na pohvalni view. povezava loh traja samo 1 hip in je zabeleženo, zato
         // ni treba includati na vsak view posebej, ki ga obišče, nič.
         $student = auth()->user();
+        // if the student already confirmed his presence, don't let him in again. Tabela ip_testings se za course cleara 2 h
+        // po zaprtju in šele takrat loh drug profesor v clusterju odpre test. Tudi študent se do 2 h po zaprtju ne more nekje
+        // Profesorji lahko tudi prekrivajoče med sabo dajo testirat, tudi če so v istem clusterju - ker imajo študente, ki so nekje
+        // vpisani, nekje ne -. Samo študent se ne more 2,5 ure ponovno počekirati. Timestamp zadnjega čekiranja je shranjen pri študentu.
+        // se pa hrani v tabeli ip_checking zapis študenta dokler profesor ne gre ven in za ta predmet se lahko spet počekira prej kot
+        // po 2 h, če profesor restarta test - NE. Še po tem, ko profesor gre ven, se morda hrani zapis študenta, če profesor zafrkne test, da
+        // loh gre študent spet noter samo za njegov predmet ... Raje profesor ne more testirati istega coursa 2,5 ure ponovno.
+        // Zapis o študentu ip_checking se izbriše, ko profesor neha testirati. Kaj, če profesor izgubi povezavo? Da se mu ne bodo
+        // ponovno prijavljali študenti noter? Profesor mora s klikom odobriti konec testiranja, da se izbriše iz baze, ne izbriše se
+        // na connection close. Profesorja se opozarja na odobritev za konec testiranja na drugih straneh, če mu ne rata zapreti
+        // na strani za testiranje. Za le-ta course se študent ne more ponovno čekirati niti po 2,5h, če je še vedno v ip_testingu
+        // njegov zapis.
         if(count($coursesChecking)==1){
             $course = $coursesChecking[0];
 
