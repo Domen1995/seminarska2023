@@ -14,7 +14,8 @@ class StudentSettings extends Model
         'user_id',
         'ip_addresses',
         'screwUps',
-        'presences'
+        'presences',
+        'last_time_present'
     ];
 
 

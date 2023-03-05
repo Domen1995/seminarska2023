@@ -7,7 +7,7 @@ use App\Models\Video;
 use App\Models\Course;
 use App\Models\Ip_testing;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+//use Illuminate\Support\Carbon;
 use App\Models\StudentSettings;
 use App\Models\CoursesUser;//CourseStudent;
 
@@ -24,7 +24,7 @@ class StudentController extends Controller
             if((time() - $last_time_present)>7200){
                 $ipCheckingPage = $this->ipChecking($coursesChecking, $request);
                 //dd($request->ip());
-                if($ipCheckingPage!="wrongIP") return $ipCheckingPage;
+                if($ipCheckingPage!="access_denied") return $ipCheckingPage;
             }
         }// return $this->ipChecking($coursesChecking, $request);
         // if student searched in search bar for matching courses, the request has limitations:
@@ -163,13 +163,16 @@ class StudentController extends Controller
         // na strani za testiranje. Za le-ta course se študent ne more ponovno čekirati niti po 2,5h, če je še vedno v ip_testingu
         // njegov zapis.
         $last_time_present = StudentSettings::where('user_id', $student->id)->first()->last_time_present;
+        $exists_ip_testing_record = Ip_testing::where('user_id', $student->id)->first() != null;
+        $already_been_checked = time()-$last_time_present<=7200 || $exists_ip_testing_record;
+        if($already_been_checked) return "access_denied";
         //dd(time());
         $last_time_present->update(["last_time_present" => time()/*Carbon::now()*/]);
         if(count($coursesChecking)==1){
             $course = $coursesChecking[0];
 
             // if professor's IP and student's IP don't match, continue on site normally; don't even let student know he screwed up
-            if($course->ipForChecking != $request->ip()) return "wrongIP";
+            if($course->ipForChecking != $request->ip()) return "access_denied";
             $webSocketToken = md5(uniqid());  //NE: ne rabi tokena, samo userId
             Ip_testing::create([
                 'user_id' => $student->id,

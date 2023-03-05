@@ -16,7 +16,8 @@ class Course extends Model
         'faculty',
         'user_id',
         'allowedEmails',
-        'isCurrentlyChecking'
+        'isCurrentlyChecking',
+        'last_time_ip_check'
     ];
 
     public static function findMatching($limitations, $user)
@@ -27,13 +28,24 @@ class Course extends Model
                         ->orWhereIn('user_id', User::where('name', 'like', '%'.$limitations.'%')->where('isTeacher', '1')->get('id'))->paginate(8);//->get();
         }else{
             $GLOBALS['studentsEmailEnding'] = User::emailEnding($user->email);
-            $courses = Course::where('name', 'like', "%".$limitations."%")
-                        ->orWhereIn('user_id', User::where('name', 'like', '%'.$limitations.'%')->where('isTeacher', '1')->get('id'))
-                        ->where(function($query){
+            $GLOBALS['limitations'] = $limitations;
+            $courses = Course::where(function($query){
+                                    return $query->where('allowedEmails', 'like', '%'.$GLOBALS['studentsEmailEnding'].'%')
+                                                ->orWhereNull('allowedEmails');
+                                        })
+                                ->where(function($query){
+                                    return $query->where('name', 'like', "%".$GLOBALS['limitations']."%")
+                                               ->orWhereIn('user_id', User::where('name', 'like', '%'.$GLOBALS['limitations'].'%')->where('isTeacher', '1')->get('id'));
+                                        })
+                                //->get('id');
+                                ->paginate(8);
+                                //->paginate(8);
+                        /*->where(function($query){
                             $query->where('allowedEmails', 'like', '%'.$GLOBALS['studentsEmailEnding'].'%')
                                     ->orWhereNull('allowedEmails');
-                        });
-            return $courses->paginate(8);
+                        });*/
+            //dd($courses);
+            return $courses;//->paginate(8);
         }
     }
 
@@ -42,14 +54,16 @@ class Course extends Model
         // return which one if it is
     {
         $coursesChecking = Course::where('isCurrentlyChecking', 1)
-                            ->whereIn('id', CoursesUser::where('user_id', $student->id)->get('course_id'))
+                            ->whereIn('id', CoursesUser::where('user_id', $student->id)
+                                                        ->where('status', 'enrolled')
+                                                        ->get('course_id'))
                             ->get();
         return $coursesChecking;
-        if(count($coursesChecking)==0) return;
+        /*if(count($coursesChecking)==0) return;
         if(count($coursesChecking)==1){
             $websocketToken = md5(uniqid());
 
-        }
+        }*/
     }
 
 
