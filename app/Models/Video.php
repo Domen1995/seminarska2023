@@ -47,8 +47,8 @@ class Video extends Model
         header('Status: 206');
         header('Content-Type: video/mp4');
         header('Connection: keep-alive');
-        header('Cache-Control: public, max-age=604800');
-        header('ETag: b3a64df551425fcc55e4d42a148795d9f25f89d5');
+        //header('Cache-Control: public, max-age=604800');
+        //header('ETag: b3a64df551425fcc55e4d42a148795d9f25f89d5');
         header("Content-Transfer-Encoding: binary");
         //header('Accept-Ranges: 0-'.$videoLen.'');
         header('Accept-Ranges: bytes');

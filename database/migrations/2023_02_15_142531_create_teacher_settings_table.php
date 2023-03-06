@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('allowedEmails')->nullable();
+            $table->longText('info_for_students')->nullable();
             //$table->string('ip_addresses_for_checking')->nullable(); the one he's currently on!
             $table->timestamps();
         });

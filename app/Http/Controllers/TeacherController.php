@@ -161,8 +161,10 @@ class TeacherController extends Controller
         foreach($videos as $video) echo $video->title;
         dd($videos);*/
         //$u = User::find(auth()->user()->id);
+        $info_for_students = TeacherSettings::where('user_id', $user->id)->first()->info_for_students;
         return view('teachers.selfProfile', [
             'user' => $user,//User::find(auth()->user()->id),
+            'info_for_students' => $info_for_students
             //'videos' => Video::where('user_id', $user->id)->paginate(4)//Video::where('user_id', $user->id)->get()//User::find(auth()->user()->id)->video()->get()
             /*'channelDescription' => User::find(auth()->user()->id)->description*/
         ]);
@@ -505,6 +507,12 @@ class TeacherController extends Controller
                                 ->get();
         CoursesUser::reduce_screwUps($absent_students, 1);
         return redirect('/teachers/coursePage/'.$course_id)->with('message', 'As the last presence checking has never been performed');
+    }
+
+    public function updateStudentsInfo(Request $request)
+        // updates field under "some informations for your student, if needed"
+    {
+        TeacherSettings::where('user_id', auth()->user()->id)->update(["info_for_students" => $request[0]]);
     }
 
     public function test()

@@ -148,13 +148,12 @@ function showDropdownItems(){
 // hide dropwodn menu elements
 
 //document.getElementById('dropdownItemsContainer').addEventListener('mouseleave', hideDropdownItems)
-//addEventListener('click', hideDropdownItems)
+addEventListener('click', hideDropdownItems)
 
-/*
+
 function hideDropdownItems(){
     const dropdownItemsContainer = document.getElementById('dropdownItemsContainer')
     dropdownItemsContainer.style.opacity = "0"
     dropdownItemsContainer.style.transform = "translateY(-3rem)"
     dropdownItemsContainer.style.pointerEvents = "none"
 }
-*/

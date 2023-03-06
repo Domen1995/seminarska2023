@@ -136,6 +136,8 @@ Route::get('teachers/newCourseForm', [TeacherController::class, 'newCourseForm']
 /*Route::get('courses/search', [TeacherController::class, 'mainpage'])->middleware('auth')
     ->where(auth()->user()->isTeacher, '1');*/
 
+Route::post('/teachers/updateStudentsInfo', [TeacherController::class, 'updateStudentsInfo']);
+
 Route::post('courses/create', [CourseController::class, 'create'])->middleware('auth');
 
 Route::get('/test', [TeacherController::class, 'test']);
