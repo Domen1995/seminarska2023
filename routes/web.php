@@ -27,6 +27,7 @@ use App\Http\Controllers\TeacherController;
 // base URL of the website
 //define("BASEURL", "/seminarska2023/public");
 define("BASEURL", "");
+define('serverIp', "192.168.43.170");
 define("WEBSOCKET_URL", "wss://192.168.64.100:443/robots/");
 
 // display homepage on which user selects a video

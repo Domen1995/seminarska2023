@@ -416,6 +416,28 @@ class TeacherController extends Controller
         ]);
     }
 
+    // morda se profesorji ne bi v clusterje, da ne bi prihajalo do dvojnega čekiranja. Saj ne bi kaj dosti prihranili na času,
+    // če bi vsak čekiral zase. in bi dodeljeval
+
+    //in bi se potem pri coursesUser timestamp ... sploh ne rabi timestampa čekiranja ne študent ne učitelj, če ni clusterjev
+    // profesorjev. in učitelj ni omejen da ne more čekirat 2,5 h. Študent ne more še 1krat noter, ker je njegov zapis v ip_check
+    // dokler profesor ne zapre čekiranja. Če čekirata 2 predmeta naenkrat, na katera je vpisan, bi lahko imel timestamp da se mu
+    // onemogoči za 2h čekirati, ampak to pomeni, da se mu predmeta prekirivata in vseeno loh gleda posnetlke obeh; itak mu 0
+    //globalno ne poveča. Profesorja bi edino lahko zmedlo, da se mu je pojavi nekdo, ki ga ni v razredu. Potem bi se lahko za
+    // drugega počekiral študent, tako da ni dovoljeno, da se pojavi na obeh. Če 2 hkrati čekirata, si mora izbrati enega in
+    // Študent mora klikniti, da potrjuje, da je v razredu? To bi vzelo čas. Ampak če se samo prijavi noter ali ga prijavi sošolec,
+    //... Neka potrditev bi morala biti s strani študenta - potem ko je že pravi IP -, da se pojavi na ekranu profesorja. Če ne,
+    // bi med drugim goljufali. Če se pojavi na enkranu ime, ki ni v razredu, ga profesor loh bana. Mora bit napis: "Ste v tem hipu
+    // na predavanju coursa Prog 1?" Prihranilo bi klik, če ne. 0 ni treba potrditi; itak ne more študent gledati na IP-ju šole,
+    // sicer bi si lahko delili. Tudi v štud domu si loh delijo... Samo na 1 napravi je loh prijavljen študent hkrati. Dobi minus
+    // točko, če se zgodi, da je na 2 napravah hkrati aktiven, če večkrat, pa ban. Prek sessiona se to ugotovi. Ne rabi imeti sta-
+    // lnega IP-ja študent, ampak se samo ne smejo zgoditi hkratne prijave - sessioni - oz. aktivnosti na več napravah. Študent
+    // ni omejen na IP. Ni treba 0 potrditi, da si na predavanju; če si na aplikaciji na faksu med predavanjem in profesor testira
+    // in te ni na predavanju, to pomeni, da ne boš hodil na ta predavanja in te profesor izbaci. Če se ti prekriva, ti loh
+    // profesor z 1 klikom da neomejen dostop; če bi se ti pojavilo vprašanje "ste na predavanju" in ne bi odobril, bi tako ali
+    // tako dobil ološ in za brezveze zadrževati, da mora cela skupina to odobriti. Profesor naj bana nekoga, ki se pojavi, a ga
+    // ni na predavanju; loh da goljufa in se je nekdo prijavil namesto njega.
+
     public function checkIp(Course $course, Request $request)
         // send to teacher a page which will connect him to websocket and he'll start waiting for
         // students to join

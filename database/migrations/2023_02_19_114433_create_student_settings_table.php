@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('ip_addresses')->nullable();
-            $table->bigInteger('last_time_present')->default(0);
+            //$table->bigInteger('last_time_present')->default(0);
             //$table->integer('screwUps')->default(0);
             //$table->integer('presences')->default(0);
             $table->timestamps();
