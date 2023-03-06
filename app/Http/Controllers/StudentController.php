@@ -144,6 +144,7 @@ class StudentController extends Controller
         return redirect('/students/mainpage')->with('message', "Success. IP address was immediately hashed; we're not interested in your location.");
     }
 
+
     public function ipChecking($coursesChecking, Request $request)
     {
         // if only 1 course that student't enrolled in is checking IP at this moment, at him to IpTesting table.
@@ -163,12 +164,12 @@ class StudentController extends Controller
         // na strani za testiranje. Za le-ta course se študent ne more ponovno čekirati niti po 2,5h, če je še vedno v ip_testingu
         // njegov zapis.
 
-        // if at least 2 hours passed since last IP checking and if student isn't in ip_testing DB, allow it again
+        // NE: if at least 2 hours passed since last IP checking and if student isn't in ip_testing DB, allow it again
         $student_settings_record = StudentSettings::where('user_id', $student->id)->first();
-        $last_time_present = $student_settings_record->last_time_present;//('user_id', $student->id)->first()->last_time_present;
+        //$last_time_present = $student_settings_record->last_time_present;//('user_id', $student->id)->first()->last_time_present;
         $exists_ip_testing_record = Ip_testing::where('user_id', $student->id)->first() != null;
-        $already_been_checked = time()-$last_time_present<=7200 || $exists_ip_testing_record;
-        if($already_been_checked) return "access_denied";
+        //$already_been_checked = time()-$last_time_present<=7200 || $exists_ip_testing_record;
+        //if($already_been_checked) return "access_denied";
         //dd(time());
         $student_settings_record->update(["last_time_present" => time()/*Carbon::now()*/]);
         if(count($coursesChecking)==1){
