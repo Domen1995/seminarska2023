@@ -14,27 +14,29 @@ function addLoadingGif(){
 
 const videoContainer = document.getElementById('videoContainer')
 
-videoContainer.addEventListener("dragover", (e)=>{
-    e.preventDefault()
-    videoContainer.style.backgroundColor = "lightgreen"
-})
+if(videoContainer!=null){
+    videoContainer.addEventListener("dragover", (e)=>{
+        e.preventDefault()
+        videoContainer.style.backgroundColor = "lightgreen"
+    })
 
-videoContainer.addEventListener("dragleave", (e)=>{
-    videoContainer.style.backgroundColor = "rgb(240, 240, 240)"
-})
+    videoContainer.addEventListener("dragleave", (e)=>{
+        videoContainer.style.backgroundColor = "rgb(240, 240, 240)"
+    })
 
-//let video
-videoContainer.addEventListener("drop", (e)=>{
-    e.preventDefault()
-    //video = e.dataTransfer.files
-    document.getElementById('videoFile').files = e.dataTransfer.files
-    /*const formVideo = new FormData
-    formVideo.append("videoFile", video)
-    document.getElementById('videoFile').value = video
-    console.log(document.getElementById('videoFile').value)*/
-    //document.getElementById("videoFile").value = formVideo
-    //console.log(document.getElementById("videoFile").value.size)
-})
+    //let video
+    videoContainer.addEventListener("drop", (e)=>{
+        e.preventDefault()
+        //video = e.dataTransfer.files
+        document.getElementById('videoFile').files = e.dataTransfer.files
+        /*const formVideo = new FormData
+        formVideo.append("videoFile", video)
+        document.getElementById('videoFile').value = video
+        console.log(document.getElementById('videoFile').value)*/
+        //document.getElementById("videoFile").value = formVideo
+        //console.log(document.getElementById("videoFile").value.size)
+    })
+}
 
 /*
 const imageContainer = document.getElementById('imageContainer')

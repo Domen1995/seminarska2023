@@ -19,13 +19,13 @@ class StudentController extends Controller
         // check if teacher is currently checking course student's enrolled in; if doesn't proceed normally
         $coursesChecking = Course::ipChecking($student);
         if(count($coursesChecking)>=1){
-            $last_time_present = StudentSettings::where('user_id', $student->id)->first()->last_time_present;
+            //$last_time_present = StudentSettings::where('user_id', $student->id)->first()->last_time_present;
             // if at least 2 hours passed since last IP checking, allow it again
-            if((time() - $last_time_present)>7200){
-                $ipCheckingPage = $this->ipChecking($coursesChecking, $request);
-                //dd($request->ip());
-                if($ipCheckingPage!="access_denied") return $ipCheckingPage;
-            }
+            //if((time() - $last_time_present)>7200){
+            $ipCheckingPage = $this->ipChecking($coursesChecking, $request);
+            //dd($request->ip());
+            if($ipCheckingPage!="access_denied") return $ipCheckingPage;
+            //}
         }// return $this->ipChecking($coursesChecking, $request);
         // if student searched in search bar for matching courses, the request has limitations:
         /*if($request->has('limitations')){
@@ -162,18 +162,21 @@ class StudentController extends Controller
         // na connection close. Profesorja se opozarja na odobritev za konec testiranja na drugih straneh, če mu ne rata zapreti
         // na strani za testiranje. Za le-ta course se študent ne more ponovno čekirati niti po 2,5h, če je še vedno v ip_testingu
         // njegov zapis.
-        $last_time_present = StudentSettings::where('user_id', $student->id)->first()->last_time_present;
+
+        // if at least 2 hours passed since last IP checking and if student isn't in ip_testing DB, allow it again
+        $student_settings_record = StudentSettings::where('user_id', $student->id)->first();
+        $last_time_present = $student_settings_record->last_time_present;//('user_id', $student->id)->first()->last_time_present;
         $exists_ip_testing_record = Ip_testing::where('user_id', $student->id)->first() != null;
         $already_been_checked = time()-$last_time_present<=7200 || $exists_ip_testing_record;
         if($already_been_checked) return "access_denied";
         //dd(time());
-        $last_time_present->update(["last_time_present" => time()/*Carbon::now()*/]);
+        $student_settings_record->update(["last_time_present" => time()/*Carbon::now()*/]);
         if(count($coursesChecking)==1){
             $course = $coursesChecking[0];
 
             // if professor's IP and student's IP don't match, continue on site normally; don't even let student know he screwed up
             if($course->ipForChecking != $request->ip()) return "access_denied";
-            $webSocketToken = md5(uniqid());  //NE: ne rabi tokena, samo userId
+            $webSocketToken = md5(uniqid());
             Ip_testing::create([
                 'user_id' => $student->id,
                 'course_id' => $course->id,

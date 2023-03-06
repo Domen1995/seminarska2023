@@ -140,7 +140,7 @@ Route::post('courses/create', [CourseController::class, 'create'])->middleware('
 
 Route::get('/test', [TeacherController::class, 'test']);
 
-Route::get('/test2', [TeacherController::class, 'test2']);
+Route::get('/test2', [VideoController::class, 'test2']);
 /*
 // returns a gif for which browser sent fetch
 Route::get('/assets/gif/{slug}', [AssetController::class, 'fetchGif']);

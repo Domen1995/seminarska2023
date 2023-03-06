@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
-use App\Models\TeacherSettings;
+use App\Models\CoursesUser;
 use Illuminate\Http\Request;
+use App\Models\TeacherSettings;
 
 class CourseController extends Controller
 {
@@ -20,10 +21,14 @@ class CourseController extends Controller
                 'courses' => $courses
             ]);
         }else{
+            $coursesUsers = CoursesUser::where('user_id', auth()->user()->id)->get();
+            if (count($coursesUsers)==0) $coursesUsers = null;
+            else $coursesUsers = CoursesUser::associateCourseId($coursesUsers);
             return view('students.mainpage', [
                 // select all courses that student is signed in
                 'user' => $user,
-                'courses' => $courses
+                'courses' => $courses,
+                'coursesUsers' => $coursesUsers
             ]);
         }
     }

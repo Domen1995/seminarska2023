@@ -112,5 +112,13 @@ class VideoController extends Controller
         $chunk = Video::createChunk($video, $startingPositionUnfiltered);
         // send the chunk of video
         echo $chunk;
+        //flush();
+    }
+
+    public function test2()
+    {
+        return view('test');
     }
 }
+
+?>

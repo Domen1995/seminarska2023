@@ -29,3 +29,5 @@ class Ip_testing extends Model
         //}
     }
 }
+
+?>

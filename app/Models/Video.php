@@ -17,6 +17,7 @@ class Video extends Model
     public static function createChunk(Video $video, $startingPositionUnfiltered)
     {
         // convert 'bytes=X-' to 'X'
+        //ob_get_clean();
         $startingPosition = self::extractNumeric($startingPositionUnfiltered);
 
         $pathToVideo = 'storage/'.$video->path;
@@ -35,6 +36,7 @@ class Video extends Model
 
         // set response headers that will tell browser which chunk is being sent
         self::setHeaders($startingPosition, $currentChunkLen, $videoLen);
+        fclose($actualVideo);
         return $chunk;
     }
 
@@ -42,11 +44,16 @@ class Video extends Model
         // sets HTTP response headers
     {
         header('HTTP/1.1 206 Partial Content');
+        header('Status: 206');
         header('Content-Type: video/mp4');
         header('Connection: keep-alive');
-        header('Accept-Ranges: 0-'.$videoLen.'');
+        header('Cache-Control: public, max-age=604800');
+        header('ETag: b3a64df551425fcc55e4d42a148795d9f25f89d5');
+        header("Content-Transfer-Encoding: binary");
+        //header('Accept-Ranges: 0-'.$videoLen.'');
+        header('Accept-Ranges: bytes');
         header('Content-Length: '.$currentChunkLen.'');
-        header('Content-Range: bytes '.$startingPosition.'-'.($startingPosition+$currentChunkLen).'/'.$videoLen);
+        header('Content-Range: bytes '.$startingPosition.'-'.($startingPosition+$currentChunkLen-1).'/'.$videoLen);
     }
 
     public static function extractNumeric($str){
