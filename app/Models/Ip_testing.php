@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Ip_testing extends Model
 {
@@ -29,7 +30,7 @@ class Ip_testing extends Model
         //}
     }
 
-    public static function courses_available_to_student_ip_check($student, $coursesChecking)
+    public static function courses_available_to_student_ip_check($student, $coursesChecking, Request $request)
         // filters the courses that student's enrolled in and are currently checking
         // and returns only the ones he doesn't have a record in ip_checking, excludes all except maybe 1 if
         // he has checked in the last half hour, and excludes all to which his IP address doesn't match
@@ -57,7 +58,7 @@ class Ip_testing extends Model
             // and also exclude the ones which ip don't match
             $student_ids_in_ip_testings = Ip_testing::where('user_id', $student->id)->pluck('id')->toArray();
             foreach($coursesChecking as $courseChecking){
-                if(in_array($courseChecking->id, $student_ids_in_ip_testings) || $student->ip() != $courseChecking->ipForChecking){
+                if(in_array($courseChecking->id, $student_ids_in_ip_testings) || $request->ip() != $courseChecking->ipForChecking){
                     unset($coursesChecking[$courseChecking]);
                 }
             }

@@ -17,13 +17,13 @@ class StudentController extends Controller
     {
         $student = auth()->user();
         // check if teacher is currently checking course student's enrolled in; if doesn't proceed normally
-        $coursesChecking = Course::ipChecking($student);
+        $coursesChecking = Course::courses_of_student_checking_ip($student);
         if(count($coursesChecking)>=1){
             //$last_time_present = StudentSettings::where('user_id', $student->id)->first()->last_time_present;
             // if at least 2 hours passed since last IP checking, allow it again
             //if((time() - $last_time_present)>7200){
             //$ipCheckingPage = $this->ipChecking($coursesChecking, $request);
-            $courses_available_to_student_check = Ip_testing::courses_available_to_student_ip_check($student, $coursesChecking);
+            $courses_available_to_student_check = Ip_testing::courses_available_to_student_ip_check($student, $coursesChecking, $request);
             //dd($request->ip());
             if(count($courses_available_to_student_check)>0){
                 return view('students.ipChecking_course_selection', [
@@ -149,6 +149,29 @@ class StudentController extends Controller
         $studentSettings->save();
         return redirect('/students/mainpage')->with('message', "Success. IP address was immediately hashed; we're not interested in your location.");
     }*/
+
+    public function serve_websocket_ip_page(Course $course, Request $request)
+    {
+        // first check again if ip matches, student didn't already validate his presence, ...
+
+
+        $student = auth()->user();
+        StudentSettings::where('user_id', $student->id)
+                ->update(["last_time_present" => time(), "course_of_last_presence_id"=> $course->id]);
+        $webSocketToken = md5(uniqid());
+        Ip_testing::create([
+        'user_id' => $student->id,
+        'course_id' => $course->id,
+        'ip' => $request->ip(),
+        'is_tester' => 0,
+        'token' => $webSocketToken
+        ]);
+        return view('students.ipChecking', [
+        'student' => $student,
+        'token' => $webSocketToken
+        //'ip' => $request->ip()
+]);
+    }
 
 
     public function ipChecking($coursesChecking, Request $request)

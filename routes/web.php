@@ -28,7 +28,8 @@ use App\Http\Controllers\TeacherController;
 //define("BASEURL", "/seminarska2023/public");
 define("BASEURL", "");
 define('serverIp', "192.168.43.170");
-define("WEBSOCKET_URL", "wss://192.168.64.100:443/robots/");
+//define("WEBSOCKET_URL", "wss://192.168.64.100:443/robots/");
+define("WEBSOCKET_URL", "wss://192.168.0.20:443/robots/");
 
 // display homepage on which user selects a video
 //Route::get('/', [VideoController::class, 'homepage']);
@@ -121,11 +122,12 @@ Route::get('/students/statistics', [StudentController::class, 'statistics'])->mi
 
 Route::get('/students/settings', [StudentController::class, 'settings'])->middleware('auth');
 
-Route::get('/students/ipForm', [StudentController::class, 'showIpForm'])->middleware('auth');
+//Route::get('/students/ipForm', [StudentController::class, 'showIpForm'])->middleware('auth');
 
-Route::get('/students/addIp', [StudentController::class, 'addIp'])->middleware('auth');
+//Route::get('/students/addIp', [StudentController::class, 'addIp'])->middleware('auth');
 
-Route::get('/students/ipChecking', [StudentController::class, 'ipChecking'])->middleware('auth');
+//Route::get('/students/ipChecking', [StudentController::class, 'ipChecking'])->middleware('auth');
+Route::get('/students/selected_course_for_checking/{course}', [StudentController::class, 'serve_websocket_ip_page']);
 
 Route::get('/students/ipCheckingSuccess', [StudentController::class, 'ipCheckingSuccess'])->middleware('auth');
 

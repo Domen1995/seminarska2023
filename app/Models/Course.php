@@ -49,7 +49,7 @@ class Course extends Model
         }
     }
 
-    public static function ipChecking($student)
+    public static function courses_of_student_checking_ip($student)
         // check if any course student is signed in is being checked for presence at the moment,
         // return which one if it is
     {

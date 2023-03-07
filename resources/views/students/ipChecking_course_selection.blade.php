@@ -1,5 +1,5 @@
 <x-layout>
-    <title>Setting IP address</title>
+    <title>Confirming presence</title>
     <script src="{{BASEURL}}/js/confirmWindow.js"></script>
 </head>
 <body>
@@ -8,7 +8,7 @@
             <div style="color:red">Select the course only if you are at the lecture at this moment:
             </div>
             @foreach ($courses as $course)
-                <a href="#">{{$course->name}}</a>
+                <a href="/students/selected_course_for_checking/{{$course->id}}">{{$course->name}}</a>
             @endforeach
             {{--
             <div id="ipQuestion" style="display:flex; gap:2rem; position:relative">
