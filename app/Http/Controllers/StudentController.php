@@ -166,12 +166,39 @@ class StudentController extends Controller
 
         // NE: if at least 2 hours passed since last IP checking and if student isn't in ip_testing DB, allow it again
         $student_settings_record = StudentSettings::where('user_id', $student->id)->first();
-        //$last_time_present = $student_settings_record->last_time_present;//('user_id', $student->id)->first()->last_time_present;
-        $exists_ip_testing_record = Ip_testing::where('user_id', $student->id)->first() != null;
+        $last_time_present = $student_settings_record->last_time_present;//('user_id', $student->id)->first()->last_time_present;
+        $already_been_checked = time() - $last_time_present < 1800;  // if he gained presence at any subject less than half out ago
+        //$ip_testing_record = Ip_testing::where('user_id', $student->id)->first();
+        if($already_been_checked){
+            // he can only proceed to the last checked course if teacher has restarted checking
+            $ip_testing_record = Ip_testing::where('user_id', $student->id)
+                                        ->where('course_id', $student_settings_record->course_of_last_presence_id)
+                                        ->first();
+            // if the record isn't null, means that the previous checking is still running and student can't proceed
+            if($ip_testing_record!=null){
+                return "access_denied";
+            }
+            $course_of_last_presence = Course::where('id', $student_settings_record->course_of_last_presence_id)->first();
+            // if the last checked course is currently checking (again), put it in array as the only course that student can check
+            if($course_of_last_presence->isCurrentlyChecking){
+                $coursesChecking = [$course_of_last_presence];
+            }else return "access_denied";
+        }else{
+            // if there's more than half hour since last checking, he can gain presence at any course except the ones he already has
+            $student_ids_in_ip_testings = Ip_testing::where('user_id', $student->id)->pluck('id')->toArray();
+            foreach($coursesChecking as $courseChecking){
+                if(in_array($courseChecking->id, $student_ids_in_ip_testings)){
+                    unset($coursesChecking[$courseChecking]);
+                }
+            }
+            dd($coursesChecking);
+        }
+
         //$already_been_checked = time()-$last_time_present<=7200 || $exists_ip_testing_record;
         //if($already_been_checked) return "access_denied";
         //dd(time());
-        $student_settings_record->update(["last_time_present" => time()/*Carbon::now()*/]);
+        //$student_settings_record->update(["last_time_present" => time()/*Carbon::now()*/]);
+        // if there are more than 1 course he's enrolled in checking at the moment', he must change the right one
         if(count($coursesChecking)==1){
             $course = $coursesChecking[0];
 

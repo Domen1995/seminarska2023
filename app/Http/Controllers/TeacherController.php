@@ -436,7 +436,17 @@ class TeacherController extends Controller
     // in te ni na predavanju, to pomeni, da ne boš hodil na ta predavanja in te profesor izbaci. Če se ti prekriva, ti loh
     // profesor z 1 klikom da neomejen dostop; če bi se ti pojavilo vprašanje "ste na predavanju" in ne bi odobril, bi tako ali
     // tako dobil ološ in za brezveze zadrževati, da mora cela skupina to odobriti. Profesor naj bana nekoga, ki se pojavi, a ga
-    // ni na predavanju; loh da goljufa in se je nekdo prijavil namesto njega.
+    // ni na predavanju; loh da goljufa in se je nekdo prijavil namesto njega. Študent ima timestamp in se nikjer ne more potem...
+    // Potem se ne bi mogel tudi na istem predmetu počekirati, če bi prof. ponovil. Ima timestamp 1,5h v CoursesUser in se loh še
+    // 1x čekira samo v tem recordu, če ni več v ip_checkingu recorda. Kaj, če tolikokrat bil prisoten in tekom tekočega predavanja
+    // nekje drugje na šoli lihkar spremlja posnetek drugega predavanja? Mora odobriti oz. zavrniti prisotnost -
+    // polje se pojavi avtomatsko vsem pri kakršnikoli akciji na spl. strani -; v obeh primerih
+    // timestamp in se ga 1,5h ne vpraša več. Ne timestamp, ampak se v ip_testings pod shrani kot nekdo, ki se mu bo naredil ološ.
+    // Vsak je takoj lahko testiran na nek drug predmet in prof. loh takoj testira, (ni timestampov). Je timestamp
+    // študenta za pol ure - izključujoč za dotični predmet, če mora npr. resetir testiranje -
+    // , ker potem je že možno bit testiran na 2. predavanju. Če hkrati več testiranj, si izbere, katerega. Zapiše se tudi pri zad-
+    // njem timestampu testiranja, za kateri course je bil, tako da se loh takoj spet testira, če prof. resetira testiranje in se
+    // s tem izbriše record iz ip_testing
 
     public function checkIp(Course $course, Request $request)
         // send to teacher a page which will connect him to websocket and he'll start waiting for
@@ -539,7 +549,12 @@ class TeacherController extends Controller
 
     public function test()
     {
-        return view('test');
+        //$users = User::where('id', '>', 0)->get()->map->only('name');
+        $users = User::where('id', '>', 0)->pluck("name")->toArray();
+        dd($users[2]);
+        //$users = User::where('id', '>', 0)->pluck('id')->toArray();
+        //dd(in_array(5, $users));
+        //return view('test');
         //return $_SERVER['SERVER_ADDR'];
         //TeacherSettings::create(["user_id" => 8]);
         //Cache::flush('client');
