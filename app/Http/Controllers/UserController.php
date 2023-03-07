@@ -114,10 +114,12 @@ class UserController extends Controller
         if($user->isTeacher){
             return redirect('/teachers/mainpage')->with('message', 'Welcome to the community, '. $request->n.'!');
         }else{
+            return redirect('/students/mainpage')->with('message', 'Welcome to the community, '.$request->n.'!');
+            /*
             // remember in student's session that he doesn't have his IP in DB and redirect to page where he will approve IP
             session(['ipStatus' => 'noIP']);
             session(['ipsRegistered' => 0]);
-            return redirect('/students/ipForm');
+            return redirect('/students/ipForm');*/
             //return redirect('/students/mainpage')->with('message', 'Welcome to the community, '. $request->n.'!');
         }
         //return redirect('/')->with('message', 'Welcome to the community, '. $request->n.'!');//auth()->user()->name.'!');
@@ -252,10 +254,11 @@ class UserController extends Controller
         if($user->isTeacher){
             return redirect('/teachers/mainpage')->with('message', 'Welcome back, '.$user->name);
         }else{
+            return redirect('/students/mainpage')->with('message', 'Welcome back, '.$user->name);
             // get first of possible 2 student's IP addresses
             //$studentIP = StudentStatistics::where('user_id', $user->id)->first('ip_addresses')->ip_addresses;
             // if it isn't set, redirect student to the page where he will confirm or reject current IP to be permanent
-            return StudentSettings::ipLoginValidation($request, $user);
+            //return StudentSettings::ipLoginValidation($request, $user);
                 //return back()->with('message', 'Wrong IP address!');
             //if($studentIP == null) return redirect('/students/ipForm');
             // let student in only if his IP in DB matches with the one he's currently using

@@ -454,12 +454,12 @@ class TeacherController extends Controller
     {
         // store in DB that the course is in the presence checking process
         $course = Course::find($course->id);
-        $seconds_since_last_checking = time() - $course->last_time_ip_check;
+        /*$seconds_since_last_checking = time() - $course->last_time_ip_check;
         if($seconds_since_last_checking <= 7200) return back()
-            ->with('message', $course->name.' can be checked for presence again in '.$seconds_since_last_checking.' seconds.');
+            ->with('message', $course->name.' can be checked for presence again in '.$seconds_since_last_checking.' seconds.');*/
         $course->isCurrentlyChecking = 1;
         $course->ipForChecking = $request->ip();
-        $course->last_time_ip_check = time();
+        //$course->last_time_ip_check = time();
         $course->save();
         $webSocketToken = md5(uniqid());
         $teacher_id = auth()->user()->id;

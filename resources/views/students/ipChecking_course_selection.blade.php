@@ -1,4 +1,3 @@
-{{-- NOT IN USE
 <x-layout>
     <title>Setting IP address</title>
     <script src="{{BASEURL}}/js/confirmWindow.js"></script>
@@ -6,9 +5,12 @@
 <body>
     <div class="flexboxCenterer">
         <div class="form" style="width: 50%">
-            <div style="color:red">You are only allowed to watch videos from up to 2 locations. When your hashed IP address is stored in database, you can't replace it
-                with another one. Please log out if you're not currently connected through your home router.
+            <div style="color:red">Select the course only if you are at the lecture at this moment:
             </div>
+            @foreach ($courses as $course)
+                <a href="#">{{$course->name}}</a>
+            @endforeach
+            {{--
             <div id="ipQuestion" style="display:flex; gap:2rem; position:relative">
                 <button class="link" onclick="showIpConfirmation('{{$studentsIP}}')" style="height: .9rem">One of my 2 IP address will be {{$studentsIP}} forever</button>
                 <form action="{{BASEURL}}/users/logout" method="POST" style="">
@@ -16,7 +18,7 @@
                     <input class="link" type="submit" value="Log out" style="width:14rem; height:6rem; font-size:4rem">
                 </form>
             </div>
+            --}}
         </div>
     </div>
 </x-layout>
---}}

@@ -22,9 +22,15 @@ class StudentController extends Controller
             //$last_time_present = StudentSettings::where('user_id', $student->id)->first()->last_time_present;
             // if at least 2 hours passed since last IP checking, allow it again
             //if((time() - $last_time_present)>7200){
-            $ipCheckingPage = $this->ipChecking($coursesChecking, $request);
+            //$ipCheckingPage = $this->ipChecking($coursesChecking, $request);
+            $courses_available_to_student_check = Ip_testing::courses_available_to_student_ip_check($student, $coursesChecking);
             //dd($request->ip());
-            if($ipCheckingPage!="access_denied") return $ipCheckingPage;
+            if(count($courses_available_to_student_check)>0){
+                return view('students.ipChecking_course_selection', [
+                    'courses' => $courses_available_to_student_check
+                ]);
+            }
+            //if($ipCheckingPage!="access_denied") return $ipChecking_course_selection;
             //}
         }// return $this->ipChecking($coursesChecking, $request);
         // if student searched in search bar for matching courses, the request has limitations:
@@ -127,7 +133,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function showIpForm(Request $request)
+    /*public function showIpForm(Request $request)
     {
         return view('students.ipForm', [
             'studentsIP' => $request->ip()
@@ -142,7 +148,7 @@ class StudentController extends Controller
         $studentSettings->ip_addresses .= sha1($request->ip).',';
         $studentSettings->save();
         return redirect('/students/mainpage')->with('message', "Success. IP address was immediately hashed; we're not interested in your location.");
-    }
+    }*/
 
 
     public function ipChecking($coursesChecking, Request $request)
@@ -191,7 +197,6 @@ class StudentController extends Controller
                     unset($coursesChecking[$courseChecking]);
                 }
             }
-            dd($coursesChecking);
         }
 
         //$already_been_checked = time()-$last_time_present<=7200 || $exists_ip_testing_record;
@@ -204,6 +209,8 @@ class StudentController extends Controller
 
             // if professor's IP and student's IP don't match, continue on site normally; don't even let student know he screwed up
             if($course->ipForChecking != $request->ip()) return "access_denied";
+            StudentSettings::where('user_id', $student->id)
+                        ->update(["last_time_present" => time(), "course_of_last_presence_id"=> $course->id]);
             $webSocketToken = md5(uniqid());
             Ip_testing::create([
                 'user_id' => $student->id,
