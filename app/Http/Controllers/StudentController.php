@@ -152,20 +152,24 @@ class StudentController extends Controller
 
     public function serve_websocket_ip_page(Course $course, Request $request)
     {
-        // first check again if ip matches, student didn't already validate his presence, ...
-
-
+        // first check again if ip matches, if student didn't already validate his presence, ...
         $student = auth()->user();
+        $info_valid = Ip_testing::student_info_valid_for_checking($student, $course, $request);
+        if(!$info_valid) return back()->with('message', "Your data isn't valid for ip testing");
+        // update student's data about ip testing
         StudentSettings::where('user_id', $student->id)
                 ->update(["last_time_present" => time(), "course_of_last_presence_id"=> $course->id]);
+        // give student an unique token
         $webSocketToken = md5(uniqid());
+        // create a record about student testing in DB
         Ip_testing::create([
-        'user_id' => $student->id,
-        'course_id' => $course->id,
-        'ip' => $request->ip(),
-        'is_tester' => 0,
-        'token' => $webSocketToken
+            'user_id' => $student->id,
+            'course_id' => $course->id,
+            'ip' => $request->ip(),
+            'is_tester' => 0,
+            'token' => $webSocketToken
         ]);
+        // serve student page that will establish websocket connection for testing IP
         return view('students.ipChecking', [
         'student' => $student,
         'token' => $webSocketToken

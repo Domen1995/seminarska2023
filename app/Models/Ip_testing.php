@@ -65,6 +65,11 @@ class Ip_testing extends Model
         }
         return $coursesChecking;
     }
+
+    public static function student_info_valid_for_checking($student, Course $course, Request $request)
+    {
+        return count(self::courses_available_to_student_ip_check($student, [$course], $request))==1;
+    }
 }
 
 ?>
