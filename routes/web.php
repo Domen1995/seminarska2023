@@ -114,7 +114,9 @@ Route::get('/teachers/coursePage/{course}', [TeacherController::class, 'coursePa
 
 Route::get('/teachers/checkIp/{course}', [TeacherController::class, 'checkIp'])->middleware('auth');
 
-Route::post('/teachers/submitPresentStudents/{course}', [TeacherController::class, 'submitPresentStudents']);
+Route::post('/teachers/submitPresentStudents/{course}', [TeacherController::class, 'submitPresentStudents'])->middleware('auth');
+
+Route::get('/teachers/terminateTesting/{course}', [TeacherController::class, 'terminate_testing'])->middleware('auth');
 
 Route::get('/students/coursePage/{course}', [StudentController::class, 'coursePage'])->middleware('auth');
 

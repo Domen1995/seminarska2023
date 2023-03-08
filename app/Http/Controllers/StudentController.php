@@ -178,7 +178,8 @@ class StudentController extends Controller
     }
 
 
-    public function ipChecking($coursesChecking, Request $request)
+    /*public function ipChecking($coursesChecking, Request $request)
+        // NOT IN USE
     {
         // if only 1 course that student't enrolled in is checking IP at this moment, at him to IpTesting table.
         // če se IP ne ujema, ni obveščen, samo če se, je - redirectan je na pohvalni view. povezava loh traja samo 1 hip in je zabeleženo, zato
@@ -196,6 +197,10 @@ class StudentController extends Controller
         // na connection close. Profesorja se opozarja na odobritev za konec testiranja na drugih straneh, če mu ne rata zapreti
         // na strani za testiranje. Za le-ta course se študent ne more ponovno čekirati niti po 2,5h, če je še vedno v ip_testingu
         // njegov zapis.
+
+        // če teacher pošlje http request za katerokoli stran, se izbriše vse o ip-testingu iz tabel, ne da se ga vpraša; sicer
+        // itak ne bi bilo več podatkov o že priključenih študentih, ko bi refreshal oz. ponovno prišel na ip_testing stran.
+        // Ne, samo ko hoče spet zagnati testiranje, se prej vse izbriše.
 
         // NE: if at least 2 hours passed since last IP checking and if student isn't in ip_testing DB, allow it again
         $student_settings_record = StudentSettings::where('user_id', $student->id)->first();
@@ -229,9 +234,9 @@ class StudentController extends Controller
         //$already_been_checked = time()-$last_time_present<=7200 || $exists_ip_testing_record;
         //if($already_been_checked) return "access_denied";
         //dd(time());
-        //$student_settings_record->update(["last_time_present" => time()/*Carbon::now()*/]);
+        //$student_settings_record->update(["last_time_present" => time()/*Carbon::now()]);*/
         // if there are more than 1 course he's enrolled in checking at the moment', he must change the right one
-        if(count($coursesChecking)==1){
+       /* if(count($coursesChecking)==1){
             $course = $coursesChecking[0];
 
             // if professor's IP and student's IP don't match, continue on site normally; don't even let student know he screwed up
@@ -252,7 +257,7 @@ class StudentController extends Controller
                 //'ip' => $request->ip()
             ]);
         }
-    }
+    }*/
 
     public function ipCheckingSuccess()
         // show a page that confirms IP was successfully checked

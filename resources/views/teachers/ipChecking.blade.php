@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="/css/tables.css">
 </head>
 <body>
+    <a href="/teachers/terminateTesting/{{$course->id}}">Terminate testing</a>
     <form action="/teachers/submitPresentStudents/{{$course->id}}" method="POST">
         @csrf
         <table id="presentStudents" class="students">
@@ -21,6 +22,7 @@
         </table>
         <button type="submit">Submit data, no one else is coming</button>
     </form>
+
     <script>
         //const conn = new WebSocket('wss://ratchet.192.168.0.20:8888/wss2/NNN')
         // DELUJOČA: const conn = new WebSocket('wss://127.0.0.1:443/robots/')//('wss://127.0.0.1:4111/')

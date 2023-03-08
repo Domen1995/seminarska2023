@@ -463,9 +463,11 @@ class TeacherController extends Controller
         $course->save();
         $webSocketToken = md5(uniqid());
         $teacher_id = auth()->user()->id;
+        $existingTestings = Ip_testing::where('course_id', $course->id)->delete();
+        //if($existingTestings!=null) $existingTestings->destroy();
         // if already exists teacher's record in DB ip_checkings, first delete it
-        $existingTesting = Ip_testing::where('user_id', $teacher_id)->first();
-        if($existingTesting!=null) $existingTesting->delete();
+        /*$existingTesting = Ip_testing::where('user_id', $teacher_id)->first();
+        if($existingTesting!=null) $existingTesting->delete();*/
         Ip_testing::create([
             'user_id' => $teacher_id,
             'course_id' => $course->id,
@@ -545,6 +547,19 @@ class TeacherController extends Controller
         // updates field under "some informations for your student, if needed"
     {
         TeacherSettings::where('user_id', auth()->user()->id)->update(["info_for_students" => $request[0]]);
+    }
+
+    public function terminate_testing(Course $course)
+        // set value to 0 at isCurrentlyChecking in the table and clear Ip_testing table for the course
+    {
+        //$course = Course::where('id', $course->id)->first();
+        if($course!=null){
+            if(auth()->user()->id != $course->user_id) return abort(403, "Don't try to sabotage testings");
+            $course->isCurrentlyChecking = 0;
+            $course->save();
+            Ip_testing::where('course_id', $course->id)->delete();
+        }
+        return redirect('/')->with('message', 'The testing was successfully stopped');
     }
 
     public function test()
