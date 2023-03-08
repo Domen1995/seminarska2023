@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\SignUp;
+use App\Models\Logged_in_users;
 use App\Models\StudentSettings;
 use App\Models\User;
 use App\Models\Video;
@@ -22,6 +23,7 @@ class UserController extends Controller
         if($user==null){
             return $this->loginForm();
         }
+
         return $this->redirectToMainpage($request, $user);
     }
 
@@ -209,6 +211,14 @@ class UserController extends Controller
 
         if(auth()->attempt($authData)){//$formData)){   // login user
             $request->session()->regenerate();  // security
+            // if user is student, make sure he's not logged in on another device
+            if(!$user->isTeacher){
+                if(Logged_in_users::exists_another_session($user, $request)){
+                    return view('/students/multiple_devices_warning', [
+                        'student' => $user
+                    ]);
+                }
+            }
             return $this->redirectToMainpage($request, $user);
             /*if($user->isTeacher){
                 return redirect('/teachers/mainpage')->with('message', 'Welcome back, '.$user->name);

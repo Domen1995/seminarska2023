@@ -4,6 +4,7 @@
 <body>
     <x-studentMenu />
     @include('courses.search')
+    {{session()->getId()}}
     @include('courses.courseList')
     {{--
     @if(count($courses)>0)

@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('student_settings', function (Blueprint $table) {
+        Schema::create('logged_in_users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            //$table->string('ip_addresses')->nullable();
-            $table->bigInteger('last_time_present')->default(0);
-            $table->integer('course_of_last_presence_id')->default(-1);
-            $table->integer('logged_on_multiple_devices')->default(0);  // not allowed
-            //$table->integer('screwUps')->default(0);
-            //$table->integer('presences')->default(0);
+            $table->string('session_id');
             $table->timestamps();
         });
     }
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_settings');
+        Schema::dropIfExists('logged_in_users');
     }
 };
