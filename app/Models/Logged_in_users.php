@@ -7,6 +7,7 @@ use App\Models\StudentSettings;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Session;
 
 class Logged_in_users extends Model
 {
@@ -29,7 +30,17 @@ class Logged_in_users extends Model
                 $request->session()->invalidate();
                 //$request->session()->regenerate();
                 $request->session()->regenerateToken();
-                Auth::logoutOtherDevices($request->password);
+                //Auth::logoutOtherDevices($request->password);
+                //Session::forget($existing_logged_in_user->session_id);
+
+                // destroy the other session that this user has on different browser/device and the record in logged_in_users
+                Session::getHandler()->destroy($existing_logged_in_user->session_id);
+                $existing_logged_in_user->delete();
+                // create a new record in logged_in_users
+                Logged_in_users::create([
+                    'user_id' => $user->id,
+                    'session_id' => $current_session_id
+                ]);
                 return true;
             }
             return false;

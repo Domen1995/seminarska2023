@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Mail\SignUp;
-use App\Models\Logged_in_users;
-use App\Models\StudentSettings;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
+use App\Models\Logged_in_users;
+use App\Models\StudentSettings;
 use App\Models\TeacherSettings;
 use Illuminate\Validation\Rule;
+//use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\RateLimiter;
@@ -248,12 +249,16 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
+        $session_id = session()->getId();
         // logout user
         auth()->logout();
 
         // security
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
+        // delete record from logged_in_users table
+        Logged_in_users::where('session_id', $session_id)->delete();
 
         return redirect('/');
     }
@@ -278,6 +283,11 @@ class UserController extends Controller
             //return redirect('/students/mainpage')->with('message', 'Welcome back, '.$user->name);
         }
     }
+
+    /*
+    protected function authenticated(){
+        Auth::logoutOtherDevices(request("password"));
+    }*/
 
     /*
     public function foreignProfile(User $user)
