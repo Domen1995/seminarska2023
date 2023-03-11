@@ -108,7 +108,10 @@ class StudentController extends Controller
         // vsem profesorjem -
         // na 2 lokacijah, s svarilom, da če je prijavljen na obeh istočasno,
         // onemogočena uporaba pod tem mailom in obema IP-jema. Moral si bo narediti kljukico, če si bo hotel dodati še 1 IP naslov. Ne, pred
-        // gledanjem videa se bo počekiralo ujemanje še enkrat.
+        // gledanjem videa se bo počekiralo ujemanje še enkrat. Ne odjavi ga na drugem kompu, samo pobriše iz Logged_in_users tab-
+        // ele; če bo drugi potem narediš še kakšen event na delu izmed strani, se bo spet prištela minus točka - in izbrisalo iz DB.
+        // Saj ni dosti razlike, če bi implementiral, da ga zraven še odjavi; loh se takoj spet prijavi. Mora pa pustiti
+        // novoprijavljenega prijavljenega, če je npr. izgubil fon.
     }
 
     public function settings()

@@ -5,6 +5,11 @@
     <x-studentMenu />
     @include('courses.search')
     {{session()->getId()}}
+    {{session("ses")}}
+    {{(session(["bla" => "blahblah"]))}}
+    @if((session()->has("bla")))
+        <p>{{session("bla")}}</p>
+    @endif
     @include('courses.courseList')
     {{--
     @if(count($courses)>0)

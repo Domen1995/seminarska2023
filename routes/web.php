@@ -29,7 +29,7 @@ use App\Http\Controllers\TeacherController;
 define("BASEURL", "");
 define('serverIp', "192.168.43.170");
 //define("WEBSOCKET_URL", "wss://192.168.64.100:443/robots/");
-define("WEBSOCKET_URL", "wss://192.168.0.20:443/robots/");
+define("WEBSOCKET_URL", "wss://192.168.64.100:443/robots/");
 
 // display homepage on which user selects a video
 //Route::get('/', [VideoController::class, 'homepage']);
@@ -56,18 +56,18 @@ Route::get('/users/loginForm', [UserController::class, 'loginForm'])->middleware
 Route::post('/users/login', [UserController::class, 'login'])->middleware('guest');
     //->middleware('throttle:fourPerMinute');
 
-Route::post('/users/logout', [UserController::class, 'logout'])->middleware('auth');
+Route::post('/users/logout', [UserController::class, 'logout'])->middleware('auth', 'auth.session');
 
 // display a requested foreign profile to a user
 Route::get('/users/profile/{user}', [UserController::class, 'foreignProfile']);
 
 // display user's own profile to a user
-Route::get('/users/selfProfile', [UserController::class, 'selfProfile'])->middleware('auth');//, 'verified');
+Route::get('/users/selfProfile', [UserController::class, 'selfProfile'])->middleware('auth', 'auth.session');//, 'verified');
 
 // update user's profile (channel description, ...)
-Route::put('/users/profile/update', [UserController::class, 'updateProfile'])->middleware('auth');
+Route::put('/users/profile/update', [UserController::class, 'updateProfile'])->middleware('auth', 'auth.session');
 
-Route::get('/users/deleteVideo', [UserController::class, 'deleteVideo'])->middleware('auth');
+Route::get('/users/deleteVideo', [UserController::class, 'deleteVideo'])->middleware('auth', 'auth.session');
 
 // show form for uploading a video
 Route::get('/users/uploadForm', [UserController::class, 'uploadForm'])->middleware('auth');
@@ -102,7 +102,7 @@ Route::post('/teachers/addAllowedEmail', [TeacherController::class, 'addAllowedE
 
 Route::post('/teachers/removeAllowedEmail', [TeacherController::class, 'removeAllowedEmail']);//->middleware('auth');
 
-Route::get('/students/mainpage', [StudentController::class, 'mainpage'])->middleware('auth');
+Route::get('/students/mainpage', [StudentController::class, 'mainpage'])->middleware('auth', 'auth.session');
 
 Route::get('/students/enrollment/request/{course}', [StudentController::class, 'requestEnrollment'])->middleware('auth');
 
@@ -110,7 +110,7 @@ Route::get('/students/enrollment/delete/{course}', [StudentController::class, 'd
 
 Route::get('/teachers/enrollStudent', [TeacherController::class, 'enrollStudent'])->middleware('auth');
 
-Route::get('/teachers/coursePage/{course}', [TeacherController::class, 'coursePage'])->middleware('auth');
+Route::get('/teachers/coursePage/{course}', [TeacherController::class, 'coursePage'])->middleware('auth', 'auth.session');
 
 Route::get('/teachers/checkIp/{course}', [TeacherController::class, 'checkIp'])->middleware('auth');
 
