@@ -149,7 +149,11 @@ Route::get('/teachers/allow_without_testings/{course}/{student}', [TeacherContro
 
 Route::get('/teachers/not_allow_without_testings/{course}/{student}', [TeacherController::class, 'not_allow_without_testing'])->middleware('auth');
 
+Route::get('/teachers/change_absences/{course}/{student}', [TeacherController::class, 'change_absences'])->middleware('auth');
 
+Route::get('/teachers/ban_from_course/{course}/{student}', [TeacherController::class, 'ban_from_course'])->middleware('auth');
+
+Route::get('/teachers/unban_from_course/{course}/{student}', [TeacherController::class, 'unban_from_course'])->middleware('auth');
 
 Route::post('courses/create', [CourseController::class, 'create'])->middleware('auth');
 

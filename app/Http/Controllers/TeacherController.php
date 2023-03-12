@@ -567,7 +567,7 @@ class TeacherController extends Controller
     {
         //$active_coursesUser = CoursesUser::where('course_id', $course->id)->whereIn('status', ["enrolled", "allowed_missing"])->get();
         return view('teachers.students_list', [
-            'students_info' =>  CoursesUser::where('course_id', $course->id)->whereIn('status', ["enrolled", "allowed_missing"])
+            'students_info' =>  CoursesUser::where('course_id', $course->id)->whereIn('status', ["enrolled", "allowed_missing", "banned"])
                                 ->join("users", "users.id", "=", "courses_users.user_id")
                                 ->get(),
                                 //$active_coursesUser->join('users', "users.id", "=", "courses_users.user_id"),
@@ -590,6 +590,33 @@ class TeacherController extends Controller
     {
         if(auth()->user()->id != $course->user_id) abort(403, "You don't even own this course");
         CoursesUser::where([['course_id', $course->id], ['user_id', $student->id]])->update(['status' => 'enrolled']);
+        return back();
+    }
+
+    public function change_absences(Course $course, User $student, Request $request)
+    {
+        if(auth()->user()->id != $course->user_id) abort(403, "You don't even own this course");
+        $courses_user = CoursesUser::where([['course_id', $course->id], ['user_id', $student->id]])->first();
+        $courses_user->screwUps = $courses_user->screwUps + $request->absences;
+        $courses_user->save();
+        return back();
+    }
+
+    public function ban_from_course(Course $course, User $student)
+    {
+        if(auth()->user()->id != $course->user_id) abort(403, "You don't even own this course");
+        $courses_user = CoursesUser::where([['course_id', $course->id], ['user_id', $student->id]])->first();
+        $courses_user->status = "banned";
+        $courses_user->save();
+        return back();
+    }
+
+    public function unban_from_course(Course $course, User $student)
+    {
+        if(auth()->user()->id != $course->user_id) abort(403, "You don't even own this course");
+        $courses_user = CoursesUser::where([['course_id', $course->id], ['user_id', $student->id]])->first();
+        $courses_user->status = "enrolled";
+        $courses_user->save();
         return back();
     }
 
