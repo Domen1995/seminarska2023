@@ -24,12 +24,12 @@ class Logged_in_users extends Model
         if($existing_logged_in_user!=null){
             if($existing_logged_in_user->session_id != $current_session_id){
                 StudentSettings::where('user_id', $user->id)->increment("logged_on_multiple_devices", 1);
-                // logout user
+                /*// logout user
                 auth()->logout();
                 // security
                 $request->session()->invalidate();
                 //$request->session()->regenerate();
-                $request->session()->regenerateToken();
+                $request->session()->regenerateToken();*/
                 //Auth::logoutOtherDevices($request->password);
                 //Session::forget($existing_logged_in_user->session_id);
 

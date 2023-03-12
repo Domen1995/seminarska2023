@@ -56,18 +56,18 @@ Route::get('/users/loginForm', [UserController::class, 'loginForm'])->middleware
 Route::post('/users/login', [UserController::class, 'login'])->middleware('guest');
     //->middleware('throttle:fourPerMinute');
 
-Route::post('/users/logout', [UserController::class, 'logout'])->middleware('auth', 'auth.session');
+Route::post('/users/logout', [UserController::class, 'logout'])->middleware('auth');
 
 // display a requested foreign profile to a user
 Route::get('/users/profile/{user}', [UserController::class, 'foreignProfile']);
 
 // display user's own profile to a user
-Route::get('/users/selfProfile', [UserController::class, 'selfProfile'])->middleware('auth', 'auth.session');//, 'verified');
+Route::get('/users/selfProfile', [UserController::class, 'selfProfile'])->middleware('auth');//, 'verified');
 
 // update user's profile (channel description, ...)
-Route::put('/users/profile/update', [UserController::class, 'updateProfile'])->middleware('auth', 'auth.session');
+Route::put('/users/profile/update', [UserController::class, 'updateProfile'])->middleware('auth');
 
-Route::get('/users/deleteVideo', [UserController::class, 'deleteVideo'])->middleware('auth', 'auth.session');
+Route::get('/users/deleteVideo', [UserController::class, 'deleteVideo'])->middleware('auth');
 
 // show form for uploading a video
 Route::get('/users/uploadForm', [UserController::class, 'uploadForm'])->middleware('auth');
@@ -110,7 +110,7 @@ Route::get('/students/enrollment/delete/{course}', [StudentController::class, 'd
 
 Route::get('/teachers/enrollStudent', [TeacherController::class, 'enrollStudent'])->middleware('auth');
 
-Route::get('/teachers/coursePage/{course}', [TeacherController::class, 'coursePage'])->middleware('auth', 'auth.session');
+Route::get('/teachers/coursePage/{course}', [TeacherController::class, 'coursePage'])->middleware('auth');
 
 Route::get('/teachers/checkIp/{course}', [TeacherController::class, 'checkIp'])->middleware('auth');
 
@@ -144,6 +144,10 @@ Route::get('teachers/newCourseForm', [TeacherController::class, 'newCourseForm']
 Route::post('/teachers/updateStudentsInfo', [TeacherController::class, 'updateStudentsInfo']);
 
 Route::post('courses/create', [CourseController::class, 'create'])->middleware('auth');
+
+Route::any('{path}', function(){
+    return redirect('/');
+});
 
 Route::get('/test', [TeacherController::class, 'test']);
 
