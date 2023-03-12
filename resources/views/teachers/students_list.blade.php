@@ -5,6 +5,9 @@
 </head>
 <body>
 <x-teacherMenu />
+    @if(count($students_info) == 0)
+        <h2 style="text-align:center; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">There's no student enrolled in this course</h2>
+    @else
     <table class="students">
         <caption>These settings only apply to {{$course->name}}</caption>
         <tr>
@@ -33,7 +36,7 @@
                 @if($student_info->status == "enrolled")
                     <td><a href="/teachers/allow_without_testings/{{$course->id}}/{{$student_info->id}}" title="Also temporarely excludes him from IP testing">Allow watching without visiting lectures</a></td>
                 @else
-                    <td><a href="/teachers/not_allow_without_testings/{{$course->id}}/{{$student_info->id}}" title="Also temporarely excludes him from IP testing">Make him visit lectures</a></td>
+                    <td><a href="/teachers/not_allow_without_testings/{{$course->id}}/{{$student_info->id}}">Make him visit lectures</a></td>
                 @endif
                 <td>{{$student_info->screwUps}}</td>
                 <td>{{$student_info->presences}}</td>
@@ -56,4 +59,5 @@
             </tr>
         @endforeach
     </table>
+    @endif
 </x-layout>

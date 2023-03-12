@@ -7,6 +7,7 @@
                 <th>Subject</th>
                 <th>Teacher</th>
                 <th>Faculty</th>
+                <th></th>
             </tr>
         @foreach ($courses as $course)
             <tr>

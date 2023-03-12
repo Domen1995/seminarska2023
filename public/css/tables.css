@@ -14,7 +14,7 @@
     font-size: 1.5rem;
     background-color: #ddd;
     border: 1px solid black;
-    border-radius: .3rem;
+    border-radius: .3rem .3rem 0 0;
     width: 50%;
     margin-left: auto;
     margin-right: auto;
@@ -31,5 +31,41 @@
 }
 
 .students th{
+    background-color: #04AA6D;
+}
+
+.courseList{
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid black;
+
+    /*border-radius: 5rem;*/
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-collapse: collapse;
+    background-color: #eee;
+}
+
+.courseList > caption{
+    font-size: 1.5rem;
+    background-color: #ddd;
+    border: 1px solid black;
+    border-radius: .3rem .3rem 0 0;
+    width: 8rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.courseList td, th{
+    border: 1px solid black;
+    /*border-radius: .5rem;*/
+    padding: .3rem;
+}
+
+.courseList tr:nth-child(even){
+    background-color: #ccc;
+}
+
+.courseList th{
     background-color: #04AA6D;
 }

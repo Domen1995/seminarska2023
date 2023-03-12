@@ -36,6 +36,7 @@ class Logged_in_users extends Model
                 // destroy the other session that this user has on different browser/device and the record in logged_in_users
                 Session::getHandler()->destroy($existing_logged_in_user->session_id);
                 $existing_logged_in_user->delete();
+                CoursesUser::where('user_id', $user->id)->increment('screwUps', 1);
                 // create a new record in logged_in_users
                 Logged_in_users::create([
                     'user_id' => $user->id,

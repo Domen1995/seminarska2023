@@ -1,5 +1,6 @@
 <x-layout>
     <title>My courses</title>
+    <link rel="stylesheet" href="/css/tables.css">
 </head>
 <body>
     {{--@if(cache('clients')!=null)--}}
@@ -10,7 +11,7 @@
     <x-teacherMenu />
     @include('courses.search')
     <div class="flexboxCenterer">
-        <div class="form" style="justify-content:start; align-items:center">
+        <div class="form" style="justify-content:start; align-items:center; height:8rem">
             <div style="font-size:2rem; font-family:inherit">{{auth()->user()->name}}</div>
             <a class="link" href="{{BASEURL}}/teachers/newCourseForm" style="font-size: 3rem; font-family:inherit">Create new course</a>
             {{--<label for="channelDescription" style="font-size: 2rem;">Describe your channel: </label>--}}
