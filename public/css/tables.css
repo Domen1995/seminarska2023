@@ -1,17 +1,35 @@
 .students{
+    margin-top: 1rem;
     margin-left: auto;
     margin-right: auto;
     border: 1px solid black;
-    border-radius: .2rem;
+
+    /*border-radius: 5rem;*/
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border-collapse: collapse;
+    background-color: #eee;
 }
 
 .students > caption{
-    font-size: 2rem;
+    font-size: 1.5rem;
+    background-color: #ddd;
+    border: 1px solid black;
+    border-radius: .3rem;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.students td{
+.students td, th{
     border: 1px solid black;
+    /*border-radius: .5rem;*/
     padding: .3rem;
+}
+
+.students tr:nth-child(even){
+    background-color: #ccc;
+}
+
+.students th{
+    background-color: #04AA6D;
 }
