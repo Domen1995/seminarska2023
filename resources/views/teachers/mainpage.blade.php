@@ -1,6 +1,6 @@
 <x-layout>
     <title>My courses</title>
-    <link rel="stylesheet" href="/css/tables.css">
+    {{--<link rel="stylesheet" href="/css/tables.css">--}}
 </head>
 <body>
     {{--@if(cache('clients')!=null)--}}
@@ -13,7 +13,7 @@
     <div class="flexboxCenterer">
         <div class="form" style="justify-content:start; align-items:center; height:8rem">
             <div style="font-size:2rem; font-family:inherit">{{auth()->user()->name}}</div>
-            <a class="link" href="{{BASEURL}}/teachers/newCourseForm" style="font-size: 3rem; font-family:inherit">Create new course</a>
+            <a class="link" href="{{BASEURL}}/teachers/newCourseForm" style="font-size: 3rem; font-family:inherit">Create a new course</a>
             {{--<label for="channelDescription" style="font-size: 2rem;">Describe your channel: </label>--}}
             {{--<input type="text" id="channelDescription" name="channelDescription" height="6rem">--}}
             {{--<textarea id="channelDescription" name="channelDescription" rows="4" cols="60">{{$user->description}}</textarea>

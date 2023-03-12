@@ -1,5 +1,6 @@
 {{--@if(count($courses)>0)--}}
-<link rel="stylesheet" href="{{BASEURL}}/css/videoGrid.css">
+{{--<link rel="stylesheet" href="{{BASEURL}}/css/videoGrid.css">--}}
+<link rel="stylesheet" href="/css/tables.css">
     @if(count($courses)>0)
         <table class="courseList">
             <caption>Courses</caption>
@@ -7,6 +8,9 @@
                 <th>Subject</th>
                 <th>Teacher</th>
                 <th>Faculty</th>
+                {{--
+                <th>My presences</th>
+                <th>My screw-ups</th>--}}
                 <th></th>
             </tr>
         @foreach ($courses as $course)
@@ -30,6 +34,9 @@
                         @if(!isset($coursesUsers[$course->id]))
                             <td><a href="{{BASEURL}}/students/enrollment/request/{{$course->id}}">Request enrollment</a></td>
                         @else
+                            {{--
+                            <td>{{$coursesUsers[$course->id]->presences}}</td>
+                            <td>{{$coursesUsers[$course->id]->screwUps}}</td>--}}
                         {{--@switch($coursesUsers[$GLOBALS['currentCourse']]->status)--}}
                             @switch($coursesUsers[$course->id]->status)
                            {{-- @switch($coursesUsers)--}}

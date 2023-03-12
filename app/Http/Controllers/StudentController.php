@@ -102,7 +102,12 @@ class StudentController extends Controller
 
     public function statistics()
     {
-        return view('students.statistics');
+        $student = auth()->user();
+        return view('students.statistics', [
+            'courses_infos' => CoursesUser::where('courses_users.user_id', $student->id)
+                                ->join("courses", "courses.id", "=", "courses_users.course_id")
+                                ->get()
+        ]);
         // samo 1 IP naslov ima loh študent, loh pa specifično za svoje course mu doda profesor še 1-ga. Če mu ga in se pri-
         // javita 2 istočasno, ga bana. Da ne bo omejen; loh si doda sam še 1ga, pod pogojem, da študira v tujem kraju - to bo vidno
         // vsem profesorjem -
