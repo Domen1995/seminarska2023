@@ -47,7 +47,7 @@
                 <button {{--onclick="toggleFullscreen()"--}} class="link"><i class="material-icons" id="fullscreenIcon">fullscreen</i></button>
             </div>
         </div>
-        <video onclick="togglePlay()" ondblclick="toggleFullscreen()" src="{{BASEURL}}/videos/chunk/{{$video->id}}"class="selectedVideo" id="video" width="100%" autoplay {{--style="position:absolute; {{--z-index:-1"--}}></video>
+        <video onclick="togglePlay()" ondblclick="toggleFullscreen()" src="{{BASEURL}}/videos/chunk/{{$video->id}}"class="selectedVideo" id="video" width="100%" {{--autoplay {{--style="position:absolute; {{--z-index:-1"--}}></video>
     </div>
 </x-layout>
 <script>document.getElementById('videoMainContainer').addEventListener('contextmenu', (e)=>{e.preventDefault()})</script>

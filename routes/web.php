@@ -143,9 +143,15 @@ Route::get('teachers/newCourseForm', [TeacherController::class, 'newCourseForm']
 
 Route::post('/teachers/updateStudentsInfo', [TeacherController::class, 'updateStudentsInfo']);
 
+Route::get('/teachers/manageStudents/{course}', [TeacherController::class, 'manage_students']);
+
 Route::post('courses/create', [CourseController::class, 'create'])->middleware('auth');
 
 Route::any('{path}', function(){
+    return redirect('/');
+});
+
+Route::any('{path}/{path2}', function(){
     return redirect('/');
 });
 

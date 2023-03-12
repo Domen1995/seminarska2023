@@ -562,6 +562,14 @@ class TeacherController extends Controller
         return redirect('/')->with('message', 'The testing was successfully stopped');
     }
 
+    public function manage_students(Course $course)
+        // list students, enrolled in the course
+    {
+        return view('teachers.students_list', [
+            'students' => User::whereIn('id', CoursesUser::where('course_id', $course->id)->pluck("user_id")->toArray())->get()
+        ]);
+    }
+
     public function test()
     {
         //$users = User::where('id', '>', 0)->get()->map->only('name');

@@ -265,7 +265,8 @@ class StudentController extends Controller
     public function ipCheckingSuccess()
         // show a page that confirms IP was successfully checked
     {
-        return view('students.ipCheckingSuccess');
+        return redirect('/')->with("Your presence was confirmed to teacher; he should now see you on his screen, you're receiving a bonus point.");
+        //return view('students.ipCheckingSuccess');
     }
 
     /*public function courseCurrentlyChecking()
