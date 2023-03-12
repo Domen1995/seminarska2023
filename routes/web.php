@@ -141,9 +141,15 @@ Route::get('teachers/newCourseForm', [TeacherController::class, 'newCourseForm']
 /*Route::get('courses/search', [TeacherController::class, 'mainpage'])->middleware('auth')
     ->where(auth()->user()->isTeacher, '1');*/
 
-Route::post('/teachers/updateStudentsInfo', [TeacherController::class, 'updateStudentsInfo']);
+Route::post('/teachers/updateStudentsInfo', [TeacherController::class, 'updateStudentsInfo'])->middleware('auth');
 
-Route::get('/teachers/manageStudents/{course}', [TeacherController::class, 'manage_students']);
+Route::get('/teachers/manageStudents/{course}', [TeacherController::class, 'manage_students'])->middleware('auth');
+
+Route::get('/teachers/allow_without_testings/{course}/{student}', [TeacherController::class, 'allow_without_testings'])->middleware('auth');
+
+Route::get('/teachers/not_allow_without_testings/{course}/{student}', [TeacherController::class, 'not_allow_without_testing'])->middleware('auth');
+
+
 
 Route::post('courses/create', [CourseController::class, 'create'])->middleware('auth');
 

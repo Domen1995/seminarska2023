@@ -565,9 +565,32 @@ class TeacherController extends Controller
     public function manage_students(Course $course)
         // list students, enrolled in the course
     {
+        //$active_coursesUser = CoursesUser::where('course_id', $course->id)->whereIn('status', ["enrolled", "allowed_missing"])->get();
         return view('teachers.students_list', [
-            'students' => User::whereIn('id', CoursesUser::where('course_id', $course->id)->pluck("user_id")->toArray())->get()
+            'students_info' =>  CoursesUser::where('course_id', $course->id)->whereIn('status', ["enrolled", "allowed_missing"])
+                                ->join("users", "users.id", "=", "courses_users.user_id")
+                                ->get(),
+                                //$active_coursesUser->join('users', "users.id", "=", "courses_users.user_id"),
+                                /*User::whereIn('id', $active_coursesUser->pluck("user_id")->toArray())
+                                ->get()
+                                ->join(),*/
+            'course' => $course
+            //'coursesUser' => $active_coursesUser
         ]);
+    }
+
+    public function allow_without_testings(Course $course, User $student)
+    {
+        if(auth()->user()->id != $course->user_id) abort(403, "You don't even own this course");
+        CoursesUser::where([['course_id', $course->id], ['user_id', $student->id]])->update(['status' => 'allowed_missing']);
+        return back();
+    }
+
+    public function not_allow_without_testing(Course $course, User $student)
+    {
+        if(auth()->user()->id != $course->user_id) abort(403, "You don't even own this course");
+        CoursesUser::where([['course_id', $course->id], ['user_id', $student->id]])->update(['status' => 'enrolled']);
+        return back();
     }
 
     public function test()
